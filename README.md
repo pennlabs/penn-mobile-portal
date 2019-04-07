@@ -1,8 +1,8 @@
 # penn-mobile-portal
 
 ## Set up
-1. npm i
-2. npm run dev
+1. `npm i`
+2. `npm run dev`
 
 ## References
 - Bulma: https://bulma.io/documentation/
