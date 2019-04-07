@@ -16,4 +16,4 @@
 
 ## Styling
 - I <3 flexbox! If you're ever trying to center, align, or space things, flexbox is your friend
-- you can do it a bunch of different ways! I ususally do it inline until I'm satified with the design then move it to stylesheets or css files. this is probably not the best convention to follow, though. you can also use Styled Components if you want to be like Cam
+- you can write css a bunch of different ways! I ususally do it inline until I'm satified with the design then move it to stylesheets or css files. this is probably not the best convention to follow, though, so you may consider factoring it into files earlier. you can also use Styled Components if you want to be like Cam
