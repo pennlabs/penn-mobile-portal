@@ -1,19 +1,22 @@
 const ListLabels = () => (
   <div className="columns">
     <div className="column has-text-centered">
-      <b>Label 1</b>
+      <b>Posts (Internal Names)</b>
     </div>
     <div className="column has-text-centered">
-      <b>Label 2</b>
+      <b>Impressions</b>
     </div>
     <div className="column has-text-centered">
-      <b>Label 3</b>
+      <b>Unique Impressions</b>
     </div>
     <div className="column has-text-centered">
-      <b>Label 4</b>
+      <b>Interactions</b>
     </div>
     <div className="column has-text-centered">
-      <b>Label 5</b>
+      <b>Publish Date</b>
+    </div>
+    <div className="column has-text-centered">
+      <b>Status</b>
     </div>
   </div>
 )
