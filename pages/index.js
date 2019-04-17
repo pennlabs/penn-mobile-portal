@@ -9,8 +9,8 @@ import PostAnalytics from '../models/PostAnalytics.js'
 
 class Splash extends React.Component {
   render() {
-    var name = "my name"
-    var url = "https://servmask.com/img/products/url.png"
+    var name = "My Application"
+    var url = "http://www.dolphin.upenn.edu/pennraas/images/slide1.jpg"
     var date = new Date()
     var status = "Live"
     var analytics = new PostAnalytics(60, 50, 20)
@@ -22,6 +22,7 @@ class Splash extends React.Component {
     var postCards = posts.map(function(post) {
       return <PostCard
         name={post.name}
+        imageUrl={post.imageUrl}
         impressions={post.analytics.impressions}
         uniqueImpressions={post.analytics.uniqueImpressions}
         interactions={post.analytics.interactions}
@@ -31,8 +32,7 @@ class Splash extends React.Component {
     return(
       <div>
         <Header />
-        <h1 className="title" style={{margin: '3rem'}}> Penn Mobile Portal </h1>
-        <div className="card" style={{margin: '2rem 6rem', padding: 20, borderRadius: 5}}>
+        <div className="card" style={{ padding: 20, borderRadius: 5}}>
           <ListLabels/>
           {postCards}
         </div>
