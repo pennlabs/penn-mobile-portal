@@ -1,5 +1,5 @@
 const ListLabels = () => (
-  <div className="columns">
+  <div className="columns is-mobile">
     <div className="column is-one-quarter has-text-centered">
       <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
       Post
