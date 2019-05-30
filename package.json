@@ -8,6 +8,7 @@
     "bulma-divider": "^0.2.0",
     "css-loader": "^2.1.1",
     "next": "^8.0.4",
+    "node-fetch": "^2.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "save-dev": "^2.0.0"

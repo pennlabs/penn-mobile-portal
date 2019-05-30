@@ -22,7 +22,7 @@ const ListLabels = () => (
     </div>
     <div className="column has-text-centered">
       <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
-      Publish Date
+      Start Date
       </b>
     </div>
     <div className="column has-text-centered">

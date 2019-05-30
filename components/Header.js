@@ -24,7 +24,8 @@ const Header = () => (
         <p> Put stuff you want on the left in this div!</p>
       </div>
       <div>
-        <a className="button">Buttons in this div!</a>
+        <a href="/" className="button">Home</a>
+        <a href="/new" className="button">New Post +</a>
       </div>
     </div>
   </div>
