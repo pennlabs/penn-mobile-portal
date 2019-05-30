@@ -9,10 +9,11 @@ import NewPostLabel from '../components/NewPostLabel'
 
 const fetch = require("node-fetch");
 
-class NewPost extends React.Component {
+class PostPage extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      id: null,
       title: null,
       subtitle: null,
       imageUrl: null,
@@ -27,11 +28,82 @@ class NewPost extends React.Component {
     }
 
     this.updateInput = this.updateInput.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  componentWillMount() {
+    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    if ('query' in this.props.url && 'id' in this.props.url.query) {
+      const id = this.props.url.query.id
+      fetch('https://api.pennlabs.org/portal/post/' + id + '?account=' + accountID)
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          id: id,
+          title: json.title,
+          subtitle: json.subtitle,
+          imageUrl: json.image_url,
+          postUrl: json.post_url,
+          detailLabel: json.time_label,
+          comments: json.comments,
+        })
+      })
+      .catch((error) => {
+        alert('Unable to fetch post with error message:' + error.message)
+      })
+    }
   }
 
   updateInput(event) {
     const name = event.target.name
     this.setState({[name] : event.target.value})
+  }
+
+  onSubmit() {
+    if (!this.state.title) {
+      alert("ERROR: Posts must include a title.")
+      return
+    } else if (!this.state.imageUrl) {
+      alert("ERROR: Posts must include an image.")
+      return
+    }
+
+    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    fetch('https://api.pennlabs.org/portal/post' + (this.state.id ? '/update' : '/new'), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        post_id: this.state.id,
+        account_id: accountID,
+        image_url: this.state.imageUrl,
+        post_url: this.state.postUrl,
+        source: "Penn Labs",
+        title: this.state.title,
+        subtitle: this.state.subtitle,
+        time_label: this.state.detailLabel,
+        start_date: "2019-05-30T00:00:00",
+        end_date: "2019-05-31T00:00:00",
+        filters: [
+          {
+            'type': 'email-only',
+            'filter': 'none',
+          }
+        ],
+        emails: [],
+        testers: ["joshdo@wharton.upenn.edu"],
+      })
+    })
+    .then((response) => {
+      if (response.status !== 200) {
+        alert('Something went wrong. Please try again.')
+      }
+    })
+    .catch((error) => {
+      alert('Something went wrong. Please try again.')
+    })
   }
 
   render() {
@@ -88,10 +160,10 @@ class NewPost extends React.Component {
 
                   <div style={{margin: "10px 40px 0px 40px"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Any Notes for Portal Staff</b>
-                    <textarea className="textarea is-small" type="text" name="comments" value={this.state.comments} placeholder="Please enter any notes here." rows="2" onChange={this.updateInput}/>
+                    <textarea className="textarea is-small" type="text" name="comments" value={this.state.comments} placeholder="Enter any comments here." rows="2" onChange={this.updateInput}/>
                   </div>
 
-                  <button className="button" style={{
+                  <button className="button" onClick={this.onSubmit} style={{
                     margin: "16px 0px 0px 0px",
                     width: 300,
                     height: 35,
@@ -123,4 +195,4 @@ class NewPost extends React.Component {
   }
 }
 
-export default NewPost
+export default PostPage

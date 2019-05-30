@@ -15,6 +15,8 @@ class Splash extends React.Component {
     this.state = {
       posts: [],
     }
+
+    this.onClick = this.onClick.bind(this)
   }
 
   componentWillMount() {
@@ -26,6 +28,7 @@ class Splash extends React.Component {
         var jsonArray = json.posts
         var posts = []
         jsonArray.forEach(function (postJSON) {
+          var id = postJSON.id
           var name = postJSON.title
           var url = postJSON.image_url
           var dateStr = postJSON.start_date
@@ -38,9 +41,10 @@ class Splash extends React.Component {
           if (impr && uniqueImpr && interactions) {
             analytics = new PostAnalytics(impr, uniqueImpr, interactions)
           }
-          var post = new Post(name, url, date, status, analytics)
+          var post = new Post(id, name, url, date, status, analytics)
           posts.push(post)
         })
+        posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
         this.setState({posts: posts})
       })
       .catch((error) => {
@@ -49,16 +53,26 @@ class Splash extends React.Component {
     }
   }
 
+  onClick(event) {
+    const id = event.target.id
+    console.log(id)
+
+  }
+
   render() {
     var postCards = this.state.posts.map(function(post) {
-      return <PostCard
-        name={post.name}
-        imageUrl={post.imageUrl}
-        impressions={post.analytics.impressions}
-        uniqueImpressions={post.analytics.uniqueImpressions}
-        interactions={post.analytics.interactions}
-        publishDate={post.publishDate}
-        status={post.status} />
+      return (
+        <a href={"post?id=" + post.id}>
+          <PostCard
+            id={post.id}
+            name={post.name}
+            imageUrl={post.imageUrl}
+            analytics={post.analytics}
+            publishDate={post.publishDate}
+            status={post.status}
+            />
+        </a>
+      )
     })
     return(
       <div>

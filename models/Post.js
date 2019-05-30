@@ -1,6 +1,7 @@
 
 class Post {
-  constructor(name, imageUrl, publishDate, status, analytics) {
+  constructor(id, name, imageUrl, publishDate, status, analytics) {
+    this.id = id;
     this.name = name;
     this.imageUrl = imageUrl;
     this.publishDate = publishDate;
