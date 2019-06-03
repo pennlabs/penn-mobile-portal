@@ -98,6 +98,20 @@ class PostPage extends React.Component {
       return
     }
 
+    function formatDate(date) {
+      function paddedString(amt) {
+        return amt < 10 ? '0' + amt : amt;
+      }
+
+      var month = paddedString(date.getMonth()+1)
+      var day = paddedString(date.getDate())
+      var hours = paddedString(date.getHours());
+      var minutes = paddedString(date.getMinutes());
+
+      var strTime = hours + ':' + minutes + ':00'
+      return date.getFullYear() + "-" + month + "-" + day + "T" + strTime;
+    }
+
     var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
     fetch('https://api.pennlabs.org/portal/post' + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
@@ -114,8 +128,8 @@ class PostPage extends React.Component {
         title: this.state.title,
         subtitle: this.state.subtitle,
         time_label: this.state.detailLabel,
-        start_date: "2019-05-30T00:00:00",
-        end_date: "2019-05-31T00:00:00",
+        start_date: formatDate(this.state.startDate),
+        end_date: formatDate(this.state.endDate),
         filters: [
           {
             'type': 'email-only',

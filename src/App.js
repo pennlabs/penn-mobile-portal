@@ -5,10 +5,6 @@ import Post from './pages/Post.js'
 
 import './App.sass';
 
-import 'bulma-calendar/dist/css/bulma-calendar.min.css';
-import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
-//https://reacttraining.com/react-router/web/guides/basic-components
-
 class App extends Component {
   render() {
     return (
