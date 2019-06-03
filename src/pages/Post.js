@@ -3,6 +3,11 @@ import Header from '../components/Header'
 import NewPostLabel from '../components/NewPostLabel'
 import PostStatusVisibility from '../components/PostStatusVisibility'
 
+import '../App.sass';
+
+import 'bulma-calendar/dist/css/bulma-calendar.min.css';
+import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
+
 const fetch = require("node-fetch");
 const queryString = require('query-string');
 
@@ -31,6 +36,7 @@ class PostPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.setState = this.setState.bind(this)
     this.saveFile = this.saveFile.bind(this)
+    this.setupDatePicker = this.setupDatePicker.bind(this)
   }
 
   componentWillMount() {
@@ -52,9 +58,36 @@ class PostPage extends React.Component {
         })
       })
       .catch((error) => {
+        this.setupDatePicker()
         alert('Unable to fetch post with error message:' + error.message)
       })
     }
+  }
+
+  componentDidMount() {
+    this.setupDatePicker()
+  }
+
+  setupDatePicker() {
+    const datePicker = new bulmaCalendar(this.dateInput, {
+      startDate: null, // Date selected by default
+      dateFormat: 'MMMM D', // the date format `field` value
+      lang: 'en', // internationalization
+      fontSize: "14px",
+      overlay: false,
+      isRange: true,
+      labelFrom: 'Start Time',
+      labelTo: 'End Time',
+      closeOnOverlayClick: true,
+      closeOnSelect: true,
+      showHeader: false,
+      showFooter: false,
+      // callback functions
+      onSelect: null,
+      onOpen: null,
+      onClose: null,
+      onRender: null
+    });
   }
 
   updateInput(event) {
@@ -136,24 +169,19 @@ class PostPage extends React.Component {
                   <PostStatusVisibility isApproved={this.state.isApproved} notifyChange={this.setState}/>
                   <div style={{height: 20}} />
 
-                  <NewPostLabel text="Add Filters" single={true} />
-
-                  <div className="columns is-mobile" style={{margin: "16px 40px 0px 40px"}}>
-                    <div className="column">
-                    <div>
-                      <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Start Date</b>
-                      <input className="input is-small" type="text" name="startDate" value={this.state.startDate} placeholder="Today" onChange={this.updateInput}/>
-                    </div>
-                    </div>
-                    <div className="column">
-                    <div>
-                      <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>End Date</b>
-                      <input className="input is-small" type="text" name="endDate" value={this.state.endDate} placeholder="None" onChange={this.updateInput}/>
-                    </div>
-                    </div>
+                  <div style={{margin: "0px 40px 0px 40px"}}>
+                    <input
+                      className="input is-small"
+                      type="text"
+                      ref={e => this.dateInput = e}
+                    />
                   </div>
 
-                  <div style={{margin: "8px 40px 0px 40px"}}>
+                  <div style={{height: 20}} />
+
+                  <NewPostLabel text="Add Filters" single={true} />
+
+                  <div style={{margin: "12px 40px 0px 40px"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                     <input className="input is-small" type="text" name="yearFilter" value={this.state.yearFilter} placeholder="None" onChange={this.updateInput}/>
                   </div>
