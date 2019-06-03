@@ -29,7 +29,7 @@ class PostPage extends React.Component {
       filters: null,
       filterOptions: null,
       isLive: false,
-      isApproved: true,
+      isApproved: false,
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -37,6 +37,7 @@ class PostPage extends React.Component {
     this.setState = this.setState.bind(this)
     this.saveFile = this.saveFile.bind(this)
     this.setupDatePicker = this.setupDatePicker.bind(this)
+    this.updateDateRange = this.updateDateRange.bind(this)
   }
 
   componentWillMount() {
@@ -68,28 +69,6 @@ class PostPage extends React.Component {
     this.setupDatePicker()
   }
 
-  setupDatePicker() {
-    const datePicker = new bulmaCalendar(this.dateInput, {
-      startDate: null, // Date selected by default
-      dateFormat: 'MMMM D', // the date format `field` value
-      lang: 'en', // internationalization
-      fontSize: "14px",
-      overlay: false,
-      isRange: true,
-      labelFrom: 'Start Time',
-      labelTo: 'End Time',
-      closeOnOverlayClick: true,
-      closeOnSelect: true,
-      showHeader: false,
-      showFooter: false,
-      // callback functions
-      onSelect: null,
-      onOpen: null,
-      onClose: null,
-      onRender: null
-    });
-  }
-
   updateInput(event) {
     const name = event.target.name
     this.setState({[name] : event.target.value})
@@ -99,7 +78,7 @@ class PostPage extends React.Component {
     const file = event.target.value;
     const split = file.split("\\")
     const name = split[split.length - 1]
-    this.setState({imageFileName: name})
+    this.setState({imageFile: name})
     // var reader = new FileReader();
     // reader.onload = function(e) {
     //   var text = reader.result;
@@ -109,10 +88,13 @@ class PostPage extends React.Component {
 
   onSubmit() {
     if (!this.state.title) {
-      alert("ERROR: Posts must include a title.")
+      alert("Please include a title.")
       return
     } else if (!this.state.imageUrl) {
-      alert("ERROR: Posts must include an image.")
+      alert("Please select an image.")
+      return
+    } else if (!this.state.startDate || !this.state.endDate) {
+      alert("Please select a start and end date.")
       return
     }
 
@@ -154,6 +136,59 @@ class PostPage extends React.Component {
     })
   }
 
+  setupDatePicker() {
+    const options = {
+      startDate: null, // Date selected by default
+      dateFormat: 'M/D', // the date format `field` value
+      timeFormat: 'h:mma',
+      lang: 'en', // internationalization
+      fontSize: "14px",
+      overlay: false,
+      fullSize: true,
+      isRange: true,
+      labelFrom: 'Start Time',
+      labelTo: 'End Time',
+      closeOnOverlayClick: true,
+      closeOnSelect: true,
+      showHeader: false,
+      showTodayButton: false,
+      validateLabel: "Save",
+    }
+
+    const calendars = bulmaCalendar.attach(this.dateInput, options);
+
+  	// Loop on each calendar initialized
+  	calendars.forEach(calendar => {
+    	// Add listener to date:selected event
+      calendar.on('select:start', datetime => {
+    	  this.updateDateRange(datetime.data)
+    	});
+    	calendar.on('select', datetime => {
+    	  this.updateDateRange(datetime.data)
+    	});
+  	});
+  }
+
+  updateDateRange(data) {
+    var startDate = data.datePicker._date.start
+    var endDate = data.datePicker._date.end
+    const startTime = data.timePicker._time.start
+    const endTime = data.timePicker._time.end
+
+    startDate.setHours(startTime.getHours())
+    startDate.setMinutes(startTime.getMinutes())
+
+    if (endDate) {
+      endDate.setHours(endTime.getHours())
+      endDate.setMinutes(endTime.getMinutes())
+    }
+
+    this.setState({
+      startDate: startDate,
+      endDate: endDate
+    })
+  }
+
   render() {
     return(
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
@@ -172,7 +207,7 @@ class PostPage extends React.Component {
                   <div style={{margin: "0px 40px 0px 40px"}}>
                     <input
                       className="input is-small"
-                      type="text"
+                      type="datetime"
                       ref={e => this.dateInput = e}
                     />
                   </div>
@@ -249,8 +284,8 @@ class PostPage extends React.Component {
                             Choose a file…
                           </span>
                         </span>
-                        <span class="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
-                          {this.state.imageFileName}
+                        <span class="file-name" style={{visibility: (this.state.imageFile ? "visible" : "hidden")}}>
+                          {this.state.imageFile}
                         </span>
                       </label>
                     </div>
