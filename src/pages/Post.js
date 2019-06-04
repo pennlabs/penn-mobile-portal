@@ -48,6 +48,11 @@ class PostPage extends React.Component {
       fetch('https://api.pennlabs.org/portal/post/' + id + '?account=' + accountID)
       .then((response) => response.json())
       .then((json) => {
+        var d = new Date();
+        var n = parseInt(d.getTimezoneOffset() / 60);
+        var startDateStr = json.start_date + "-0" + n + ":00";
+        var endDateStr = json.end_date + "-0" + n + ":00";
+
         this.setState({
           id: id,
           title: json.title,
@@ -56,7 +61,10 @@ class PostPage extends React.Component {
           postUrl: json.post_url,
           detailLabel: json.time_label,
           comments: json.comments,
+          startDate: new Date(startDateStr),
+          endDate: new Date(endDateStr),
         })
+        this.setupDatePicker()
       })
       .catch((error) => {
         this.setupDatePicker()
@@ -66,7 +74,10 @@ class PostPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setupDatePicker()
+    const query = queryString.parse(this.props.location.search);
+    if (!('id' in query)) {
+      this.setupDatePicker()
+    }
   }
 
   updateInput(event) {
@@ -151,14 +162,14 @@ class PostPage extends React.Component {
   }
 
   setupDatePicker() {
+    console.log(this.state.startDate)
     const options = {
-      startDate: null, // Date selected by default
+      startDate: this.state.startDate, // Date selected by default
+      endDate: this.state.endDate,
       dateFormat: 'M/D', // the date format `field` value
-      timeFormat: 'h:mma',
+      timeFormat: 'h:mma', // the time format `field` value
       lang: 'en', // internationalization
-      fontSize: "14px",
       overlay: false,
-      fullSize: true,
       isRange: true,
       labelFrom: 'Start Time',
       labelTo: 'End Time',
@@ -179,6 +190,12 @@ class PostPage extends React.Component {
     	});
     	calendar.on('select', datetime => {
     	  this.updateDateRange(datetime.data)
+    	});
+      calendar.on('clear', datetime => {
+    	  this.setState({
+          startDate: null,
+          endDate: null,
+        })
     	});
   	});
   }
