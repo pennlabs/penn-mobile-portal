@@ -86,15 +86,8 @@ class PostPage extends React.Component {
   }
 
   saveFile(event) {
-    const file = event.target.value;
-    const split = file.split("\\")
-    const name = split[split.length - 1]
-    this.setState({imageFile: name})
-    // var reader = new FileReader();
-    // reader.onload = function(e) {
-    //   var text = reader.result;
-    //   console.log(text)
-    // }
+    const file = event.target.files[0];
+    this.setState({imageFile: file})
   }
 
   onSubmit() {
@@ -306,7 +299,7 @@ class PostPage extends React.Component {
                   <div style={{margin: "16px 40px 0px 40px"}}>
                     <div class="file has-name is-small">
                       <label class="file-label" >
-                        <input class="file-input" type="file" name="imageFile" accept="image/*" onChange={this.saveFile}/>
+                        <input class="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
                         <span class="file-cta">
                           <span class="file-icon">
                             <i class="fas fa-upload"></i>
@@ -316,7 +309,7 @@ class PostPage extends React.Component {
                           </span>
                         </span>
                         <span class="file-name" style={{visibility: (this.state.imageFile ? "visible" : "hidden")}}>
-                          {this.state.imageFile}
+                          {this.state.imageFile ? this.state.imageFile.name : null}
                         </span>
                       </label>
                     </div>
