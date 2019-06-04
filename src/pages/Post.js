@@ -9,6 +9,7 @@ import 'bulma-calendar/dist/css/bulma-calendar.min.css';
 import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
 
 const fetch = require("node-fetch");
+const FormData = require("form-data");
 const queryString = require('query-string');
 
 class PostPage extends React.Component {
@@ -18,7 +19,7 @@ class PostPage extends React.Component {
       id: null,
       title: null,
       subtitle: null,
-      imageFile: null,
+      imageFileName: null,
       imageUrl: null,
       postUrl: null,
       detailLabel: null,
@@ -38,6 +39,7 @@ class PostPage extends React.Component {
     this.saveFile = this.saveFile.bind(this)
     this.setupDatePicker = this.setupDatePicker.bind(this)
     this.updateDateRange = this.updateDateRange.bind(this)
+    this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
   }
 
   componentWillMount() {
@@ -58,6 +60,7 @@ class PostPage extends React.Component {
           title: json.title,
           subtitle: json.subtitle,
           imageUrl: json.image_url,
+          imageFileName: this.getImageNameFromUrl(json.image_url),
           postUrl: json.post_url,
           detailLabel: json.time_label,
           comments: json.comments,
@@ -85,9 +88,40 @@ class PostPage extends React.Component {
     this.setState({[name] : event.target.value})
   }
 
+  getImageNameFromUrl(imageUrl) {
+    var split = imageUrl.split("penn.mobile.portal/images/")
+    var imageFileName = imageUrl
+    if (split.length > 1) {
+      imageFileName = split[1]
+      var split2 = imageFileName.split("/")
+      if (split2.length > 1) {
+        imageFileName = decodeURIComponent(split2[1])
+      }
+    }
+    return imageFileName
+  }
+
   saveFile(event) {
     const file = event.target.files[0];
-    this.setState({imageFile: file})
+    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('account', accountID);
+    fetch('https://api.pennlabs.org/portal/post/image', {
+        method: 'POST',
+        body: formData
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      const imageUrl = json.image_url
+      var imageFileName = this.getImageNameFromUrl(imageUrl)
+      this.setState({imageFileName: imageFileName})
+      this.setState({imageUrl: imageUrl})
+      alert('Success!')
+    })
+    .catch((error) => {
+      alert('Something went wrong. Please try again.')
+    })
   }
 
   onSubmit() {
@@ -147,6 +181,8 @@ class PostPage extends React.Component {
     .then((response) => {
       if (response.status !== 200) {
         alert('Something went wrong. Please try again.')
+      } else {
+        alert('Submitted!')
       }
     })
     .catch((error) => {
@@ -155,7 +191,6 @@ class PostPage extends React.Component {
   }
 
   setupDatePicker() {
-    console.log(this.state.startDate)
     const options = {
       startDate: this.state.startDate, // Date selected by default
       endDate: this.state.endDate,
@@ -308,8 +343,8 @@ class PostPage extends React.Component {
                             Choose a file…
                           </span>
                         </span>
-                        <span class="file-name" style={{visibility: (this.state.imageFile ? "visible" : "hidden")}}>
-                          {this.state.imageFile ? this.state.imageFile.name : null}
+                        <span class="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
+                          {this.state.imageFileName ? this.state.imageFileName : null}
                         </span>
                       </label>
                     </div>
