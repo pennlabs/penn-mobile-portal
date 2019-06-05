@@ -8,6 +8,11 @@ import '../App.sass';
 import 'bulma-calendar/dist/css/bulma-calendar.min.css';
 import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
 
+import 'bulma-checkradio/dist/css/bulma-checkradio.min.css';
+
+import 'bulma-tagsinput/dist/css/bulma-tagsinput.min.css';
+import bulmaTagsInput from 'bulma-tagsinput/dist/js/bulma-tagsinput.min.js';
+
 const fetch = require("node-fetch");
 const FormData = require("form-data");
 const queryString = require('query-string');
@@ -27,7 +32,21 @@ class PostPage extends React.Component {
       startDate: null,
       endDate: null,
       status: null,
-      filters: null,
+      seniorClassYear: 2020,
+      filters: {
+        class: {
+          year_0: false, // 2020
+          year_1: false, // 2021
+          year_2: false, // 2022
+          year_3: false, // 2023
+        },
+        school: {
+          WH: false,
+          COL: false,
+          EAS: false,
+          NUR: false,
+        },
+      },
       filterOptions: null,
       isLive: false,
       isApproved: false,
@@ -40,6 +59,7 @@ class PostPage extends React.Component {
     this.setupDatePicker = this.setupDatePicker.bind(this)
     this.updateDateRange = this.updateDateRange.bind(this)
     this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
+    this.setCheckBoxState = this.setCheckBoxState.bind(this)
   }
 
   componentWillMount() {
@@ -55,6 +75,18 @@ class PostPage extends React.Component {
         var startDateStr = json.start_date + "-0" + n + ":00";
         var endDateStr = json.end_date + "-0" + n + ":00";
 
+        var filters = this.state.filters
+        for (var filterObjKey in json.filters) {
+          var filterObj = json.filters[filterObjKey]
+          if (filterObj.type !== 'email-only') {
+            var filterKey = filterObj.filter
+            if (filterObj.type === 'class') {
+              filterKey = "year_" + (parseInt(filterObj.filter) - this.state.seniorClassYear)
+            }
+            filters[filterObj.type][filterKey] = true
+          }
+        }
+
         this.setState({
           id: id,
           title: json.title,
@@ -64,15 +96,29 @@ class PostPage extends React.Component {
           postUrl: json.post_url,
           detailLabel: json.time_label,
           comments: json.comments,
+          filters: filters,
           startDate: new Date(startDateStr),
           endDate: new Date(endDateStr),
         })
         this.setupDatePicker()
+        bulmaTagsInput.attach()
       })
       .catch((error) => {
         this.setupDatePicker()
+        bulmaTagsInput.attach()
         alert('Unable to fetch post with error message:' + error.message)
       })
+    } else {
+      // By default, check off all filter boxes
+      var filters = this.state.filters;
+      for (var type in filters) {
+        // Set all filter checkboxes to FALSE
+        if (!filters.hasOwnProperty(type)) continue
+        for (var key in filters[type]) {
+          if (!filters[type].hasOwnProperty(key)) continue
+          filters[type][key] = true
+        }
+      }
     }
   }
 
@@ -80,6 +126,7 @@ class PostPage extends React.Component {
     const query = queryString.parse(this.props.location.search);
     if (!('id' in query)) {
       this.setupDatePicker()
+      bulmaTagsInput.attach()
     }
   }
 
@@ -150,6 +197,40 @@ class PostPage extends React.Component {
       return date.getFullYear() + "-" + month + "-" + day + "T" + strTime;
     }
 
+    var filters = []
+    for (var type in this.state.filters) {
+      if (!this.state.filters.hasOwnProperty(type)) continue;
+      for (var key in this.state.filters[type]) {
+        if (!this.state.filters[type].hasOwnProperty(key)) continue;
+
+        const checked = this.state.filters[type][key];
+        if (checked) {
+          var filter = key
+          if (type === 'class') {
+            var addedYears = parseInt(key.split('_')[1])
+            var year = this.state.seniorClassYear + addedYears
+            filter = String(year)
+          }
+
+          filters.push({
+            'type': type,
+            'filter': filter,
+          })
+        }
+      }
+    }
+
+    if (filters.length === 0) {
+      // An empty filters array will cause post to show up for everyone (including grad students).
+      // But if empty, then all boxes have been checked off.
+      // This implies that the user only wants selected emails to see the post
+      // TODO: implement email listserv uploading
+      filters.push({
+        'type': 'email-only',
+        'filter': 'none',
+      })
+    }
+
     var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
     fetch('https://api.pennlabs.org/portal/post' + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
@@ -168,12 +249,7 @@ class PostPage extends React.Component {
         time_label: this.state.detailLabel,
         start_date: formatDate(this.state.startDate),
         end_date: formatDate(this.state.endDate),
-        filters: [
-          {
-            'type': 'email-only',
-            'filter': 'none',
-          }
-        ],
+        filters: filters,
         emails: [],
         testers: ["joshdo@wharton.upenn.edu"],
       })
@@ -228,6 +304,19 @@ class PostPage extends React.Component {
   	});
   }
 
+  setCheckBoxState(event) {
+    const id = event.target.id;
+    const name = event.target.name;
+    const type = name.split("_")[0]
+    const checked = event.target.checked;
+
+    var filters = this.state.filters
+    filters[type][id] = checked
+    this.setState({
+      filters: filters
+    })
+  }
+
   updateDateRange(data) {
     var startDate = data.datePicker._date.start
     var endDate = data.datePicker._date.end
@@ -263,31 +352,67 @@ class PostPage extends React.Component {
                   <PostStatusVisibility isApproved={this.state.isApproved} notifyChange={this.setState}/>
                   <div style={{height: 20}} />
 
-                  <div style={{margin: "0px 40px 0px 40px"}}>
+                  <div style={{height: 20}} />
+
+                  <NewPostLabel text="Add Filters" single={true} />
+
+                  <div style={{margin: "20px 40px 20px 40px"}}>
                     <input
-                      className="input is-small"
+                      className="input"
                       type="datetime"
                       ref={e => this.dateInput = e}
                     />
                   </div>
 
-                  <div style={{height: 20}} />
-
-                  <NewPostLabel text="Add Filters" single={true} />
-
-                  <div style={{margin: "12px 40px 0px 40px"}}>
+                  <div style={{margin: "0px 40px 0px 40px"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
-                    <input className="input is-small" type="text" name="yearFilter" value={this.state.yearFilter} placeholder="None" onChange={this.updateInput}/>
+                    <div className="field" style={{margin: "4px 0px 20px 0px", float: "left"}}>
+                      <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState} />
+                      <label for="year_0">2020</label>
+                      <input className="is-checkradio is-small" id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState} />
+                      <label for="year_1">2021</label>
+                      <input className="is-checkradio is-small" id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState} />
+                      <label for="year_2">2022</label>
+                      <input className="is-checkradio is-small" id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState} />
+                      <label for="year_3">2023</label>
+                    </div>
                   </div>
 
-                  <div style={{margin: "10px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
-                    <input className="input is-small" type="text" name="schoolFilter" value={this.state.schoolFilter} placeholder="None" onChange={this.updateInput} />
+                  <div style={{margin: "0px 40px 0px 40px"}}>
+                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", clear: "left", margin: "0px 0px 2px 0px"}}>School</b>
+                    <div className="field" style={{margin: "4px 0px 10px 0px", float: "left"}}>
+                      <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState} />
+                      <label for="COL">College</label>
+                      <input className="is-checkradio is-small" id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onClick={this.setCheckBoxState} />
+                      <label for="WH">Wharton</label>
+                      <input className="is-checkradio is-small" id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
+                      <label for="EAS">SEAS</label>
+                      <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState} />
+                      <label for="NUR">Nursing</label>
+                    </div>
                   </div>
 
+                  {/*
                   <div style={{margin: "10px 40px 0px 40px"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Major</b>
-                    <input className="input is-small" type="text" name="majorFilter" value={this.state.majorFilter} placeholder="None" onChange={this.updateInput} />
+                    <input className="input is-small" type="tags" name="majorFilter" value="Tag1,Tag2" placeholder="Add tags" onChange={this.updateInput} />
+                  </div>
+                  */}
+                  <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+                      <button className="button" onClick={this.onSubmit} style={{
+                        margin: "16px 0px 0px 0px",
+                        width: 300,
+                        height: 35,
+                        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                        border: "solid 0 #979797",
+                        backgroundColor: "#2175cb",
+                        fontFamily: "HelveticaNeue-Bold",
+                        fontWeight: 500,
+                        fontSize: 18,
+                        color: "#ffffff"
+                      }}>
+                        Submit for Review
+                      </button>
                   </div>
 
                 </div>
@@ -362,20 +487,7 @@ class PostPage extends React.Component {
                     <textarea className="textarea is-small" type="text" name="comments" value={this.state.comments} placeholder="Enter any comments here." rows="2" onChange={this.updateInput}/>
                   </div>
 
-                  <button className="button" onClick={this.onSubmit} style={{
-                    margin: "16px 0px 0px 0px",
-                    width: 300,
-                    height: 35,
-                    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
-                    border: "solid 0 #979797",
-                    backgroundColor: "#2175cb",
-                    fontFamily: "HelveticaNeue-Bold",
-                    fontWeight: 500,
-                    fontSize: 18,
-                    color: "#ffffff"
-                  }}>
-                    Submit for Review
-                  </button>
+
                 </div>
 
                 <div className="column has-text-centered">

@@ -33,6 +33,8 @@
   "devDependencies": {
     "bulma": "^0.7.5",
     "bulma-calendar": "^6.0.7",
+    "bulma-checkradio": "^1.1.0",
+    "bulma-tagsinput": "^2.0.0",
     "form-data": "^2.3.3",
     "node-fetch": "^2.6.0",
     "node-sass": "^4.12.0"
