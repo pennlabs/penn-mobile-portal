@@ -31,6 +31,7 @@ class Home extends React.Component {
           var id = postJSON.id
           var name = postJSON.title
           var url = postJSON.image_url
+          var url_cropped = postJSON.image_url_cropped//
           var dateStr = postJSON.start_date
           var date = new Date(dateStr)
           var status = postJSON.status
@@ -41,7 +42,7 @@ class Home extends React.Component {
           if (impr && uniqueImpr && interactions) {
             analytics = new PostAnalytics(impr, uniqueImpr, interactions)
           }
-          var post = new Post(id, name, url, date, status, analytics)
+          var post = new Post(id, name, url, url_cropped, date, status, analytics)//
           posts.push(post)
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
@@ -60,7 +61,7 @@ class Home extends React.Component {
           <PostCard
             id={post.id}
             name={post.name}
-            imageUrl={post.imageUrl}
+            imageUrl={post.imageUrlCropped}//
             analytics={post.analytics}
             publishDate={post.publishDate}
             status={post.status}

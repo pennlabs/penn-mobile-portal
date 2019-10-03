@@ -13,6 +13,9 @@ import 'bulma-checkradio/dist/css/bulma-checkradio.min.css';
 import 'bulma-tagsinput/dist/css/bulma-tagsinput.min.css';
 import bulmaTagsInput from 'bulma-tagsinput/dist/js/bulma-tagsinput.min.js';
 
+import ReactCrop from 'react-image-crop';
+import "react-image-crop/dist/ReactCrop.css";
+
 const fetch = require("node-fetch");
 const FormData = require("form-data");
 const queryString = require('query-string');
@@ -25,7 +28,15 @@ class PostPage extends React.Component {
       title: null,
       subtitle: null,
       imageFileName: null,
+      imageCroppedFileName: null,
       imageUrl: null,
+      imageUrlCropped: null,
+      src: null,
+      crop: {
+        unit: "%",
+        width: 30,
+        aspect: 16 / 9
+      },
       postUrl: null,
       detailLabel: null,
       comments: null,
@@ -55,7 +66,14 @@ class PostPage extends React.Component {
     this.updateInput = this.updateInput.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.setState = this.setState.bind(this)
+    this.loadFileCrop = this.loadFileCrop.bind(this)
+    this.onImageLoaded = this.onImageLoaded.bind(this)
+    this.onCropComplete = this.onCropComplete.bind(this)
+    this.onCropChange = this.onCropChange.bind(this)
+    this.makeClientCrop = this.makeClientCrop.bind(this)
+    this.getCroppedImg = this.getCroppedImg.bind(this)
     this.saveFile = this.saveFile.bind(this)
+    this.saveFileCropped = this.saveFileCropped.bind(this)
     this.setupDatePicker = this.setupDatePicker.bind(this)
     this.updateDateRange = this.updateDateRange.bind(this)
     this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
@@ -92,7 +110,9 @@ class PostPage extends React.Component {
           title: json.title,
           subtitle: json.subtitle,
           imageUrl: json.image_url,
+          imageUrlCropped: json.image_url_cropped,
           imageFileName: this.getImageNameFromUrl(json.image_url),
+          imageCroppedFileName: this.getImageNameFromUrl(json.image_url_cropped),
           postUrl: json.post_url,
           detailLabel: json.time_label,
           comments: json.comments,
@@ -148,12 +168,77 @@ class PostPage extends React.Component {
     return imageFileName
   }
 
+  async loadFileCrop(file) {
+    const reader = new FileReader();
+    reader.addEventListener("load", () =>
+      this.setState({src: reader.result})
+    );
+    reader.readAsDataURL(file)
+  }
+
+  onImageLoaded(image) {
+    this.imageRef = image;
+  }
+
+  onCropComplete(crop) {
+    this.makeClientCrop(crop);
+  }
+
+  onCropChange(crop) {
+    this.setState({crop});
+  }
+
+  async makeClientCrop(crop) {
+    if (this.imageRef && crop.width && crop.height) {
+      const croppedImageUrl = await this.getCroppedImg(
+        this.imageRef,
+        crop,
+        "cropped.png"
+      );
+      this.setState({croppedImageUrl});
+    }
+  }
+
+  getCroppedImg(image, crop, fileName) {
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise((resolve, reject) => {
+      document.getElementById('buttonCrop').onclick = () => {    
+        canvas.toBlob(blob => {
+          if (!blob) {
+            console.error("Canvas is empty");
+            return;
+          }
+          resolve(this.saveFileCropped(blob, fileName));
+        }, "image/png");
+      }
+    });
+  }
+
   saveFile(event) {
     const file = event.target.files[0];
     const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
     const formData = new FormData();
     formData.append('image', file);
     formData.append('account', accountID);
+    this.loadFileCrop(file)
     fetch('https://api.pennlabs.org/portal/post/image', {
         method: 'POST',
         body: formData
@@ -164,7 +249,29 @@ class PostPage extends React.Component {
       var imageFileName = this.getImageNameFromUrl(imageUrl)
       this.setState({imageFileName: imageFileName})
       this.setState({imageUrl: imageUrl})
-      alert('Success!')
+      alert('Image uploaded successfully.')
+    })
+    .catch((error) => {
+      alert('Something went wrong. Please try again.')
+    })
+  }
+
+  saveFileCropped(file, fileName) {
+    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    const formData = new FormData();
+    formData.append('image', file, fileName);
+    formData.append('account', accountID);
+    fetch('https://api.pennlabs.org/portal/post/image', { //localhost:5000/portal/post/image
+        method: 'POST',
+        body: formData
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      const imageUrlCropped = json.image_url
+      var imageCroppedFileName = this.getImageNameFromUrl(imageUrlCropped)
+      this.setState({imageCroppedFileName: imageCroppedFileName})
+      this.setState({imageUrlCropped: imageUrlCropped})
+      alert('Cropped image saved successfully.')
     })
     .catch((error) => {
       alert('Something went wrong. Please try again.')
@@ -177,6 +284,9 @@ class PostPage extends React.Component {
       return
     } else if (!this.state.imageUrl) {
       alert("Please select an image.")
+      return
+    } else if (!this.state.imageUrlCropped) {
+      alert("Please crop your image.")
       return
     } else if (!this.state.startDate || !this.state.endDate) {
       alert("Please select a start and end date.")
@@ -242,6 +352,7 @@ class PostPage extends React.Component {
         post_id: this.state.id,
         account_id: accountID,
         image_url: this.state.imageUrl,
+        image_url_cropped: this.state.imageUrlCropped,
         post_url: this.state.postUrl,
         source: "Penn Labs",
         title: this.state.title,
@@ -338,6 +449,8 @@ class PostPage extends React.Component {
   }
 
   render() {
+    const { crop, croppedImageUrl, src } = this.state;
+
     return(
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
         <Header />
@@ -473,6 +586,35 @@ class PostPage extends React.Component {
                         </span>
                       </label>
                     </div>
+                  </div>
+
+                  <div style={{margin: "16px 40px 0px 40px"}}>
+                    {src && (
+                      <ReactCrop
+                        src={src}
+                        crop={crop}
+                        onImageLoaded={this.onImageLoaded}
+                        onComplete={this.onCropComplete}
+                        onChange={this.onCropChange}
+                      />
+                    )}
+                    <button id="buttonCrop" className="buttonCrop" style={{
+                        margin: "16px 0px 0px 0px",
+                        width: 300,
+                        height: 35,
+                        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                        border: "solid 0 #979797",
+                        backgroundColor: "#2175cb",
+                        fontFamily: "HelveticaNeue-Bold",
+                        fontWeight: 500,
+                        fontSize: 18,
+                        color: "#ffffff"
+                      }}>
+                        Save Cropped Image
+                      </button>
+                    {/*croppedImageUrl && (
+                      <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+                    )*/}
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
