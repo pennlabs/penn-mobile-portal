@@ -11,6 +11,8 @@ import '../App.sass';
 
 const fetch = require("node-fetch");
 
+const dev = false;
+
 class Home extends React.Component {
   constructor(props){
     super(props)
@@ -20,9 +22,15 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
     if (accountID) {
-      fetch('https://api.pennlabs.org/portal/posts?account=' + accountID)
+      let url;
+      if (dev) {
+        url = 'localhost:5000/portal/posts?account='
+      } else {
+        url = 'https://api.pennlabs.org/portal/posts?account='
+      }
+      fetch(url + accountID) //https://api.pennlabs.org/portal/posts?account= localhost:5000/portal/posts?account=
       .then((response) => response.json())
       .then((json) => {
         var jsonArray = json.posts

@@ -20,6 +20,8 @@ const fetch = require("node-fetch");
 const FormData = require("form-data");
 const queryString = require('query-string');
 
+const dev = false;
+
 class PostPage extends React.Component {
   constructor(props){
     super(props)
@@ -81,11 +83,17 @@ class PostPage extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
-      fetch('https://api.pennlabs.org/portal/post/' + id + '?account=' + accountID)
+      let url;
+      if (dev) {
+        url = 'localhost:5000/portal/post/'
+      } else {
+        url = 'https://api.pennlabs.org/portal/post/'
+      }
+      fetch(url + id + '?account=' + accountID) //https://api.pennlabs.org/portal/post/ localhost:5000/portal/post/
       .then((response) => response.json())
       .then((json) => {
         var d = new Date();
@@ -234,12 +242,18 @@ class PostPage extends React.Component {
 
   saveFile(event) {
     const file = event.target.files[0];
-    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
     const formData = new FormData();
     formData.append('image', file);
     formData.append('account', accountID);
     this.loadFileCrop(file)
-    fetch('https://api.pennlabs.org/portal/post/image', {
+    let url;
+    if (dev) {
+      url = 'localhost:5000/portal/post/image'
+    } else {
+      url = 'https://api.pennlabs.org/portal/post/image'
+    }
+    fetch(url, { // https://api.pennlabs.org/portal/post/image localhost:5000/portal/post/image
         method: 'POST',
         body: formData
     })
@@ -257,11 +271,17 @@ class PostPage extends React.Component {
   }
 
   saveFileCropped(file, fileName) {
-    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
     const formData = new FormData();
     formData.append('image', file, fileName);
     formData.append('account', accountID);
-    fetch('https://api.pennlabs.org/portal/post/image', { //localhost:5000/portal/post/image
+    let url;
+    if (dev) {
+      url = 'localhost:5000/portal/post/image'
+    } else {
+      url = 'https://api.pennlabs.org/portal/post/image'
+    }
+    fetch(url, { // https://api.pennlabs.org/portal/post/image localhost:5000/portal/post/image
         method: 'POST',
         body: formData
     })
@@ -341,8 +361,14 @@ class PostPage extends React.Component {
       })
     }
 
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
-    fetch('https://api.pennlabs.org/portal/post' + (this.state.id ? '/update' : '/new'), {
+    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    let url;
+    if (dev) {
+      url = 'localhost:5000/portal/post'
+    } else {
+      url = 'https://api.pennlabs.org/portal/post'
+    }
+    fetch(url + (this.state.id ? '/update' : '/new'), { // https://api.pennlabs.org/portal/post localhost:5000/portal/post
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -362,7 +388,7 @@ class PostPage extends React.Component {
         end_date: formatDate(this.state.endDate),
         filters: filters,
         emails: [],
-        testers: ["joshdo@wharton.upenn.edu"],
+        testers: ["joshdo@wharton.upenn.edu", "mattrh@wharton.upenn.edu"],
       })
     })
     .then((response) => {
