@@ -37,7 +37,7 @@ class PostPage extends React.Component {
       crop: {
         unit: "%",
         width: 30,
-        aspect: 16 / 9
+        aspect: 18 / 9 // This is the aspect ratio that was previously being used
       },
       postUrl: null,
       detailLabel: null,
@@ -130,6 +130,29 @@ class PostPage extends React.Component {
         })
         this.setupDatePicker()
         bulmaTagsInput.attach()
+
+        let imageURL = this.state.imageUrl;
+
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.addEventListener("load", () => {
+          let canvas = document.createElement("canvas");
+          let ctx = canvas.getContext("2d");
+        
+          canvas.width = img.width;
+          canvas.height = img.height;
+        
+          ctx.drawImage(img, 0, 0);
+        
+          try {
+            let dataUrl = canvas.toDataURL("image/png");
+            this.setState({src: dataUrl})
+          }
+          catch(err) {
+            console.log("Error: " + err);
+          }
+        }, false);
+        img.src = imageURL;
       })
       .catch((error) => {
         this.setupDatePicker()
@@ -229,7 +252,7 @@ class PostPage extends React.Component {
 
     return new Promise((resolve, reject) => {
       document.getElementById('buttonCrop').onclick = () => {    
-        canvas.toBlob(blob => {
+        canvas.toBlob((blob) => {
           if (!blob) {
             console.error("Canvas is empty");
             return;
@@ -388,7 +411,7 @@ class PostPage extends React.Component {
         end_date: formatDate(this.state.endDate),
         filters: filters,
         emails: [],
-        testers: ["joshdo@wharton.upenn.edu", "mattrh@wharton.upenn.edu"],
+        testers: ["joshdo@wharton.upenn.edu", "mattrh@wharton.upenn.edu"]
       })
     })
     .then((response) => {
