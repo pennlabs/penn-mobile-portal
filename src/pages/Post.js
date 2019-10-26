@@ -457,18 +457,18 @@ class PostPage extends React.Component {
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
-                    <div class="file has-name is-small">
-                      <label class="file-label" >
-                        <input class="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
-                        <span class="file-cta">
-                          <span class="file-icon">
-                            <i class="fas fa-upload"></i>
+                    <div className="file has-name is-small">
+                      <label className="file-label" >
+                        <input className="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
+                        <span className="file-cta">
+                          <span className="file-icon">
+                            <i className="fas fa-upload"></i>
                           </span>
-                          <span class="file-label">
+                          <span className="file-label">
                             Choose a file…
                           </span>
                         </span>
-                        <span class="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
+                        <span className="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
                           {this.state.imageFileName ? this.state.imageFileName : null}
                         </span>
                       </label>
@@ -492,6 +492,73 @@ class PostPage extends React.Component {
 
                 <div className="column has-text-centered">
                   <NewPostLabel text="Live Preview" single={false} left={false} />
+                  <div className="phone-preview" style={{
+                    marginTop: 20,
+                    textAlign: 'center',
+                    transformOrigin: 'top center',
+                    transform: 'scale(0.8)'
+                  }}>
+                    <div className="marvel-device iphone8 silver">
+                        <div className="top-bar"></div>
+                        <div className="sleep"></div>
+                        <div className="volume"></div>
+                        <div className="camera"></div>
+                        <div className="sensor"></div>
+                        <div className="speaker"></div>
+                        <div className="screen" style={{
+                          textAlign: 'left',
+                          fontFamily: 'HelveticaNeue, Helvetica',
+                          userSelect: 'none',
+                          pointerEvents: 'none'
+                        }}>
+                            <img src="images/phone_header.png" style={{ width: '100%' }} />
+                            <div className="box" style={{
+                              margin: 15,
+                              backgroundColor: 'white',
+                              boxShadow: '1px 1px 10px #ccc',
+                              borderRadius: 15,
+                              padding: 0
+                            }}>
+                                <div className="img-wrapper" style={{
+                                  backgroundColor: '#eee',
+                                  borderRadius: '15px 15px 0 0',
+                                  overflow: 'hidden'
+                                }}>
+                                  <div style={{
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
+                                    height: 175,
+                                    backgroundImage: 'url("' + this.state.imageUrl + '")'
+                                  }} />
+                                </div>
+                                <div className="box-text" style={{
+                                  padding: 15
+                                }}>
+                                    <b className="box-title" style={{
+                                      fontSize: 18,
+                                      wordWrap: 'break-word'
+                                    }}>{this.state.title}</b>
+                                    <span className="box-desc" style={{
+                                      color: '#888',
+                                      fontSize: 14,
+                                      display: 'block',
+                                      wordWrap: 'break-word'
+                                    }}>{this.state.subtitle}</span>
+                                    <span className="box-date" style={{
+                                      color: '#888',
+                                      fontSize: 14,
+                                      display: 'block',
+                                      wordWrap: 'break-word',
+                                      marginTop: 5
+                                    }}>Today at 7:20pm</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="home"></div>
+                        <div className="bottom-bar"></div>
+                    </div>
+                  </div>
                 </div>
 
               </div>
