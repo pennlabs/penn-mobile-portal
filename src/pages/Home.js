@@ -11,6 +11,8 @@ import '../App.sass';
 
 const fetch = require("node-fetch");
 
+const dev = false;
+
 class Home extends React.Component {
   constructor(props){
     super(props)
@@ -20,9 +22,15 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7'
+    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
     if (accountID) {
-      fetch('https://api.pennlabs.org/portal/posts?account=' + accountID)
+      let url;
+      if (dev) {
+        url = 'localhost:5000/portal/posts?account='
+      } else {
+        url = 'https://api.pennlabs.org/portal/posts?account='
+      }
+      fetch(url + accountID) //https://api.pennlabs.org/portal/posts?account= localhost:5000/portal/posts?account=
       .then((response) => response.json())
       .then((json) => {
         var jsonArray = json.posts
@@ -31,6 +39,7 @@ class Home extends React.Component {
           var id = postJSON.id
           var name = postJSON.title
           var url = postJSON.image_url
+          var url_cropped = postJSON.image_url_cropped//
           var dateStr = postJSON.start_date
           var date = new Date(dateStr)
           var status = postJSON.status
@@ -41,7 +50,7 @@ class Home extends React.Component {
           if (impr && uniqueImpr && interactions) {
             analytics = new PostAnalytics(impr, uniqueImpr, interactions)
           }
-          var post = new Post(id, name, url, date, status, analytics)
+          var post = new Post(id, name, url, url_cropped, date, status, analytics)//
           posts.push(post)
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
@@ -60,7 +69,7 @@ class Home extends React.Component {
           <PostCard
             id={post.id}
             name={post.name}
-            imageUrl={post.imageUrl}
+            imageUrl={post.imageUrlCropped}//
             analytics={post.analytics}
             publishDate={post.publishDate}
             status={post.status}
