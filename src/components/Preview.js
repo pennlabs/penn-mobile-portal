@@ -44,12 +44,15 @@ class Preview extends React.Component {
                         backgroundImage: 'url("' + this.props.imageUrl + '")'
                       }} />
                     </div>
-                    <div className="box-text" style={{
-                      padding: 15
+                    <div style={{
+                      padding: 15,
+                      paddingTop: 8,
+                      paddingBottom: 10,
                     }}>
-                        <span className="box-desc" style={{
+                        <span style={{
                           display: 'block',
                           wordWrap: 'break-word',
+                          marginBottom: 4,
                         }}>
                           <span style={{
                             color: '#888',
@@ -57,18 +60,23 @@ class Preview extends React.Component {
                             textAlign: 'left',
                           }}>{this.props.source}</span>
                           <span style={{
+                            float: 'right',
                             color: '#888',
                             fontSize: 14,
                             textAlign: 'right',
+                            marginTop: 3,
                           }}>{this.props.detailLabel}</span>
                         </span>
-                        <b className="box-title" style={{
+                        <b style={{
                           fontSize: 18,
+                          lineHeight: 1.4,
+                          display: 'block',
                           wordWrap: 'break-word',
-                          marginTop: 10,
+                          marginBottom: 8,
                         }}>{this.props.title}</b>
-                        <span className="box-desc" style={{
+                        <span style={{
                           color: '#888',
+                          lineHeight: 1.3,
                           fontSize: 14,
                           display: 'block',
                           wordWrap: 'break-word'
