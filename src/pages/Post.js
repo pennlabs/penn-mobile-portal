@@ -703,6 +703,35 @@ class PostPage extends React.Component {
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
+                    {src && (
+                      <ReactCrop
+                        src={src}
+                        crop={crop}
+                        onImageLoaded={this.onImageLoaded}
+                        onComplete={this.onCropComplete}
+                        onChange={this.onCropChange}
+                      />
+                    )}
+                    <button id="buttonCrop" className="buttonCrop" style={{
+                        margin: "16px 0px 0px 0px",
+                        width: 300,
+                        height: 35,
+                        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                        border: "solid 0 #979797",
+                        backgroundColor: "#2175cb",
+                        fontFamily: "HelveticaNeue-Bold",
+                        fontWeight: 500,
+                        fontSize: 18,
+                        color: "#ffffff"
+                      }}>
+                        Save Cropped Image
+                      </button>
+                    {/*croppedImageUrl && (
+                      <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+                    )*/}
+                  </div>
+
+                  <div style={{margin: "16px 40px 0px 40px"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Link (optional)</b>
                     <input className="input is-small" type="text" name="postUrl" value={this.state.postUrl} placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}/>
                   </div>
