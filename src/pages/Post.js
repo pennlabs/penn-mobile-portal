@@ -310,7 +310,7 @@ class PostPage extends React.Component {
       alert('Image uploaded successfully.')
     })
     .catch((error) => {
-      alert('Something went wrong. Please try again.')
+      alert(`Something went wrong. Please try again. ${error}`)
     })
   }
 
@@ -338,7 +338,7 @@ class PostPage extends React.Component {
       alert('Cropped image saved successfully.')
     })
     .catch((error) => {
-      alert('Something went wrong. Please try again.')
+      alert(`Something went wrong. Please try again. ${error}`)
     })
   }
 
@@ -437,13 +437,13 @@ class PostPage extends React.Component {
     })
     .then((response) => {
       if (response.status !== 200) {
-        alert('Something went wrong. Please try again.')
+        alert(`Something went wrong. Please try again. ${response}`)
       } else {
         alert('Submitted!')
       }
     })
     .catch((error) => {
-      alert('Something went wrong. Please try again.')
+      alert(`Something went wrong. Please try again. ${error}`)
     })
   }
 
@@ -673,36 +673,6 @@ class PostPage extends React.Component {
                     </button>
                   </div>
 
-                  <div id="cropping" style={{margin: "16px 40px 0px 40px"}}>
-                    {src && (
-                      <ReactCrop
-                        src={src}
-                        crop={crop}
-                        onImageLoaded={this.onImageLoaded}
-                        onComplete={this.onCropComplete}
-                        onChange={this.onCropChange}
-                      />
-                    )}
-                    <button id="buttonCrop" className="buttonCrop" style={{
-                        margin: "16px 0px 0px 0px",
-                        width: 300,
-                        height: 35,
-                        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
-                        border: "solid 0 #979797",
-                        backgroundColor: "#2175cb",
-                        fontFamily: "HelveticaNeue-Bold",
-                        fontWeight: 500,
-                        fontSize: 18,
-                        color: "#ffffff",
-                        display: "none"
-                      }}>
-                        Save Cropped Image
-                    </button>
-                    {/*croppedImageUrl && (
-                      <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
-                    )*/}
-                  </div>
-
                   <div style={{margin: "16px 40px 0px 40px"}}>
                     {src && (
                       <ReactCrop
@@ -753,7 +723,7 @@ class PostPage extends React.Component {
                     imageUrl={this.state.imageUrl}
                     title={this.state.title}
                     subtitle={this.state.subtitle}
-                    source={'Wharton Council'}
+                    source={'Penn Labs'}
                     detailLabel={this.state.detailLabel} />
                 </div>
 
