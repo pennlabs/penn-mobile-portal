@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import NewPostLabel from '../components/NewPostLabel'
 import PostStatusVisibility from '../components/PostStatusVisibility'
+import Preview from '../components/Preview'
 
 import '../App.sass';
 
@@ -639,18 +640,18 @@ class PostPage extends React.Component {
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
-                    <div class="file has-name is-small">
-                      <label class="file-label" >
-                        <input class="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
-                        <span class="file-cta">
-                          <span class="file-icon">
-                            <i class="fas fa-upload"></i>
+                    <div className="file has-name is-small">
+                      <label className="file-label" >
+                        <input className="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
+                        <span className="file-cta">
+                          <span className="file-icon">
+                            <i className="fas fa-upload"></i>
                           </span>
-                          <span class="file-label">
+                          <span className="file-label">
                             Choose a file…
                           </span>
                         </span>
-                        <span class="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
+                        <span className="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
                           {this.state.imageFileName ? this.state.imageFileName : null}
                         </span>
                       </label>
@@ -748,6 +749,12 @@ class PostPage extends React.Component {
 
                 <div className="column has-text-centered">
                   <NewPostLabel text="Live Preview" single={false} left={false} />
+                  <Preview
+                    imageUrl={this.state.imageUrl}
+                    title={this.state.title}
+                    subtitle={this.state.subtitle}
+                    source={'Wharton Council'}
+                    detailLabel={this.state.detailLabel} />
                 </div>
 
               </div>
