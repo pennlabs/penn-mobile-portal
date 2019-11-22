@@ -93,7 +93,7 @@ class PostPage extends React.Component {
       } else {
         url = 'https://api.pennlabs.org/portal/post/'
       }
-      fetch(url + id + '?account=' + accountID) //https://api.pennlabs.org/portal/post/ localhost:5000/portal/post/
+      fetch(url + id + '?account=' + accountID)
       .then((response) => response.json())
       .then((json) => {
         var d = new Date();
@@ -202,8 +202,21 @@ class PostPage extends React.Component {
   async loadFileCrop(file) {
     const reader = new FileReader();
     reader.addEventListener("load", () =>
-      this.setState({src: reader.result})
+      this.setState({src: reader.result}),
+      document.getElementById("buttonCrop").style.display = "block"
     );
+    /*let buttonStatus = false;
+    reader.addEventListener("load", () =>
+      document.getElementById("buttonOpenCrop").style.display = "block"
+    );
+    document.getElementById('buttonOpenCrop').onclick = () => {
+      buttonStatus = !buttonStatus;
+      if (buttonStatus = true) {
+        this.setState({src: reader.result})
+        document.getElementById("buttonCrop").style.display = "block"
+        document.getElementById("buttonOpenCrop").style.display = "none"
+      }
+    }*/
     reader.readAsDataURL(file)
   }
 
@@ -269,6 +282,7 @@ class PostPage extends React.Component {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('account', accountID);
+    formData.append('post_id', this.state.id);
     this.loadFileCrop(file)
     let url;
     if (dev) {
@@ -276,7 +290,7 @@ class PostPage extends React.Component {
     } else {
       url = 'https://api.pennlabs.org/portal/post/image'
     }
-    fetch(url, { // https://api.pennlabs.org/portal/post/image localhost:5000/portal/post/image
+    fetch(url, {
         method: 'POST',
         body: formData
     })
@@ -286,6 +300,12 @@ class PostPage extends React.Component {
       var imageFileName = this.getImageNameFromUrl(imageUrl)
       this.setState({imageFileName: imageFileName})
       this.setState({imageUrl: imageUrl})
+
+      const imageUrlCropped = json.image_url
+      var imageCroppedFileName = this.getImageNameFromUrl(imageUrlCropped)
+      this.setState({imageCroppedFileName: imageCroppedFileName})
+      this.setState({imageUrlCropped: imageUrlCropped})
+      
       alert('Image uploaded successfully.')
     })
     .catch((error) => {
@@ -304,7 +324,7 @@ class PostPage extends React.Component {
     } else {
       url = 'https://api.pennlabs.org/portal/post/image'
     }
-    fetch(url, { // https://api.pennlabs.org/portal/post/image localhost:5000/portal/post/image
+    fetch(url, {
         method: 'POST',
         body: formData
     })
@@ -391,7 +411,7 @@ class PostPage extends React.Component {
     } else {
       url = 'https://api.pennlabs.org/portal/post'
     }
-    fetch(url + (this.state.id ? '/update' : '/new'), { // https://api.pennlabs.org/portal/post localhost:5000/portal/post
+    fetch(url + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -635,9 +655,24 @@ class PostPage extends React.Component {
                         </span>
                       </label>
                     </div>
+                    <button id="buttonOpenCrop" className="buttonOpenCrop" style={{
+                        margin: "16px 0px 0px 0px",
+                        width: 300,
+                        height: 35,
+                        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                        border: "solid 0 #979797",
+                        backgroundColor: "#2175cb",
+                        fontFamily: "HelveticaNeue-Bold",
+                        fontWeight: 500,
+                        fontSize: 18,
+                        color: "#ffffff",
+                        display: "none"
+                      }}>
+                        Crop Image
+                    </button>
                   </div>
 
-                  <div style={{margin: "16px 40px 0px 40px"}}>
+                  <div id="cropping" style={{margin: "16px 40px 0px 40px"}}>
                     {src && (
                       <ReactCrop
                         src={src}
@@ -657,10 +692,11 @@ class PostPage extends React.Component {
                         fontFamily: "HelveticaNeue-Bold",
                         fontWeight: 500,
                         fontSize: 18,
-                        color: "#ffffff"
+                        color: "#ffffff",
+                        display: "none"
                       }}>
                         Save Cropped Image
-                      </button>
+                    </button>
                     {/*croppedImageUrl && (
                       <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
                     )*/}
