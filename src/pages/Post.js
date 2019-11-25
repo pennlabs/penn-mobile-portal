@@ -64,6 +64,9 @@ class PostPage extends React.Component {
       filterOptions: null,
       isLive: false,
       isApproved: false,
+      filterToggle: false,
+      filterToggleText: "Add Filters",
+      filterToggleColor: "#12a340"
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -81,6 +84,7 @@ class PostPage extends React.Component {
     this.updateDateRange = this.updateDateRange.bind(this)
     this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
     this.setCheckBoxState = this.setCheckBoxState.bind(this)
+    this.showFilters = this.showFilters.bind(this)
   }
 
   componentWillMount() {
@@ -517,6 +521,28 @@ class PostPage extends React.Component {
       endDate: endDate
     })
   }
+  
+  showFilters() {
+    let filters = this.state.filterToggle;
+
+    if (this.state.filterToggle == false) {
+      document.getElementById("yearBoxes").style.display = "block"
+      document.getElementById("schoolBoxes").style.display = "block"
+      this.setState({
+        filterToggle: true,
+        filterToggleText: "Remove Filters",
+        filterToggleColor: "#a32512"
+      })
+    } else {
+      document.getElementById("yearBoxes").style.display = "none"
+      document.getElementById("schoolBoxes").style.display = "none"
+      this.setState({
+        filterToggle: false,
+        filterToggleText: "Add Filters",
+        filterToggleColor: "#12a340"
+      })
+    }
+  }
 
   render() {
     const { crop, croppedImageUrl, src } = this.state;
@@ -537,7 +563,7 @@ class PostPage extends React.Component {
 
                   <div style={{height: 20}} />
 
-                  <NewPostLabel text="Add Filters" single={true} />
+                  <NewPostLabel text="Post Options" single={true} />
 
                   <div style={{margin: "20px 40px 20px 40px"}}>
                     <input
@@ -547,30 +573,47 @@ class PostPage extends React.Component {
                     />
                   </div>
 
-                  <div style={{margin: "0px 40px 0px 40px"}}>
+                  <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+                      <button id="showHideFilters" className="buttonCrop" onClick={this.showFilters} style={{
+                          margin: "16px 0px 0px 0px",
+                          width: 115,
+                          height: 30,
+                          boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                          border: "solid 0 #979797",
+                          backgroundColor: this.state.filterToggleColor,
+                          fontFamily: "HelveticaNeue-Bold",
+                          fontWeight: 500,
+                          fontSize: 14,
+                          color: "#ffffff"
+                        }}>
+                          {this.state.filterToggleText}
+                      </button>
+                  </div>
+
+                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: "none"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
-                    <div className="field" style={{margin: "4px 0px 20px 0px", float: "left"}}>
-                      <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState} />
+                    <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
+                      <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
                       <label for="year_0">2020</label>
-                      <input className="is-checkradio is-small" id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState} />
+                      <input className="is-checkradio is-small" id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState}/>
                       <label for="year_1">2021</label>
-                      <input className="is-checkradio is-small" id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState} />
+                      <input className="is-checkradio is-small" id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState}/>
                       <label for="year_2">2022</label>
-                      <input className="is-checkradio is-small" id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState} />
+                      <input className="is-checkradio is-small" id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
                       <label for="year_3">2023</label>
                     </div>
                   </div>
 
-                  <div style={{margin: "0px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", clear: "left", margin: "0px 0px 2px 0px"}}>School</b>
-                    <div className="field" style={{margin: "4px 0px 10px 0px", float: "left"}}>
-                      <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState} />
+                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: "none"}}>
+                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
+                    <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
+                      <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
                       <label for="COL">College</label>
-                      <input className="is-checkradio is-small" id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onClick={this.setCheckBoxState} />
+                      <input className="is-checkradio is-small" id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onClick={this.setCheckBoxState}/>
                       <label for="WH">Wharton</label>
                       <input className="is-checkradio is-small" id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
                       <label for="EAS">SEAS</label>
-                      <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState} />
+                      <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
                       <label for="NUR">Nursing</label>
                     </div>
                   </div>
