@@ -99,7 +99,6 @@ class PostPage extends React.Component {
     this.setCheckBoxState = this.setCheckBoxState.bind(this)
     this.showFilters = this.showFilters.bind(this)
     this.openModal = this.openModal.bind(this)
-    this.afterOpenModal = this.afterOpenModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
   }
 
@@ -504,9 +503,7 @@ class PostPage extends React.Component {
 
     var filters = this.state.filters
     filters[type][id] = checked
-    this.setState({
-      filters: filters
-    })
+    this.setState({filters: filters})
   }
 
   updateDateRange(data) {
@@ -531,30 +528,18 @@ class PostPage extends React.Component {
   
   showFilters() {
     if (!this.state.filters['toggle']['enabled']) {
-      this.yearBoxesRef = "block"
-      this.schoolBoxesRef = "block"
       var filters = this.state.filters
       filters['toggle']['enabled'] = true
-      this.setState({
-        filters: filters
-      })
+      this.setState({filters: filters})
     } else {
-      this.yearBoxesRef = "none"
-      this.schoolBoxesRef = "none"
       var filters = this.state.filters
       filters['toggle']['enabled'] = false
-      this.setState({
-        filters: filters
-      })
+      this.setState({filters: filters})
     }
   }
 
   openModal() {
     this.setState({modalIsOpen: true})
-  }
-
-  afterOpenModal() {
-    this.setState({modalIsOpen: this.state.modalIsOpen})
   }
 
   closeModal() {
@@ -564,19 +549,21 @@ class PostPage extends React.Component {
 
   render() {
     const { crop, croppedImageUrl, src } = this.state;
-    let filterToggleText;
-    let filterToggleColor;
 
     if (this.state.filters['toggle']['enabled']) {
-      this.yearBoxesRef = "block"
-      this.schoolBoxesRef = "block"
-      filterToggleText = "Remove Filters";
-      filterToggleColor = "#a32512";
+      this.showFilterBoxes = "block"
+      this.filterToggleText = "Remove Filters";
+      this.filterToggleColor = "#a32512";
     } else {
-      this.yearBoxesRef = "none"
-      this.schoolBoxesRef = "none"
-      filterToggleText = "Add Filters";
-      filterToggleColor = "#12a340";
+      this.showFilterBoxes = "none"
+      this.filterToggleText = "Add Filters";
+      this.filterToggleColor = "#12a340";
+    }
+
+    if (this.state.imageUrl !== null) {
+      this.showCropButton = "block"
+    } else {
+      this.showCropButton = "none"
     }
 
     return(
@@ -612,17 +599,17 @@ class PostPage extends React.Component {
                           height: 30,
                           boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                           border: "solid 0 #979797",
-                          backgroundColor: filterToggleColor,
+                          backgroundColor: this.filterToggleColor,
                           fontFamily: "HelveticaNeue-Bold",
                           fontWeight: 500,
                           fontSize: 14,
                           color: "#ffffff"
                         }}>
-                          {filterToggleText}
+                          {this.filterToggleText}
                       </button>
                   </div>
 
-                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.yearBoxesRef}}>
+                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.showFilterBoxes}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                     <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
@@ -636,7 +623,7 @@ class PostPage extends React.Component {
                     </div>
                   </div>
 
-                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.yearBoxesRef}}>
+                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.showFilterBoxes}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                     <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
@@ -743,7 +730,7 @@ class PostPage extends React.Component {
                             fontWeight: 500,
                             fontSize: 14,
                             color: "#ffffff",
-                            display: "none"
+                            display: this.showCropButton
                           }}>
                             Crop Image
                         </button>
@@ -752,7 +739,6 @@ class PostPage extends React.Component {
                   
                   <Modal
                     isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     style={this.state.modalStyle}
                     contentLabel="Cropping Modal">
