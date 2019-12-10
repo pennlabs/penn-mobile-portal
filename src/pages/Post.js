@@ -50,6 +50,9 @@ class PostPage extends React.Component {
       status: null,
       seniorClassYear: 2020,
       filters: {
+        toggle: {
+          enabled: false
+        },
         class: {
           year_0: false, // 2020
           year_1: false, // 2021
@@ -61,14 +64,11 @@ class PostPage extends React.Component {
           COL: false,
           EAS: false,
           NUR: false,
-        },
+        }
       },
       filterOptions: null,
       isLive: false,
       isApproved: false,
-      filterToggle: false,
-      filterToggleText: "Add Filters",
-      filterToggleColor: "#12a340",
       modalIsOpen: false,
       modalStyle: {
         content: {
@@ -125,12 +125,14 @@ class PostPage extends React.Component {
         var filters = this.state.filters
         for (var filterObjKey in json.filters) {
           var filterObj = json.filters[filterObjKey]
-          if (filterObj.type !== 'email-only') {
+          if (filterObj.type !== 'email-only' && filterObj.type !== 'toggle') {
             var filterKey = filterObj.filter
             if (filterObj.type === 'class') {
               filterKey = "year_" + (parseInt(filterObj.filter) - this.state.seniorClassYear)
             }
             filters[filterObj.type][filterKey] = true
+          } else if (filterObj.type == 'toggle') {
+            filters['toggle']['enabled'] = filterObj.filter
           }
         }
 
@@ -188,7 +190,11 @@ class PostPage extends React.Component {
         if (!filters.hasOwnProperty(type)) continue
         for (var key in filters[type]) {
           if (!filters[type].hasOwnProperty(key)) continue
-          filters[type][key] = true
+          if (type == 'toggle') {
+            filters[type][key] = filters[type][key]
+          } else {
+            filters[type][key] = true
+          }
         }
       }
     }
@@ -442,7 +448,7 @@ class PostPage extends React.Component {
     })
     .then((response) => {
       if (response.status !== 200) {
-        alert('Something went wrong. Please try again.')
+        alert(`Something went wrong. Please try again. ${response.status}`)
       } else {
         alert('Submitted!')
       }
@@ -524,21 +530,21 @@ class PostPage extends React.Component {
   }
   
   showFilters() {
-    if (this.state.filterToggle == false) {
-      document.getElementById("yearBoxes").style.display = "block"
-      document.getElementById("schoolBoxes").style.display = "block"
+    if (!this.state.filters['toggle']['enabled']) {
+      this.yearBoxesRef = "block"
+      this.schoolBoxesRef = "block"
+      var filters = this.state.filters
+      filters['toggle']['enabled'] = true
       this.setState({
-        filterToggle: true,
-        filterToggleText: "Remove Filters",
-        filterToggleColor: "#a32512"
+        filters: filters
       })
     } else {
-      document.getElementById("yearBoxes").style.display = "none"
-      document.getElementById("schoolBoxes").style.display = "none"
+      this.yearBoxesRef = "none"
+      this.schoolBoxesRef = "none"
+      var filters = this.state.filters
+      filters['toggle']['enabled'] = false
       this.setState({
-        filterToggle: false,
-        filterToggleText: "Add Filters",
-        filterToggleColor: "#12a340"
+        filters: filters
       })
     }
   }
@@ -558,6 +564,20 @@ class PostPage extends React.Component {
 
   render() {
     const { crop, croppedImageUrl, src } = this.state;
+    let filterToggleText;
+    let filterToggleColor;
+
+    if (this.state.filters['toggle']['enabled']) {
+      this.yearBoxesRef = "block"
+      this.schoolBoxesRef = "block"
+      filterToggleText = "Remove Filters";
+      filterToggleColor = "#a32512";
+    } else {
+      this.yearBoxesRef = "none"
+      this.schoolBoxesRef = "none"
+      filterToggleText = "Add Filters";
+      filterToggleColor = "#12a340";
+    }
 
     return(
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
@@ -592,17 +612,17 @@ class PostPage extends React.Component {
                           height: 30,
                           boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                           border: "solid 0 #979797",
-                          backgroundColor: this.state.filterToggleColor,
+                          backgroundColor: filterToggleColor,
                           fontFamily: "HelveticaNeue-Bold",
                           fontWeight: 500,
                           fontSize: 14,
                           color: "#ffffff"
                         }}>
-                          {this.state.filterToggleText}
+                          {filterToggleText}
                       </button>
                   </div>
 
-                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: "none"}}>
+                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.yearBoxesRef}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                     <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
@@ -616,7 +636,7 @@ class PostPage extends React.Component {
                     </div>
                   </div>
 
-                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: "none"}}>
+                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.yearBoxesRef}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                     <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
