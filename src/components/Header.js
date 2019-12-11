@@ -22,8 +22,18 @@ const Header = () => (
         height: 80,
         padding: 20,
         backgroundColor: "#f2f2f2"}}>
-      <div>
-        <p> Put stuff you want on the left in this div!</p>
+      <div
+        className="hero is-flex"
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}>
+          <img src="https://pennlabs.org/static/img/PennMobile.png" alt="Penn Mobile Logo" width="45" height="45"></img>
+          <div
+            style={{padding: 10}}>
+              <p>Penn Mobile Portal</p>
+          </div>
       </div>
       <div>
         <a href="/" className="button">Home</a>
