@@ -50,7 +50,7 @@ class PostPage extends React.Component {
       status: null,
       seniorClassYear: 2020,
       filters: {
-        toggle: {
+        options: {
           enabled: false
         },
         class: {
@@ -124,14 +124,14 @@ class PostPage extends React.Component {
         var filters = this.state.filters
         for (var filterObjKey in json.filters) {
           var filterObj = json.filters[filterObjKey]
-          if (filterObj.type !== 'email-only' && filterObj.type !== 'toggle') {
+          if (filterObj.type !== 'email-only' && filterObj.type !== 'options') {
             var filterKey = filterObj.filter
             if (filterObj.type === 'class') {
               filterKey = "year_" + (parseInt(filterObj.filter) - this.state.seniorClassYear)
             }
             filters[filterObj.type][filterKey] = true
-          } else if (filterObj.type == 'toggle') {
-            filters['toggle']['enabled'] = filterObj.filter
+          } else if (filterObj.type == 'options') {
+            filters.options.enabled = filterObj.filter
           }
         }
 
@@ -189,7 +189,7 @@ class PostPage extends React.Component {
         if (!filters.hasOwnProperty(type)) continue
         for (var key in filters[type]) {
           if (!filters[type].hasOwnProperty(key)) continue
-          if (type == 'toggle') {
+          if (type == 'options') {
             filters[type][key] = filters[type][key]
           } else {
             filters[type][key] = true
@@ -527,15 +527,9 @@ class PostPage extends React.Component {
   }
   
   showFilters() {
-    if (!this.state.filters['toggle']['enabled']) {
-      var filters = this.state.filters
-      filters['toggle']['enabled'] = true
-      this.setState({filters: filters})
-    } else {
-      var filters = this.state.filters
-      filters['toggle']['enabled'] = false
-      this.setState({filters: filters})
-    }
+    var filters = this.state.filters
+    filters.options.enabled = !filters.options.enabled
+    this.setState({filters: filters})
   }
 
   openModal() {
@@ -549,22 +543,6 @@ class PostPage extends React.Component {
 
   render() {
     const { crop, croppedImageUrl, src } = this.state;
-
-    if (this.state.filters['toggle']['enabled']) {
-      this.showFilterBoxes = "block"
-      this.filterToggleText = "Remove Filters";
-      this.filterToggleColor = "#a32512";
-    } else {
-      this.showFilterBoxes = "none"
-      this.filterToggleText = "Add Filters";
-      this.filterToggleColor = "#12a340";
-    }
-
-    if (this.state.imageUrl !== null) {
-      this.showCropButton = "block"
-    } else {
-      this.showCropButton = "none"
-    }
 
     return(
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
@@ -599,17 +577,17 @@ class PostPage extends React.Component {
                           height: 30,
                           boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                           border: "solid 0 #979797",
-                          backgroundColor: this.filterToggleColor,
+                          backgroundColor: this.state.filters.options.enabled ? "#a32512" : "#12a340",
                           fontFamily: "HelveticaNeue-Bold",
                           fontWeight: 500,
                           fontSize: 14,
                           color: "#ffffff"
                         }}>
-                          {this.filterToggleText}
+                          {this.state.filters.options.enabled ? "Remove Filters" : "Add Filters"}
                       </button>
                   </div>
 
-                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.showFilterBoxes}}>
+                  <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                     <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
@@ -623,7 +601,7 @@ class PostPage extends React.Component {
                     </div>
                   </div>
 
-                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.showFilterBoxes}}>
+                  <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
                     <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                     <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
@@ -730,7 +708,7 @@ class PostPage extends React.Component {
                             fontWeight: 500,
                             fontSize: 14,
                             color: "#ffffff",
-                            display: this.showCropButton
+                            display: this.state.imageUrl ? "block" : "none"
                           }}>
                             Crop Image
                         </button>

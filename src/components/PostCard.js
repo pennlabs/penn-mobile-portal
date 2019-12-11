@@ -25,7 +25,7 @@ class PostCard extends React.Component {
           <div className="column is-one-quarter">
             <div className="columns is-vcentered is-mobile" style={{padding: "0px 20px"}}>
               <div className="column is-flex" style={{alignItems: "center"}}>
-                <img src={props.imageUrl} style={{width: "142px", height: "79px"} /*props.imageUrlCropped ?*/}/>
+                <img src={props.imageUrl} style={{width: "144px", height: "72px"} /*props.imageUrlCropped ?*/}/>
               </div>
               <div className="column has-text-centered">
                 <p className="is-size-5-desktop is-size-7-mobile" style={styles.smallPostText}>{props.name}</p>
