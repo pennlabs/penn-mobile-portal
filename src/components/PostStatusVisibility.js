@@ -4,6 +4,7 @@ class PostStatusVisibility extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      isSubmitted: false,
       isLive: false,
     }
 
@@ -45,7 +46,7 @@ class PostStatusVisibility extends React.Component {
           </div>
           <div className="column has-text-centered">
             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "16px", textAlign: "center", color: "rgba(0, 0, 0, 0.4)"}}>
-              Not<span style={{display: "block"}}>Submitted</span>
+              <span style={{display: (this.state.isSubmitted ? "none" : "block")}}>Not</span><span style={{display: "block"}}>Submitted</span>
             </b>
           </div>
         </div>

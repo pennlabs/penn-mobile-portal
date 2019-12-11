@@ -10,6 +10,7 @@ import PostAnalytics from '../models/PostAnalytics.js'
 import '../App.sass';
 
 const fetch = require("node-fetch");
+const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
 
@@ -22,7 +23,7 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    var accountID = window.sessionStorage.getItem('accountID')
     if (accountID) {
       let url;
       if (dev) {
@@ -30,7 +31,7 @@ class Home extends React.Component {
       } else {
         url = 'https://api.pennlabs.org/portal/posts?account='
       }
-      fetch(url + accountID) //https://api.pennlabs.org/portal/posts?account= localhost:5000/portal/posts?account=
+      fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
         var jsonArray = json.posts
@@ -63,6 +64,12 @@ class Home extends React.Component {
   }
 
   render() {
+    if (!window.sessionStorage.getItem('accountID')) {
+      return (
+        <Redirect to="/login" />
+      )
+    }
+
     var postCards = this.state.posts.map(function(post) {
       return (
         <a href={"post?id=" + post.id}>
