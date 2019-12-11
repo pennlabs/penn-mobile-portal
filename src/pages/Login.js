@@ -27,7 +27,10 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-        window.sessionStorage.removeItem('logout')
+        if (window.sessionStorage.getItem('logout')) {
+            Cookies.remove('accountID')
+            window.sessionStorage.removeItem('logout')
+        }
     }
 
     updateInput(event) {
