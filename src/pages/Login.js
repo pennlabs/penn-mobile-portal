@@ -5,6 +5,7 @@ import Footer from '../components/Footer'
 import '../App.sass';
 
 const fetch = require("node-fetch");
+const Cookies = require("js-cookie");
 const URLSearchParams = require("url-search-params");
 const Redirect = require("react-router-dom").Redirect;
 
@@ -16,12 +17,17 @@ class Login extends React.Component {
         name: null,
         email: null,
         password: null,
-        accountId: null
+        accountId: null,
+        shouldRedirect: false
       }
 
       this.updateInput = this.updateInput.bind(this)
       this.onSubmit = this.onSubmit.bind(this)
       this.swapMode = this.swapMode.bind(this)
+    }
+
+    componentDidMount() {
+        window.sessionStorage.removeItem('logout')
     }
 
     updateInput(event) {
@@ -65,10 +71,10 @@ class Login extends React.Component {
                 alert(json.msg)
             } else if (json.account_id) {
                 this.setState({accountId: json.account_id})
-                window.sessionStorage.setItem('accountID', json.account_id)
+                Cookies.set('accountID', json.account_id)
                 var message = (this.state.newAccount ? "Registration successful." : "Login successful.")
                 alert(message)
-                window.location.replace('/')
+                this.setState({shouldRedirect: true})
             }
         })
         .catch((error) => {
@@ -83,7 +89,7 @@ class Login extends React.Component {
     }
   
     render() {
-        if (window.sessionStorage.getItem('accountID')) {
+        if (!window.sessionStorage.getItem('logout') && (Cookies.get('accountID') || this.state.shouldRedirect)) {
             return (
                 <Redirect to="/" />
             )

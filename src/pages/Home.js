@@ -10,6 +10,7 @@ import PostAnalytics from '../models/PostAnalytics.js'
 import '../App.sass';
 
 const fetch = require("node-fetch");
+const Cookies = require("js-cookie");
 const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
@@ -23,7 +24,7 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = window.sessionStorage.getItem('accountID')
+    var accountID = Cookies.get('accountID')
     if (accountID) {
       let url;
       if (dev) {
@@ -64,7 +65,7 @@ class Home extends React.Component {
   }
 
   render() {
-    if (!window.sessionStorage.getItem('accountID')) {
+    if (!Cookies.get('accountID')) {
       return (
         <Redirect to="/login" />
       )

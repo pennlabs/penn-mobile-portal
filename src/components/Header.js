@@ -4,7 +4,7 @@ const Header = () => (
   <div>
     <head>
       <title>Penn Mobile Portal</title>
-      <meta charset="utf-8" />
+      <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"/>
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"  v />
@@ -38,6 +38,7 @@ const Header = () => (
       <div>
         <a href="/" className="button">Home</a>
         <a href="/post" className="button">New Post +</a>
+        <a href="/login" className="button" onClick={window.sessionStorage.setItem('logout', true)}>Logout</a>
       </div>
     </div>
   </div>

@@ -22,6 +22,7 @@ import Modal from 'react-modal';
 const fetch = require("node-fetch");
 const FormData = require("form-data");
 const queryString = require('query-string');
+const Cookies = require("js-cookie");
 const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
@@ -105,7 +106,7 @@ class PostPage extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = window.sessionStorage.getItem('accountID')
+    var accountID = Cookies.get('accountID')
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
@@ -294,7 +295,7 @@ class PostPage extends React.Component {
 
   saveFile(event) {
     const file = event.target.files[0];
-    const accountID = window.sessionStorage.getItem('accountID')
+    const accountID = Cookies.get('accountID')
     const formData = new FormData();
     formData.append('image', file);
     formData.append('account', accountID);
@@ -328,7 +329,7 @@ class PostPage extends React.Component {
   }
 
   saveFileCropped(file, fileName) {
-    const accountID = window.sessionStorage.getItem('accountID')
+    const accountID = Cookies.get('accountID')
     const formData = new FormData();
     formData.append('image', file, fileName);
     formData.append('account', accountID);
@@ -417,7 +418,7 @@ class PostPage extends React.Component {
       })
     }
 
-    var accountID = window.sessionStorage.getItem('accountID')
+    var accountID = Cookies.get('accountID')
     let url;
     if (dev) {
       url = 'localhost:5000/portal/post'
@@ -544,7 +545,7 @@ class PostPage extends React.Component {
 
 
   render() {
-    if (!window.sessionStorage.getItem('accountID')) {
+    if (!Cookies.get('accountID')) {
       return (
         <Redirect to="/login" />
       )
