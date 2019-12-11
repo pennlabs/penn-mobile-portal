@@ -71,26 +71,32 @@ class Home extends React.Component {
       )
     }
 
-    var postCards = this.state.posts.map(function(post) {
-      return (
-        <a href={"post?id=" + post.id}>
-          <PostCard
-            id={post.id}
-            name={post.name}
-            imageUrl={post.imageUrlCropped}//
-            analytics={post.analytics}
-            publishDate={post.publishDate}
-            status={post.status}
-            />
-        </a>
-      )
-    })
+    if (this.state.posts.length === 0) {
+      var postCards = 'No posts found'
+    } else {
+      var postCards = this.state.posts.map(function(post) {
+        return (
+          <a href={"post?id=" + post.id}>
+            <PostCard
+              id={post.id}
+              name={post.name}
+              imageUrl={post.imageUrlCropped}//
+              analytics={post.analytics}
+              publishDate={post.publishDate}
+              status={post.status}
+              />
+          </a>
+        )
+      })
+    }
     return(
       <div>
         <Header />
         <div className="card" style={{ padding: 20, borderRadius: 5}}>
           <ListLabels/>
-          {postCards}
+          <div style={{margin: "25px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+            <center>{postCards}</center>
+          </div>
         </div>
         <Footer />
       </div>
