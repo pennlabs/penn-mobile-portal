@@ -281,7 +281,7 @@ class PostPage extends React.Component {
     );
 
     return new Promise((resolve, reject) => {
-      document.getElementById('buttonCrop').onclick = () => {    
+      document.getElementById('buttonCrop').onclick = () => {
         canvas.toBlob((blob) => {
           if (!blob) {
             console.error("Canvas is empty");

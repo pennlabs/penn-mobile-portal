@@ -26,13 +26,6 @@ class Login extends React.Component {
       this.swapMode = this.swapMode.bind(this)
     }
 
-    componentDidMount() {
-        if (window.sessionStorage.getItem('logout')) {
-            Cookies.remove('accountID')
-            window.sessionStorage.removeItem('logout')
-        }
-    }
-
     updateInput(event) {
         const name = event.target.name
         this.setState({[name] : event.target.value})
@@ -92,7 +85,7 @@ class Login extends React.Component {
     }
   
     render() {
-        if (!window.sessionStorage.getItem('logout') && (Cookies.get('accountID') || this.state.shouldRedirect)) {
+        if (Cookies.get('accountID') || this.state.shouldRedirect) {
             return (
                 <Redirect to="/" />
             )
@@ -115,10 +108,10 @@ class Login extends React.Component {
                                         
                                         <div style={{margin: "20px 80px 0px 80px"}}>
                                             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px", display: (this.state.newAccount ? "block" : "none")}}>Organization Name</b>
-                                            <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none")}} placeholder="Penn Labs" maxlength="30" />
+                                            <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none")}} placeholder="Ex: Penn Labs" maxlength="30" />
 
                                             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>{this.state.newAccount ? "Contact Email" : "Email"}</b>
-                                            <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{display: "block"}} placeholder={this.state.newAccount ? "contact@pennlabs.org" : ""} />
+                                            <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{display: "block"}} placeholder={this.state.newAccount ? "Ex: contact@pennlabs.org" : ""} />
 
                                             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>Password</b>
                                             <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{display: "block"}} />

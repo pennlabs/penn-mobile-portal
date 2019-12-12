@@ -64,6 +64,7 @@ class Home extends React.Component {
     }
   }
 
+
   render() {
     if (!Cookies.get('accountID')) {
       return (

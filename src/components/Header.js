@@ -1,5 +1,7 @@
 import React from 'react'
 
+const Cookies = require("js-cookie");
+
 const Header = () => (
   <div>
     <head>
@@ -38,7 +40,7 @@ const Header = () => (
       <div>
         <a href="/" className="button">Home</a>
         <a href="/post" className="button">New Post +</a>
-        <a href="/login" className="button" onClick={window.sessionStorage.setItem('logout', true)}>Logout</a>
+        <a href="/login" className="button" onClick={() => {Cookies.remove('accountID')}}>Logout</a>
       </div>
     </div>
   </div>
