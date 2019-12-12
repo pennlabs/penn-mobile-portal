@@ -110,12 +110,7 @@ class PostPage extends React.Component {
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
-      let url;
-      if (dev) {
-        url = 'localhost:5000/portal/post/'
-      } else {
-        url = 'https://api.pennlabs.org/portal/post/'
-      }
+      var url = dev ? 'localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
       fetch(url + id + '?account=' + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -152,6 +147,7 @@ class PostPage extends React.Component {
           filters: filters,
           startDate: new Date(startDateStr),
           endDate: new Date(endDateStr),
+          status: json.status
         })
         this.setupDatePicker()
         bulmaTagsInput.attach()
@@ -299,14 +295,8 @@ class PostPage extends React.Component {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('account', accountID);
-    formData.append('post_id', this.state.id);
     this.loadFileCrop(file)
-    let url;
-    if (dev) {
-      url = 'localhost:5000/portal/post/image'
-    } else {
-      url = 'https://api.pennlabs.org/portal/post/image'
-    }
+    var url = dev ? 'localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
     fetch(url, {
         method: 'POST',
         body: formData
@@ -333,12 +323,7 @@ class PostPage extends React.Component {
     const formData = new FormData();
     formData.append('image', file, fileName);
     formData.append('account', accountID);
-    let url;
-    if (dev) {
-      url = 'localhost:5000/portal/post/image'
-    } else {
-      url = 'https://api.pennlabs.org/portal/post/image'
-    }
+    var url = dev ? 'localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
     fetch(url, {
         method: 'POST',
         body: formData
@@ -361,9 +346,6 @@ class PostPage extends React.Component {
       return
     } else if (!this.state.imageUrl) {
       alert("Please select an image.")
-      return
-    } else if (!this.state.imageUrlCropped) {
-      alert("Please crop your image.")
       return
     } else if (!this.state.startDate || !this.state.endDate) {
       alert("Please select a start and end date.")
@@ -419,12 +401,7 @@ class PostPage extends React.Component {
     }
 
     var accountID = Cookies.get('accountID')
-    let url;
-    if (dev) {
-      url = 'localhost:5000/portal/post'
-    } else {
-      url = 'https://api.pennlabs.org/portal/post'
-    }
+    var url = dev ? 'localhost:5000/portal/post' : 'https://api.pennlabs.org/portal/post'
     fetch(url + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
       headers: {
@@ -565,7 +542,7 @@ class PostPage extends React.Component {
 
                 <div className="column has-text-centered">
                   <NewPostLabel text="Current Status" single={true} />
-                  <PostStatusVisibility isApproved={this.state.isApproved} notifyChange={this.setState}/>
+                  <PostStatusVisibility isApproved={this.state.isApproved} postStatus={this.state.status} notifyChange={this.setState}/>
                   <div style={{height: 20}} />
 
                   <div style={{height: 20}} />

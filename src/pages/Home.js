@@ -26,12 +26,7 @@ class Home extends React.Component {
   componentWillMount() {
     var accountID = Cookies.get('accountID')
     if (accountID) {
-      let url;
-      if (dev) {
-        url = 'localhost:5000/portal/posts?account='
-      } else {
-        url = 'https://api.pennlabs.org/portal/posts?account='
-      }
+      var url = dev ? 'localhost:5000/portal/posts?account=' : 'https://api.pennlabs.org/portal/posts?account='
       fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
