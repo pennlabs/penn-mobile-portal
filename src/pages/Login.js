@@ -115,7 +115,7 @@ class Login extends React.Component {
                                         
                                         <div style={{margin: "20px 80px 0px 80px"}}>
                                             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px", display: (this.state.newAccount ? "block" : "none")}}>Organization Name</b>
-                                            <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none")}} placeholder="Penn Labs" />
+                                            <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none")}} placeholder="Penn Labs" maxlength="30" />
 
                                             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>{this.state.newAccount ? "Contact Email" : "Email"}</b>
                                             <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{display: "block"}} placeholder={this.state.newAccount ? "contact@pennlabs.org" : ""} />
