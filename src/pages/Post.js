@@ -22,6 +22,8 @@ import Modal from 'react-modal';
 const fetch = require("node-fetch");
 const FormData = require("form-data");
 const queryString = require('query-string');
+const Cookies = require("js-cookie");
+const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
 
@@ -69,6 +71,7 @@ class PostPage extends React.Component {
       filterOptions: null,
       isLive: false,
       isApproved: false,
+      isSubmitted: false,
       modalIsOpen: false,
       modalStyle: {
         content: {
@@ -103,7 +106,7 @@ class PostPage extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    var accountID = Cookies.get('accountID')
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
@@ -278,7 +281,7 @@ class PostPage extends React.Component {
     );
 
     return new Promise((resolve, reject) => {
-      document.getElementById('buttonCrop').onclick = () => {    
+      document.getElementById('buttonCrop').onclick = () => {
         canvas.toBlob((blob) => {
           if (!blob) {
             console.error("Canvas is empty");
@@ -292,7 +295,7 @@ class PostPage extends React.Component {
 
   saveFile(event) {
     const file = event.target.files[0];
-    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    const accountID = Cookies.get('accountID')
     const formData = new FormData();
     formData.append('image', file);
     formData.append('account', accountID);
@@ -326,7 +329,7 @@ class PostPage extends React.Component {
   }
 
   saveFileCropped(file, fileName) {
-    const accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    const accountID = Cookies.get('accountID')
     const formData = new FormData();
     formData.append('image', file, fileName);
     formData.append('account', accountID);
@@ -415,7 +418,7 @@ class PostPage extends React.Component {
       })
     }
 
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    var accountID = Cookies.get('accountID')
     let url;
     if (dev) {
       url = 'localhost:5000/portal/post'
@@ -542,6 +545,13 @@ class PostPage extends React.Component {
 
 
   render() {
+    if (!Cookies.get('accountID')) {
+      return (
+        <Redirect to="/login" />
+      )
+    }
+
+
     const { crop, croppedImageUrl, src } = this.state;
 
     return(

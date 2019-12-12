@@ -10,6 +10,8 @@ import PostAnalytics from '../models/PostAnalytics.js'
 import '../App.sass';
 
 const fetch = require("node-fetch");
+const Cookies = require("js-cookie");
+const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
 
@@ -22,7 +24,7 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    var accountID = '7900fffd-0223-4381-a61d-9a16a24ca4b7' // 7900fffd-0223-4381-a61d-9a16a24ca4b7
+    var accountID = Cookies.get('accountID')
     if (accountID) {
       let url;
       if (dev) {
@@ -30,7 +32,7 @@ class Home extends React.Component {
       } else {
         url = 'https://api.pennlabs.org/portal/posts?account='
       }
-      fetch(url + accountID) //https://api.pennlabs.org/portal/posts?account= localhost:5000/portal/posts?account=
+      fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
         var jsonArray = json.posts
@@ -62,27 +64,40 @@ class Home extends React.Component {
     }
   }
 
+
   render() {
-    var postCards = this.state.posts.map(function(post) {
+    if (!Cookies.get('accountID')) {
       return (
-        <a href={"post?id=" + post.id}>
-          <PostCard
-            id={post.id}
-            name={post.name}
-            imageUrl={post.imageUrlCropped}//
-            analytics={post.analytics}
-            publishDate={post.publishDate}
-            status={post.status}
-            />
-        </a>
+        <Redirect to="/login" />
       )
-    })
+    }
+
+    if (this.state.posts.length === 0) {
+      var postCards = 'No posts found'
+    } else {
+      var postCards = this.state.posts.map(function(post) {
+        return (
+          <a href={"post?id=" + post.id}>
+            <PostCard
+              id={post.id}
+              name={post.name}
+              imageUrl={post.imageUrlCropped}//
+              analytics={post.analytics}
+              publishDate={post.publishDate}
+              status={post.status}
+              />
+          </a>
+        )
+      })
+    }
     return(
       <div>
         <Header />
         <div className="card" style={{ padding: 20, borderRadius: 5}}>
           <ListLabels/>
-          {postCards}
+          <div style={{margin: "25px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+            <center>{postCards}</center>
+          </div>
         </div>
         <Footer />
       </div>
