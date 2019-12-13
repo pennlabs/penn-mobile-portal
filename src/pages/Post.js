@@ -49,7 +49,7 @@ class PostPage extends React.Component {
       comments: null,
       startDate: null,
       endDate: null,
-      status: null,
+      status: 'Not Submitted',
       seniorClassYear: 2020,
       filters: {
         options: {

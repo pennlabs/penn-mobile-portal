@@ -86,12 +86,14 @@ class Home extends React.Component {
       })
     }
     return(
-      <div>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
         <Header />
-        <div className="card" style={{ padding: 20, borderRadius: 5}}>
-          <ListLabels/>
-          <div style={{margin: "25px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
-            <center>{postCards}</center>
+        <div style={{flex: 1}}>
+          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh'}}>
+            <ListLabels/>
+            <div style={{margin: "25px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+              <center>{postCards}</center>
+            </div>
           </div>
         </div>
         <Footer />
