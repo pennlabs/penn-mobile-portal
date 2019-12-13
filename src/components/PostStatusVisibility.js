@@ -1,11 +1,10 @@
 import React from 'react'
 
 class PostStatusVisibility extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      isSubmitted: false,
-      isLive: false,
+      isLive: false
     }
 
     this.setOffline = this.setOffline.bind(this)
@@ -38,7 +37,8 @@ class PostStatusVisibility extends React.Component {
         </div>
       )
     }
-    return(
+
+    return (
       <div>
         <div className="columns is-mobile is-vcentered" style={{margin: "10px 12px 0px 12px", height: 50}}>
           <div className="column is-one-third">
@@ -46,7 +46,7 @@ class PostStatusVisibility extends React.Component {
           </div>
           <div className="column has-text-centered">
             <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "16px", textAlign: "center", color: "rgba(0, 0, 0, 0.4)"}}>
-              <span style={{display: (this.state.isSubmitted ? "none" : "block")}}>Not</span><span style={{display: "block"}}>Submitted</span>
+              {this.props.postStatus}
             </b>
           </div>
         </div>
