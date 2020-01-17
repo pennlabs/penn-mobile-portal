@@ -4,11 +4,7 @@ image_tag: latest
 applications:
   - name: react
     image: pennlabs/penn-mobile-portal
-    secret: example
     ingress:
       hosts:
         - host: portal.pennmobile.org
           paths: ["/"]
-    extraEnv:
-      - name: PORT
-        value: 80
