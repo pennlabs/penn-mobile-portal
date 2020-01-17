@@ -3,15 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bulma": "^0.7.5",
+    "bulma-calendar": "^6.0.7",
+    "bulma-checkradio": "^1.1.1",
+    "bulma-tagsinput": "^2.0.0",
+    "form-data": "^2.5.1",
     "js-cookie": "^2.2.1",
     "node-fetch": "^2.6.0",
+    "node-sass": "^4.13.1",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-image-crop": "^8.5.0",
     "react-modal": "^3.11.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.3.0",
     "url-search-params": "^1.1.0"
   },
   "scripts": {
@@ -36,12 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "bulma": "^0.7.5",
-    "bulma-calendar": "^6.0.7",
-    "bulma-checkradio": "^1.1.1",
-    "bulma-tagsinput": "^2.0.0",
-    "form-data": "^2.5.1",
-    "node-sass": "^4.13.1"
-  }
+  "devDependencies": {}
 }
