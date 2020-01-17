@@ -48,6 +48,7 @@ class Home extends React.Component {
         jsonArray.forEach(function (postJSON) {
           var id = postJSON.id
           var name = postJSON.title
+          var org = postJSON.organization
           var url = postJSON.image_url
           var url_cropped = postJSON.image_url_cropped
           var dateStr = postJSON.start_date
@@ -60,7 +61,7 @@ class Home extends React.Component {
           if (impr && uniqueImpr && interactions) {
             analytics = new PostAnalytics(impr, uniqueImpr, interactions)
           }
-          var post = new Post(id, name, url, url_cropped, date, status, analytics)
+          var post = new Post(id, name, url, url_cropped, date, status, analytics, org)
           posts.push(post)
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)

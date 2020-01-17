@@ -12,7 +12,7 @@ const fetch = require("node-fetch");
 const Cookies = require("js-cookie");
 const Redirect = require("react-router-dom").Redirect;
 
-const dev = true;
+const dev = false;
 
 class Admin extends React.Component {
   constructor(props) {
@@ -59,7 +59,8 @@ class Admin extends React.Component {
           var dateStr = postJSON.start_date
           var date = new Date(dateStr)
           var status = postJSON.status
-          var post = new Post(id, name, url, url_cropped, date, status, org)
+          var analytics = null
+          var post = new Post(id, name, url, url_cropped, date, status, analytics, org)
           posts.push(post)
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
