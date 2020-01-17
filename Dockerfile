@@ -1,6 +1,4 @@
-FROM node:10-buster
-
-LABEL maintainer="Penn Labs"
+FROM node:10-buster as build
 
 WORKDIR /app/
 
@@ -16,4 +14,11 @@ COPY . /app/
 # Build project
 RUN npm run build
 
-CMD ["npm", "start"]
+
+FROM nginx:1.17.7
+
+LABEL maintainer="Penn Labs"
+
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build /app/build/ /usr/share/nginx/html
