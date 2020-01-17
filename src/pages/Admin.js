@@ -1,11 +1,10 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import PostCard from '../components/PostCard'
-import ListLabels from '../components/ListLabels'
+import AdminPostCard from '../components/AdminPostCard'
+import AdminListLabels from '../components/AdminListLabels'
 
 import Post from '../models/Post.js'
-import PostAnalytics from '../models/PostAnalytics.js'
 
 import '../App.sass';
 
@@ -13,10 +12,10 @@ const fetch = require("node-fetch");
 const Cookies = require("js-cookie");
 const Redirect = require("react-router-dom").Redirect;
 
-const dev = false;
+const dev = true;
 
-class Home extends React.Component {
-  constructor(props){
+class Admin extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
       posts: [],
@@ -32,6 +31,12 @@ class Home extends React.Component {
       .then((response) => response.json())
       .then((json) => {
         this.setState({isAdmin: json.account.is_admin})
+
+        if (!this.state.isAdmin) {
+          return (
+            <Redirect to="/" />
+          )
+        }
       })
       .catch((error) => {
         console.log('Unable to fetch account inforation with error message:' + error.message)
@@ -39,7 +44,7 @@ class Home extends React.Component {
     }
 
     if (accountID) {
-      var url = dev ? 'http://localhost:5000/portal/posts?account=' : 'https://api.pennlabs.org/portal/posts?account='
+      var url = dev ? 'http://localhost:5000/portal/posts/all?account=' : 'https://api.pennlabs.org/portal/posts/all?account='
       fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -48,19 +53,13 @@ class Home extends React.Component {
         jsonArray.forEach(function (postJSON) {
           var id = postJSON.id
           var name = postJSON.title
+          var org = postJSON.organization
           var url = postJSON.image_url
           var url_cropped = postJSON.image_url_cropped
           var dateStr = postJSON.start_date
           var date = new Date(dateStr)
           var status = postJSON.status
-          var impr = postJSON.impressions
-          var uniqueImpr = postJSON.unique_impressions
-          var interactions = postJSON.interactions
-          var analytics = null
-          if (impr && uniqueImpr && interactions) {
-            analytics = new PostAnalytics(impr, uniqueImpr, interactions)
-          }
-          var post = new Post(id, name, url, url_cropped, date, status, analytics)
+          var post = new Post(id, name, url, url_cropped, date, status, org)
           posts.push(post)
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
@@ -81,16 +80,16 @@ class Home extends React.Component {
     }
 
     if (this.state.posts.length === 0) {
-      var postCards = 'No posts found'
+      var postCards = 'Loading posts...'
     } else {
       var postCards = this.state.posts.map(function(post) {
         return (
           <a href={"post?id=" + post.id}>
-            <PostCard
+            <AdminPostCard
               id={post.id}
               name={post.name}
               imageUrl={post.imageUrlCropped}
-              analytics={post.analytics}
+              organization={post.organization}
               publishDate={post.publishDate}
               status={post.status}
               />
@@ -99,12 +98,12 @@ class Home extends React.Component {
       })
     }
 
-    return(
+    return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
         <Header isAdmin={this.state.isAdmin}/>
         <div style={{flex: 1}}>
           <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh'}}>
-            <ListLabels/>
+            <AdminListLabels />
             <div style={{margin: "25px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
               <center>{postCards}</center>
             </div>
@@ -116,4 +115,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home
+export default Admin

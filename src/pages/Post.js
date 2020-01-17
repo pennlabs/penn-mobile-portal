@@ -34,6 +34,7 @@ class PostPage extends React.Component {
       id: null,
       title: null,
       subtitle: null,
+      organization: null,
       imageFileName: null,
       imageCroppedFileName: null,
       imageUrl: null,
@@ -82,7 +83,9 @@ class PostPage extends React.Component {
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)'
         }
-      }
+      },
+      isAdmin: false,
+      accountName: null
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -107,10 +110,25 @@ class PostPage extends React.Component {
 
   componentWillMount() {
     var accountID = Cookies.get('accountID')
+    if (accountID) {
+      var url = dev ? 'http://localhost:5000/portal/account?account_id=' : 'https://api.pennlabs.org/portal/account?account_id='
+      fetch(url + accountID)
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          isAdmin: json.account.is_admin,
+          accountName: json.account.name
+        })
+      })
+      .catch((error) => {
+        console.log('Unable to fetch account inforation with error message:' + error.message)
+      })
+    }
+
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
-      var url = dev ? 'localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
+      var url = dev ? 'http://localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
       fetch(url + id + '?account=' + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -137,6 +155,7 @@ class PostPage extends React.Component {
           id: id,
           title: json.title,
           subtitle: json.subtitle,
+          organization: json.organization,
           imageUrl: json.image_url,
           imageUrlCropped: json.image_url_cropped,
           imageFileName: this.getImageNameFromUrl(json.image_url),
@@ -296,7 +315,7 @@ class PostPage extends React.Component {
     formData.append('image', file);
     formData.append('account', accountID);
     this.loadFileCrop(file)
-    var url = dev ? 'localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
+    var url = dev ? 'http://localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
     fetch(url, {
         method: 'POST',
         body: formData
@@ -323,7 +342,7 @@ class PostPage extends React.Component {
     const formData = new FormData();
     formData.append('image', file, fileName);
     formData.append('account', accountID);
-    var url = dev ? 'localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
+    var url = dev ? 'http://localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
     fetch(url, {
         method: 'POST',
         body: formData
@@ -339,7 +358,7 @@ class PostPage extends React.Component {
       alert(`Something went wrong. Please try again. ${error}`)
     })
   }
-
+  
   onSubmit() {
     if (!this.state.title) {
       alert("Please include a title.")
@@ -401,7 +420,7 @@ class PostPage extends React.Component {
     }
 
     var accountID = Cookies.get('accountID')
-    var url = dev ? 'localhost:5000/portal/post' : 'https://api.pennlabs.org/portal/post'
+    var url = dev ? 'http://localhost:5000/portal/post' : 'https://api.pennlabs.org/portal/post'
     fetch(url + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
       headers: {
@@ -531,9 +550,9 @@ class PostPage extends React.Component {
 
     const { crop, croppedImageUrl, src } = this.state;
 
-    return(
+    return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
-        <Header />
+        <Header isAdmin={this.state.isAdmin}/>
         <div className="columns is-mobile" style={{display: 'flex', flex: 1}}>
 
           <div className="column is-one-third has-text-centered">
@@ -759,7 +778,7 @@ class PostPage extends React.Component {
                     imageUrl={this.state.imageUrlCropped}
                     title={this.state.title}
                     subtitle={this.state.subtitle}
-                    source={'Penn Labs'}
+                    source={this.state.accountName}
                     detailLabel={this.state.detailLabel} />
                 </div>
 
