@@ -56,11 +56,13 @@ class Admin extends React.Component {
           var org = postJSON.organization
           var url = postJSON.image_url
           var url_cropped = postJSON.image_url_cropped
-          var dateStr = postJSON.start_date
-          var date = new Date(dateStr)
+          var startDateStr = postJSON.start_date
+          var startDate = new Date(startDateStr)
+          var endDateStr = postJSON.end_date
+          var endDate = new Date(endDateStr)
           var status = postJSON.status
           var analytics = null
-          var post = new Post(id, name, url, url_cropped, date, status, analytics, org)
+          var post = new Post(id, name, url, url_cropped, startDate, status, analytics, org, endDate)
           posts.push(post)
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
@@ -92,6 +94,7 @@ class Admin extends React.Component {
               imageUrl={post.imageUrlCropped}
               organization={post.organization}
               publishDate={post.publishDate}
+              endDate={post.endDate}
               status={post.status}
               />
           </a>

@@ -1,5 +1,5 @@
 class Post {
-  constructor(id, name, imageUrl, imageUrlCropped, publishDate, status, analytics, org) {
+  constructor(id, name, imageUrl, imageUrlCropped, publishDate, status, analytics, org, endDate) {
     this.id = id;
     this.name = name;
     this.imageUrl = imageUrl;
@@ -8,6 +8,7 @@ class Post {
     this.status = status;
     this.analytics = analytics;
     this.organization = org;
+    this.endDate = endDate;
   }
 }
 

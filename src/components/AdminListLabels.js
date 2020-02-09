@@ -14,17 +14,17 @@ const AdminListLabels = () => (
     </div>
     <div className="column has-text-centered">
       <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
-      Unique Impressions
-      </b>
-    </div>
-    <div className="column has-text-centered">
-      <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
-      Interactions
-      </b>
-    </div>
-    <div className="column has-text-centered">
-      <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
       Start Date
+      </b>
+    </div>
+    <div className="column has-text-centered">
+      <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
+      End Date
+      </b>
+    </div>
+    <div className="column has-text-centered">
+      <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "18px"}}>
+      Flags
       </b>
     </div>
     <div className="column has-text-centered">

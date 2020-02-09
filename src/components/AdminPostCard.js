@@ -29,23 +29,27 @@ class AdminPostCard extends React.Component {
             </div>
           </div>
           <div className="column has-text-centered">
-            <p style={styles.smallPostText}>{props.organization}</p>
+            <p className="is-size-5-desktop is-size-7-mobile" style={styles.smallPostText}>{props.organization}</p>
           </div>
           <div className="column has-text-centered">
-            <p style={styles.smallPostText}>{props.organization}</p>
-          </div>
-          <div className="column has-text-centered">
-            <p style={styles.smallPostText}>{props.organization}</p>
-          </div>
-          <div className="column has-text-centered">
-            <p style={styles.largePostText}>
+            <p className="is-size-5-desktop is-size-7-mobile" style={styles.smallPostText}>
               {(props.publishDate.getMonth() + 1) + "."
               + props.publishDate.getDate() + "."
               + (props.publishDate.getFullYear() % 2000)}
             </p>
           </div>
           <div className="column has-text-centered">
-            <p style={styles.smallPostText}>{props.status}</p>
+            <p className="is-size-5-desktop is-size-7-mobile" style={styles.smallPostText}>
+              {(props.endDate.getMonth() + 1) + "."
+              + props.endDate.getDate() + "."
+              + (props.endDate.getFullYear() % 2000)}
+            </p>
+          </div>
+          <div className="column has-text-centered">
+            <p className="is-size-5-desktop is-size-7-mobile" style={styles.smallPostText}>{props.organization}</p>
+          </div>
+          <div className="column has-text-centered">
+            <p className="is-size-5-desktop is-size-7-mobile" style={styles.smallPostText}>{props.status}</p>
           </div>
         </div>
       </div>
