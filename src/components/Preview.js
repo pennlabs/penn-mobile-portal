@@ -3,6 +3,10 @@ import React from 'react'
 class Preview extends React.Component {
 
   render() {
+    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
     return (
       <div className="phone-preview" style={{
         marginTop: 20,
@@ -19,7 +23,7 @@ class Preview extends React.Component {
             <div className="speaker"></div>
             <div className="screen" style={{
               textAlign: 'left',
-              fontFamily: 'HelveticaNeue, Helvetica',
+              fontFamily: regularFont,
               userSelect: 'none',
               pointerEvents: 'none'
             }}>

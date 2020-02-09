@@ -114,6 +114,10 @@ class Home extends React.Component {
       )
     }
 
+    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
     var postCardsSubmitted = this.state.postsSubmitted.map(function(post) {
       return (
         <PostCard
@@ -190,7 +194,7 @@ class Home extends React.Component {
           <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh'}}>
             <div className="rows is-mobile">
               <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: "-10px 0px"}}>
-                <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "28px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Live
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
@@ -198,7 +202,7 @@ class Home extends React.Component {
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: "-15px 0px"}}>
-                <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "28px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Submitted
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
@@ -206,7 +210,7 @@ class Home extends React.Component {
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsDrafts.length > 0 ? "block" : "none", margin: "-15px 0px"}}>
-                <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "28px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Drafts
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
@@ -214,7 +218,7 @@ class Home extends React.Component {
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsPast.length > 0 ? "block" : "none", margin: "-15px 0px"}}>
-                <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "28px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Past Posts
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>

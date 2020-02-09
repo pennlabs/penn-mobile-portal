@@ -1,5 +1,9 @@
 import React from 'react'
 
+const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
 const ExternalHeader = () => (
     <div>
         <head>
@@ -29,11 +33,11 @@ const ExternalHeader = () => (
                 alignItems: "center",
                 justifyContent: "space-between"
                 }}>
-                <img src="https://pennlabs.org/static/img/PennMobile.png" alt="Penn Mobile Logo" width="35" height="35"></img>
+                <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="35" height="35"></img>
                 <div
                     style={{
                     padding: 15,
-                    fontFamily: "HelveticaNeue-Bold",
+                    fontFamily: boldFont,
                     fontSize: "20px",
                     color: "#4a4a4a"}}>
                     <p>Penn Mobile Portal</p>

@@ -4,12 +4,17 @@ import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC'
 
 class PostCard extends React.Component {
   render() {
-    const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis)
+    const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
-    var dateNow = new Date()
-    var statusColor
-    var statusText
-    var statusSymbol
+    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
+    var dateNow = new Date();
+    var statusColor;
+    var statusText;
+    var statusSymbol;
+
     if ((this.props.status.toUpperCase() == 'SUBMITTED' || this.props.status.toUpperCase() == 'UPDATED') && dateNow < this.props.endDate && !this.props.approved) {
       statusColor = '#209cee'
       statusText = 'Awaiting Approval'
@@ -58,7 +63,7 @@ class PostCard extends React.Component {
                   <a href={"post?id=" + this.props.id}>
                     <div className="screen" style={{
                       textAlign: 'left',
-                      fontFamily: 'HelveticaNeue, Helvetica',
+                      fontFamily: regularFont,
                       userSelect: 'none',
                       pointerEvents: 'none'
                     }}>

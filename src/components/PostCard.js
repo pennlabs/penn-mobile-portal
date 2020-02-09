@@ -10,10 +10,10 @@ class PostCard extends React.Component {
 
     var styles = {
       smallPostText: {
-        fontFamily: "HelveticaNeue-Medium"
+        fontFamily: "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif"
       },
       largePostText: {
-        fontFamily: "HelveticaNeue-Bold",
+        fontFamily: "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif",
         fontSize: "40px",
         color: color
       }

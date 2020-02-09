@@ -91,6 +91,10 @@ class Login extends React.Component {
             )
         }
 
+        const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+        const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+        const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
         return (
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
                 <ExternalHeader />
@@ -103,17 +107,17 @@ class Login extends React.Component {
                                 <div className="columns is-mobile" style={{margin: "0px 0px 0px 0px"}}>
                                     <div className="column has-text-centered">
                                         <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left"}}>
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "24px", margin: "16px 0px 2px 0px", display: "block"}}>{this.state.newAccount ? "Create your account" : "Log in to your account"}</b>
+                                            <b style={{fontFamily: mediumFont, fontSize: "24px", margin: "16px 0px 2px 0px", display: "block"}}>{this.state.newAccount ? "Create your account" : "Log in to your account"}</b>
                                         </div>
                                         
                                         <div style={{margin: "20px 80px 0px 80px"}}>
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px", display: (this.state.newAccount ? "block" : "none")}}>Organization Name</b>
+                                            <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "8px 0px 2px 0px", display: (this.state.newAccount ? "block" : "none")}}>Organization Name</b>
                                             <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none")}} placeholder="Ex: Penn Labs" maxlength="30" />
 
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>{this.state.newAccount ? "Contact Email" : "Email"}</b>
+                                            <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>{this.state.newAccount ? "Contact Email" : "Email"}</b>
                                             <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{display: "block"}} placeholder={this.state.newAccount ? "Ex: contact@pennlabs.org" : ""} />
 
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>Password</b>
+                                            <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>Password</b>
                                             <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{display: "block"}} />
                                         </div>
 
@@ -125,7 +129,7 @@ class Login extends React.Component {
                                                 boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                                                 border: "solid 0 #979797",
                                                 backgroundColor: "#2175cb",
-                                                fontFamily: "HelveticaNeue-Bold",
+                                                fontFamily: boldFont,
                                                 fontWeight: 500,
                                                 fontSize: 17,
                                                 color: "#ffffff"
