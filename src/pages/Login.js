@@ -107,6 +107,7 @@ class Login extends React.Component {
                                 <div className="columns is-mobile" style={{margin: "0px 0px 0px 0px"}}>
                                     <div className="column has-text-centered">
                                         <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left"}}>
+                                            <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="90" height="90"></img>
                                             <b style={{fontFamily: mediumFont, fontSize: "24px", margin: "16px 0px 2px 0px", display: "block"}}>{this.state.newAccount ? "Create your account" : "Log in to your account"}</b>
                                         </div>
                                         
@@ -119,6 +120,7 @@ class Login extends React.Component {
 
                                             <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>Password</b>
                                             <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{display: "block"}} />
+                                            <b style={{fontFamily: mediumFont, fontSize: "12px", float: "right", margin: "6px 0px 2px 0px", display: (this.state.newAccount ? "none" : "block")}}><u><a href="#">Forgot your password?</a></u></b>
                                         </div>
 
                                         <div style={{margin: "20px 80px 20px 80px", float: "center", verticalAlign: "middle", clear: "left" }}>

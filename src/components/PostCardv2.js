@@ -27,18 +27,23 @@ class PostCard extends React.Component {
     }
     if (dateNow < this.props.publishDate && this.props.approved) {
       statusColor = '#3faa6d'
-      statusText = 'Approved'
-      statusSymbol = 'fas fa-edit'
+      statusText = `Goes Live ${(this.props.publishDate.getMonth() + 1) + "/" + this.props.publishDate.getDate() + "/" + (this.props.publishDate.getFullYear() % 2000)}`
+      statusSymbol = 'fas fa-edit' //'far fa-check-circle'
     }
     if (dateNow > this.props.publishDate && dateNow < this.props.endDate && this.props.approved) {
       statusColor = '#3faa6d'
       statusText = 'Live'
       statusSymbol = 'far fa-circle'
     }
-    if (this.props.status.toUpperCase() == 'REJECTED' && dateNow < this.props.endDate) {
+    if (this.props.status.toUpperCase() == 'CHANGES' && dateNow < this.props.endDate) {
       statusColor = '#ffc520'
-      statusText = 'Needs Your Review'
-      statusSymbol = 'fas fa-exclamation-circle'
+      statusText = 'Changes Requested'
+      statusSymbol = 'fas fa-edit' //'fas fa-exclamation-circle'
+    }
+    if (this.props.status.toUpperCase() == 'REJECTED' && dateNow < this.props.endDate) {
+      statusColor = '#e25152'
+      statusText = 'Rejected'
+      statusSymbol = 'far fa-times-circle'
     }
     if (dateNow > this.props.endDate) {
       statusColor = '#999999'
@@ -101,9 +106,9 @@ class PostCard extends React.Component {
                                 <b style={{
                                   float: 'right',
                                   color: '#fff',
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   textAlign: 'right'
-                                }}><i class={statusSymbol}></i></b>
+                                }}><i class={statusSymbol} style={{paddingTop: 3, verticalAlign: 'top'}}></i></b>
                               </span>
                             </div>
                           <div style={{

@@ -20,6 +20,7 @@ class Home extends React.Component {
     this.state = {
       posts: [],
       postsSubmitted: [],
+      postsRejected: [],
       postsDrafts: [],
       postsLive: [],
       postsPast: [],
@@ -49,6 +50,7 @@ class Home extends React.Component {
         var jsonArray = json.posts
         var posts = []
         var postsSubmitted = []
+        var postsRejected = []
         var postsDrafts = []
         var postsLive = []
         var postsPast = []
@@ -76,13 +78,18 @@ class Home extends React.Component {
           var post = new Post(id, title, subtitle, detail_label, url, url_cropped, date, endDate, status, analytics, org, approved)
           posts.push(post)
           var dateNow = new Date()
-          if ((post.status.toUpperCase() == 'SUBMITTED' || post.status.toUpperCase() == 'UPDATED') && dateNow < endDate && !post.approved) {
+
+          if ((post.status.toUpperCase() == 'SUBMITTED' || post.status.toUpperCase() == 'UPDATED'
+              || post.status.toUpperCase() == 'CHANGES' || post.status.toUpperCase() == 'APPROVED') && dateNow < endDate) {
             postsSubmitted.push(post)
+          }
+          if (post.status.toUpperCase() == 'REJECTED' && dateNow < endDate && !post.approved) {
+            postsRejected.push(post)
           }
           if (post.status.toUpperCase() == 'DRAFT') {
             postsDrafts.push(post)
           }
-          if (dateNow > date && dateNow < endDate && post.approved) {
+          if (post.status.toUpperCase() == 'APPROVED' && dateNow > date && dateNow < endDate && post.approved) {
             postsLive.push(post)
           }
           if (post.status.toUpperCase() != 'DRAFT' && dateNow > endDate) {
@@ -91,11 +98,13 @@ class Home extends React.Component {
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsSubmitted.sort((a, b) => (a.date > b.date) ? 1 : -1)
+        postsRejected.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsDrafts.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsLive.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsPast.sort((a, b) => (a.endDate < b.endDate) ? 1 : -1)
         this.setState({posts: posts})
         this.setState({postsSubmitted: postsSubmitted})
+        this.setState({postsRejected: postsRejected})
         this.setState({postsDrafts: postsDrafts})
         this.setState({postsLive: postsLive})
         this.setState({postsPast: postsPast})
@@ -119,6 +128,23 @@ class Home extends React.Component {
     const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     var postCardsSubmitted = this.state.postsSubmitted.map(function(post) {
+      return (
+        <PostCard
+          id={post.id}
+          title={post.title}
+          subtitle={post.subtitle}
+          detailLabel={post.detailLabel}
+          source={post.organization}
+          imageUrl={post.imageUrlCropped}
+          analytics={post.analytics}
+          publishDate={post.publishDate}
+          endDate={post.endDate}
+          status={post.status}
+          approved={post.approved}
+          />
+      )
+    })
+    var postCardsRejected = this.state.postsRejected.map(function(post) {
       return (
         <PostCard
           id={post.id}
@@ -201,7 +227,7 @@ class Home extends React.Component {
                   {postCardsLive}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: this.state.postsLive.length == 0 ? "-10px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Submitted
                 </b>
@@ -209,7 +235,15 @@ class Home extends React.Component {
                   {postCardsSubmitted}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsDrafts.length > 0 ? "block" : "none", margin: "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0) ? "-10px 0px" : "-15px 0px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
+                Rejected
+                </b>
+                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+                  {postCardsRejected}
+                </div>
+              </div>
+              <div className="column" style={{display: this.state.postsDrafts.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0 && this.state.postsRejected.length == 0) ? "-10px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Drafts
                 </b>
@@ -217,7 +251,7 @@ class Home extends React.Component {
                   {postCardsDrafts}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsPast.length > 0 ? "block" : "none", margin: "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsPast.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0 && this.state.postsRejected.length == 0 && this.state.postsDrafts.length == 0) ? "-10px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Past Posts
                 </b>

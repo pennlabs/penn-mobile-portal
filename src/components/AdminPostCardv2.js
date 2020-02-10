@@ -14,13 +14,11 @@ class PostCard extends React.Component {
     var statusColor;
     var statusText;
     var statusSymbol;
-    var statusSymbol2;
 
     if ((this.props.status.toUpperCase() == 'SUBMITTED' || this.props.status.toUpperCase() == 'UPDATED') && dateNow < this.props.endDate && !this.props.approved) {
       statusColor = '#209cee'
       statusText = 'Needs Review'
-      statusSymbol = 'far fa-check-circle'
-      statusSymbol2 = 'far fa-times-circle'
+      statusSymbol = 'fas fa-search'
     }
     if (this.props.status.toUpperCase() == 'DRAFT') {
       statusColor = '#999999'
@@ -29,18 +27,23 @@ class PostCard extends React.Component {
     }
     if (dateNow < this.props.publishDate && this.props.approved) {
       statusColor = '#3faa6d'
-      statusText = 'Approved'
-      statusSymbol = 'fas fa-edit'
+      statusText = `Goes Live ${(this.props.publishDate.getMonth() + 1) + "/" + this.props.publishDate.getDate() + "/" + (this.props.publishDate.getFullYear() % 2000)}`
+      statusSymbol = 'far fa-check-circle'
     }
     if (dateNow > this.props.publishDate && dateNow < this.props.endDate && this.props.approved) {
       statusColor = '#3faa6d'
       statusText = 'Live'
       statusSymbol = 'far fa-circle'
     }
-    if (this.props.status.toUpperCase() == 'REJECTED' && dateNow < this.props.endDate) {
+    if (this.props.status.toUpperCase() == 'CHANGES' && dateNow < this.props.endDate) {
       statusColor = '#ffc520'
-      statusText = 'Rejected'
+      statusText = 'Needs Organization Changes'
       statusSymbol = 'fas fa-exclamation-circle'
+    }
+    if (this.props.status.toUpperCase() == 'REJECTED' && dateNow < this.props.endDate) {
+      statusColor = '#e25152'
+      statusText = 'Rejected'
+      statusSymbol = 'far fa-times-circle'
     }
     if (dateNow > this.props.endDate) {
       statusColor = '#999999'
@@ -103,9 +106,9 @@ class PostCard extends React.Component {
                                 <b style={{
                                   float: 'right',
                                   color: '#fff',
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   textAlign: 'right'
-                                }}><i class={statusSymbol}> </i> <i class={statusSymbol2}> </i></b>
+                                }}><i class={statusSymbol} style={{paddingTop: 3, verticalAlign: 'top'}}></i></b>
                               </span>
                             </div>
                           <div style={{
