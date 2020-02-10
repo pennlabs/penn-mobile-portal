@@ -235,7 +235,7 @@ class Home extends React.Component {
                   Penn Mobile Portal allows organizations to connect and engage with students on the Penn Mobile app. Make posts for recruiting, events, or campaigns and watch in real time as users see and interact with your content.
                 </span>
                 <span style={{display: 'block', wordWrap: 'break-word', fontFamily: mediumFont, fontSize: "20px", margin: "15px 0 5px 0"}}>
-                  Ready to get started? <a href="/post">Create a new post <i class="fas fa-arrow-circle-right" style={{fontSize: "17px", paddingBottom: 2, verticalAlign: 'middle'}}></i></a>
+                  Ready to get started? <a href="/post">Create a new post <i class="fas fa-arrow-circle-right" style={{fontSize: "17px", paddingBottom: 3, verticalAlign: 'middle'}}></i></a>
                 </span>
               </div>
             </div>
