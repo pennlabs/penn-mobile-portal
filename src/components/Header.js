@@ -10,7 +10,7 @@ class Header extends React.Component {
     const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     return (
-      <div>
+      <div style={{position: "sticky", top: 0, zIndex: 1, boxShadow: "0 0 6px 4px rgba(182, 182, 182, 0.5)"}}>
         <head>
           <title>Penn Mobile Portal</title>
           <meta charSet="utf-8" />

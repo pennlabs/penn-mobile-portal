@@ -24,7 +24,8 @@ class Home extends React.Component {
       postsDrafts: [],
       postsLive: [],
       postsPast: [],
-      isAdmin: false
+      isAdmin: false,
+      finishedLoading: false
     }
   }
 
@@ -102,12 +103,15 @@ class Home extends React.Component {
         postsDrafts.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsLive.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsPast.sort((a, b) => (a.endDate < b.endDate) ? 1 : -1)
-        this.setState({posts: posts})
-        this.setState({postsSubmitted: postsSubmitted})
-        this.setState({postsRejected: postsRejected})
-        this.setState({postsDrafts: postsDrafts})
-        this.setState({postsLive: postsLive})
-        this.setState({postsPast: postsPast})
+        this.setState({
+          posts: posts,
+          postsSubmitted: postsSubmitted,
+          postsRejected: postsRejected,
+          postsDrafts: postsDrafts,
+          postsLive: postsLive,
+          postsPast: postsPast,
+          finishedLoading: true
+        })
       })
       .catch((error) => {
         console.log('Unable to fetch posts with error message:' + error.message)
@@ -217,7 +221,26 @@ class Home extends React.Component {
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
         <Header isAdmin={this.state.isAdmin}/>
         <div style={{flex: 1}}>
-          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh'}}>
+          <div style={{display: (this.state.finishedLoading ? "block" : "none"), position: "absolute", left: "50%", top: "46%", transform: "translate(-50%, -50%)"}}>
+            <div className="columns is-mobile">
+              <div className="row">
+                <img src="images/desk.svg" alt="Penn Mobile Logo" width="366" height="321"></img>
+              </div>
+              <div className="row" style={{margin: "0 0 0 50px"}}>
+                <span style={{display: 'block', wordWrap: 'break-word'}}>
+                  <b style={{fontFamily: boldFont, fontSize: "42px"}}>Oh, hello there.</b>
+                </span>
+                <span style={{display: 'block', wordWrap: 'break-word', fontFamily: regularFont, fontSize: "20px", margin: "10px 0 5px 0"}}>Looks like you're new here.</span>
+                <span style={{display: 'block', wordWrap: 'break-word', fontFamily: regularFont, fontSize: "20px", maxWidth: "500px"}}>
+                  Penn Mobile Portal allows organizations to connect and engage with students on the Penn Mobile app. Make posts for recruiting, events, or campaigns and watch in real time as users see and interact with your content.
+                </span>
+                <span style={{display: 'block', wordWrap: 'break-word', fontFamily: mediumFont, fontSize: "20px", margin: "15px 0 5px 0"}}>
+                  Ready to get started? <a href="/post">Create a new post <i class="fas fa-arrow-circle-right" style={{fontSize: "17px", paddingBottom: 3, verticalAlign: 'middle'}}></i></a>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh', display: (this.state.posts.length == 0 ? "none" : "block")}}>
             <div className="rows is-mobile">
               <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: "-10px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
