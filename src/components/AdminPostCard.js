@@ -78,7 +78,7 @@ class PostCard extends React.Component {
                         boxShadow: '1px 1px 10px #ccc',
                         borderRadius: 15,
                         padding: 0,
-                        minHeight: '380px'
+                        //minHeight: '380px'
                       }}>
                         <div className="img-wrapper" style={{
                           backgroundColor: '#eee',
