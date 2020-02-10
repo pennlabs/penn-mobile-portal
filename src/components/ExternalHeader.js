@@ -16,34 +16,6 @@ const ExternalHeader = () => (
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossOrigin="anonymous" />
             <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js" />
         </head>
-
-        <div
-            className="hero is-flex"
-            style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                height: 80,
-                padding: 20,
-                backgroundColor: "#f2f2f2"}}>
-            <div
-                className="hero is-flex"
-                style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-                }}>
-                <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="35" height="35"></img>
-                <div
-                    style={{
-                    padding: 15,
-                    fontFamily: boldFont,
-                    fontSize: "20px",
-                    color: "#4a4a4a"}}>
-                    <p>Penn Mobile Portal</p>
-                </div>
-            </div>
-        </div>
     </div>
 );
 
