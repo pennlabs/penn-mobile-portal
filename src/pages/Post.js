@@ -34,6 +34,7 @@ class PostPage extends React.Component {
       id: null,
       title: null,
       subtitle: null,
+      organization: null,
       imageFileName: null,
       imageCroppedFileName: null,
       imageUrl: null,
@@ -82,7 +83,9 @@ class PostPage extends React.Component {
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)'
         }
-      }
+      },
+      isAdmin: false,
+      accountName: null
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -107,10 +110,25 @@ class PostPage extends React.Component {
 
   componentWillMount() {
     var accountID = Cookies.get('accountID')
+    if (accountID) {
+      var url = dev ? 'http://localhost:5000/portal/account?account_id=' : 'https://api.pennlabs.org/portal/account?account_id='
+      fetch(url + accountID)
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          isAdmin: json.account.is_admin,
+          accountName: json.account.name
+        })
+      })
+      .catch((error) => {
+        console.log('Unable to fetch account inforation with error message:' + error.message)
+      })
+    }
+
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
-      var url = dev ? 'localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
+      var url = dev ? 'http://localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
       fetch(url + id + '?account=' + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -137,6 +155,7 @@ class PostPage extends React.Component {
           id: id,
           title: json.title,
           subtitle: json.subtitle,
+          organization: json.organization,
           imageUrl: json.image_url,
           imageUrlCropped: json.image_url_cropped,
           imageFileName: this.getImageNameFromUrl(json.image_url),
@@ -296,7 +315,7 @@ class PostPage extends React.Component {
     formData.append('image', file);
     formData.append('account', accountID);
     this.loadFileCrop(file)
-    var url = dev ? 'localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
+    var url = dev ? 'http://localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
     fetch(url, {
         method: 'POST',
         body: formData
@@ -323,7 +342,7 @@ class PostPage extends React.Component {
     const formData = new FormData();
     formData.append('image', file, fileName);
     formData.append('account', accountID);
-    var url = dev ? 'localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
+    var url = dev ? 'http://localhost:5000/portal/post/image' : 'https://api.pennlabs.org/portal/post/image'
     fetch(url, {
         method: 'POST',
         body: formData
@@ -339,7 +358,7 @@ class PostPage extends React.Component {
       alert(`Something went wrong. Please try again. ${error}`)
     })
   }
-
+  
   onSubmit() {
     if (!this.state.title) {
       alert("Please include a title.")
@@ -401,7 +420,7 @@ class PostPage extends React.Component {
     }
 
     var accountID = Cookies.get('accountID')
-    var url = dev ? 'localhost:5000/portal/post' : 'https://api.pennlabs.org/portal/post'
+    var url = dev ? 'http://localhost:5000/portal/post' : 'https://api.pennlabs.org/portal/post'
     fetch(url + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
       headers: {
@@ -527,13 +546,16 @@ class PostPage extends React.Component {
         <Redirect to="/login" />
       )
     }
-
+    
+    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     const { crop, croppedImageUrl, src } = this.state;
 
-    return(
+    return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
-        <Header />
+        <Header isAdmin={this.state.isAdmin}/>
         <div className="columns is-mobile" style={{display: 'flex', flex: 1}}>
 
           <div className="column is-one-third has-text-centered">
@@ -565,7 +587,7 @@ class PostPage extends React.Component {
                           boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                           border: "solid 0 #979797",
                           backgroundColor: this.state.filters.options.enabled ? "#a32512" : "#12a340",
-                          fontFamily: "HelveticaNeue-Bold",
+                          fontFamily: boldFont,
                           fontWeight: 500,
                           fontSize: 14,
                           color: "#ffffff"
@@ -575,7 +597,7 @@ class PostPage extends React.Component {
                   </div>
 
                   <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                     <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
                       <label for="year_0">2020</label>
@@ -589,7 +611,7 @@ class PostPage extends React.Component {
                   </div>
 
                   <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                     <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                       <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
                       <label for="COL">College</label>
@@ -604,7 +626,7 @@ class PostPage extends React.Component {
 
                   {/*
                   <div style={{margin: "10px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Major</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Major</b>
                     <input className="input is-small" type="tags" name="majorFilter" value="Tag1,Tag2" placeholder="Add tags" onChange={this.updateInput} />
                   </div>
                   */}
@@ -616,7 +638,7 @@ class PostPage extends React.Component {
                         boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                         border: "solid 0 #979797",
                         backgroundColor: "#2175cb",
-                        fontFamily: "HelveticaNeue-Bold",
+                        fontFamily: boldFont,
                         fontWeight: 500,
                         fontSize: 18,
                         color: "#ffffff"
@@ -639,12 +661,12 @@ class PostPage extends React.Component {
                   <NewPostLabel text="Edit Details" single={false} left={true} />
 
                   <div style={{margin: "10px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Large Title</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Large Title</b>
                     <input className="input is-small" type="text" name="title" value={this.state.title} placeholder="Ex: Apply to Penn Labs!" onChange={this.updateInput} />
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Subtitle (optional)</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Subtitle (optional)</b>
                     <textarea
                       className="textarea is-small"
                       type="text"
@@ -657,12 +679,12 @@ class PostPage extends React.Component {
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (optional)</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (optional)</b>
                     <input className="input is-small" type="text" name="detailLabel" value={this.state.detailLabel} placeholder="Ex: Due Today" onChange={this.updateInput}/>
                   </div>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Image Url</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Image Url</b>
                     <div style={{height: '10px'}} />
                   </div>
 
@@ -691,7 +713,7 @@ class PostPage extends React.Component {
                             boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                             border: "solid 0 #979797",
                             backgroundColor: "#2175cb",
-                            fontFamily: "HelveticaNeue-Bold",
+                            fontFamily: boldFont,
                             fontWeight: 500,
                             fontSize: 14,
                             color: "#ffffff",
@@ -726,7 +748,7 @@ class PostPage extends React.Component {
                               boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                               border: "solid 0 #979797",
                               backgroundColor: "#2175cb",
-                              fontFamily: "HelveticaNeue-Bold",
+                              fontFamily: boldFont,
                               fontWeight: 500,
                               fontSize: 18,
                               color: "#ffffff"
@@ -739,14 +761,14 @@ class PostPage extends React.Component {
                   </Modal>
 
                   <div style={{margin: "16px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Link (optional)</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Link (optional)</b>
                     <input className="input is-small" type="text" name="postUrl" value={this.state.postUrl} placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}/>
                   </div>
 
                   <div style={{backgroundColor: "rgba(0,0,0,0.18)", height: 1, margin: "16px 6px 0px 12px"}}/>
 
                   <div style={{margin: "10px 40px 0px 40px"}}>
-                    <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Any Notes for Portal Staff</b>
+                    <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Any Notes for Portal Staff</b>
                     <textarea className="textarea is-small" type="text" name="comments" value={this.state.comments} placeholder="Enter any comments here." rows="2" onChange={this.updateInput}/>
                   </div>
 
@@ -759,7 +781,7 @@ class PostPage extends React.Component {
                     imageUrl={this.state.imageUrlCropped}
                     title={this.state.title}
                     subtitle={this.state.subtitle}
-                    source={'Penn Labs'}
+                    source={this.state.accountName}
                     detailLabel={this.state.detailLabel} />
                 </div>
 

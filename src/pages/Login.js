@@ -91,61 +91,66 @@ class Login extends React.Component {
             )
         }
 
+        const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+        const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+        const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
         return (
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '99vh', backgroundColor: "#f2f2f2"}}>
                 <ExternalHeader />
                 <div className="columns is-mobile" style={{display: 'flex', flex: 1}}>
-                    <div className="column has-text-centered"></div>
                     <div className="column has-text-centered">
-                        <div style={{flexDirection: "column", alignItems: "center", justifyContent: "space-between", paddingTop: '10%'}}>
-                            <div className="column has-text-centered"></div>
-                            <div className="card" style={{margin: "16px 0px 0px 16px", borderRadius: 5, width: '100%'}}>
-                                <div className="columns is-mobile" style={{margin: "0px 0px 0px 0px"}}>
-                                    <div className="column has-text-centered">
-                                        <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left"}}>
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "24px", margin: "16px 0px 2px 0px", display: "block"}}>{this.state.newAccount ? "Create your account" : "Log in to your account"}</b>
+                        <div style={{flexDirection: "column", alignItems: "center", justifyContent: "center", position: "absolute", left: "50%", top: "45%", transform: "translate(-50%, -50%)"}}>
+                            <div className="card" style={{borderRadius: 10, boxShadow: '0 0 8px 3px rgba(217, 217, 217, 0.5)', width: "488px"}}>
+                                <div className="columns is-mobile">
+                                    <div className="column has-text-centered" style={{margin: "5% 0 7% 0"}}>
+                                        <div style={{margin: "20px 14% 0px 14%", float: "center", verticalAlign: "middle", clear: "left"}}>
+                                            <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="96" height="96"></img>
+                                            <b style={{fontFamily: mediumFont, fontSize: "40px", margin: "0% 0% 2px 0%", display: "block"}}>Welcome.</b>
+                                            <span style={{fontSize: "20px", display: "block"}}>{this.state.newAccount ? "Create your Penn Mobile Portal account" : "Log in to continue to Penn Mobile Portal"}</span>
                                         </div>
                                         
-                                        <div style={{margin: "20px 80px 0px 80px"}}>
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px", display: (this.state.newAccount ? "block" : "none")}}>Organization Name</b>
-                                            <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none")}} placeholder="Ex: Penn Labs" maxlength="30" />
+                                        <div style={{margin: "16px 16% 0px 16%"}}>
+                                            <span style={{fontFamily: mediumFont, fontSize: "12px", float: "left", margin: "6px 0% 2px 0%", display: (this.state.newAccount ? "block" : "none"), color: "#757575"}}>Organization Name</span>
+                                            <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{display: (this.state.newAccount ? "block" : "none"), backgroundColor: "#f7f7f7", height: 35, border: "solid 1px #e6e6e6", borderRadius: 5}} placeholder="Ex: Penn Labs" maxlength="30" />
 
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>{this.state.newAccount ? "Contact Email" : "Email"}</b>
-                                            <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{display: "block"}} placeholder={this.state.newAccount ? "Ex: contact@pennlabs.org" : ""} />
+                                            <span style={{fontFamily: mediumFont, fontSize: "12px", float: "left", margin: (this.state.newAccount ? "15px 0% 2px 0%" : "6px 0% 2px 0%"), color: "#757575"}}>{this.state.newAccount ? "Contact Email" : "Email"}</span>
+                                            <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{display: "block", backgroundColor: "#f7f7f7", height: 35, border: "solid 1px #e6e6e6", borderRadius: 5}} placeholder={this.state.newAccount ? "Ex: contact@pennlabs.org" : ""} />
 
-                                            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "14px", float: "left", margin: "8px 0px 2px 0px"}}>Password</b>
-                                            <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{display: "block"}} />
+                                            <span style={{fontFamily: mediumFont, fontSize: "12px", float: "left", margin: "15px 0% 2px 0%", color: "#757575"}}>Password</span>
+                                            <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{display: "block", backgroundColor: "#f7f7f7", height: 35, border: "solid 1px #e6e6e6", borderRadius: 5}} />
+                                            <b style={{fontFamily: regularFont, fontSize: "12px", float: "right", margin: "6px 0% 2px 0%", display: (this.state.newAccount ? "none" : "block")}}><u><a href="#">Forgot your password?</a></u></b>
                                         </div>
 
-                                        <div style={{margin: "20px 80px 20px 80px", float: "center", verticalAlign: "middle", clear: "left" }}>
+                                        <div style={{margin: (this.state.newAccount ? "32px 0% 0px 0%" : "50px 0% 0px 0%")}}>
                                             <button className="button" onClick={this.onSubmit} style={{
-                                                margin: "16px 0px 0px 0px",
-                                                width: 360,
+                                                width: "68%",
                                                 height: 35,
-                                                boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                                                boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.5)",
                                                 border: "solid 0 #979797",
+                                                borderRadius: 5,
                                                 backgroundColor: "#2175cb",
-                                                fontFamily: "HelveticaNeue-Bold",
+                                                fontFamily: boldFont,
                                                 fontWeight: 500,
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 color: "#ffffff"
                                             }}>
-                                                {this.state.newAccount ? "Register" : "Login"}
+                                                {this.state.newAccount ? "Register" : "Log in"}
                                             </button>
                                         </div>
-                                        <span className="statusSwitch" onClick={this.swapMode}>
-                                            {this.state.newAccount ? "Already have a Penn Mobile Portal account? " : "Don't have a Penn Mobile Portal account? "}
-                                            <b><u><a href="#">{this.state.newAccount ? "Log in" : "Create one"}</a></u></b>
-                                        </span>
+
+                                        <div style={{margin: "8px 0% 0px 0%"}}>
+                                            <span className="statusSwitch" onClick={this.swapMode} style={{fontFamily: mediumFont, fontSize: "12px", color: "#757575"}}>
+                                                {this.state.newAccount ? "Already have a Penn Mobile Portal account? " : "Don't have a Penn Mobile Portal account? "}
+                                                <b><u><a href="#">{this.state.newAccount ? "Log in" : "Create one"}</a></u></b>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                                            
                         </div>
                     </div>
-                    <div className="column has-text-centered"></div>
                 </div>
-                <Footer />
             </div>
         )
     }

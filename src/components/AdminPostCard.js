@@ -17,8 +17,8 @@ class PostCard extends React.Component {
 
     if ((this.props.status.toUpperCase() == 'SUBMITTED' || this.props.status.toUpperCase() == 'UPDATED') && dateNow < this.props.endDate && !this.props.approved) {
       statusColor = '#209cee'
-      statusText = 'Awaiting Approval'
-      statusSymbol = 'fas fa-edit'
+      statusText = 'Needs Review'
+      statusSymbol = 'fas fa-search'
     }
     if (this.props.status.toUpperCase() == 'DRAFT') {
       statusColor = '#999999'
@@ -28,7 +28,7 @@ class PostCard extends React.Component {
     if (dateNow < this.props.publishDate && this.props.approved) {
       statusColor = '#3faa6d'
       statusText = `Goes Live ${(this.props.publishDate.getMonth() + 1) + "/" + this.props.publishDate.getDate() + "/" + (this.props.publishDate.getFullYear() % 2000)}`
-      statusSymbol = 'fas fa-edit' //'far fa-check-circle'
+      statusSymbol = 'far fa-check-circle'
     }
     if (dateNow > this.props.publishDate && dateNow < this.props.endDate && this.props.approved) {
       statusColor = '#3faa6d'
@@ -37,8 +37,8 @@ class PostCard extends React.Component {
     }
     if (this.props.status.toUpperCase() == 'CHANGES' && dateNow < this.props.endDate) {
       statusColor = '#ffc520'
-      statusText = 'Changes Requested'
-      statusSymbol = 'fas fa-edit' //'fas fa-exclamation-circle'
+      statusText = 'Needs Organization Changes'
+      statusSymbol = 'fas fa-exclamation-circle'
     }
     if (this.props.status.toUpperCase() == 'REJECTED' && dateNow < this.props.endDate) {
       statusColor = '#e25152'

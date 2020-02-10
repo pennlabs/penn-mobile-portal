@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import PostCard from '../components/PostCard'
+import PostCard from '../components/AdminPostCard'
 
 import Post from '../models/Post.js'
 import PostAnalytics from '../models/PostAnalytics.js'
@@ -14,16 +14,16 @@ const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
 
-class Home extends React.Component {
-  constructor(props){
+class Admin extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
       posts: [],
       postsSubmitted: [],
+      postsChanges: [],
       postsRejected: [],
-      postsDrafts: [],
+      postsApproved: [],
       postsLive: [],
-      postsPast: [],
       isAdmin: false
     }
   }
@@ -36,6 +36,12 @@ class Home extends React.Component {
       .then((response) => response.json())
       .then((json) => {
         this.setState({isAdmin: json.account.is_admin})
+
+        if (!this.state.isAdmin) {
+          return (
+            <Redirect to="/" />
+          )
+        }
       })
       .catch((error) => {
         console.log('Unable to fetch account inforation with error message:' + error.message)
@@ -43,17 +49,17 @@ class Home extends React.Component {
     }
 
     if (accountID) {
-      var url = dev ? 'http://localhost:5000/portal/posts?account=' : 'https://api.pennlabs.org/portal/posts?account='
+      var url = dev ? 'http://localhost:5000/portal/posts/all?account=' : 'https://api.pennlabs.org/portal/posts/all?account='
       fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
         var jsonArray = json.posts
         var posts = []
         var postsSubmitted = []
+        var postsApproved = []
+        var postsChanges = []
         var postsRejected = []
-        var postsDrafts = []
         var postsLive = []
-        var postsPast = []
         jsonArray.forEach(function (postJSON) {
           var id = postJSON.id
           var title = postJSON.title
@@ -79,35 +85,35 @@ class Home extends React.Component {
           posts.push(post)
           var dateNow = new Date()
 
-          if ((post.status.toUpperCase() == 'SUBMITTED' || post.status.toUpperCase() == 'UPDATED'
-              || post.status.toUpperCase() == 'CHANGES' || post.status.toUpperCase() == 'APPROVED') && dateNow < endDate) {
+          if ((post.status.toUpperCase() == 'SUBMITTED' || post.status.toUpperCase() == 'UPDATED')
+              && dateNow < endDate && !post.approved) {
             postsSubmitted.push(post)
+          }
+          if (post.status.toUpperCase() == 'CHANGES' && dateNow < endDate && !post.approved) {
+            postsChanges.push(post)
           }
           if (post.status.toUpperCase() == 'REJECTED' && dateNow < endDate && !post.approved) {
             postsRejected.push(post)
           }
-          if (post.status.toUpperCase() == 'DRAFT') {
-            postsDrafts.push(post)
+          if (post.status.toUpperCase() == 'APPROVED' && dateNow < date && post.approved) {
+            postsApproved.push(post)
           }
           if (post.status.toUpperCase() == 'APPROVED' && dateNow > date && dateNow < endDate && post.approved) {
             postsLive.push(post)
           }
-          if (post.status.toUpperCase() != 'DRAFT' && dateNow > endDate) {
-            postsPast.push(post)
-          }
         })
         posts.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsSubmitted.sort((a, b) => (a.date > b.date) ? 1 : -1)
+        postsChanges.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsRejected.sort((a, b) => (a.date > b.date) ? 1 : -1)
-        postsDrafts.sort((a, b) => (a.date > b.date) ? 1 : -1)
+        postsApproved.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsLive.sort((a, b) => (a.date > b.date) ? 1 : -1)
-        postsPast.sort((a, b) => (a.endDate < b.endDate) ? 1 : -1)
         this.setState({posts: posts})
         this.setState({postsSubmitted: postsSubmitted})
+        this.setState({postsChanges: postsChanges})
         this.setState({postsRejected: postsRejected})
-        this.setState({postsDrafts: postsDrafts})
+        this.setState({postsApproved: postsApproved})
         this.setState({postsLive: postsLive})
-        this.setState({postsPast: postsPast})
       })
       .catch((error) => {
         console.log('Unable to fetch posts with error message:' + error.message)
@@ -144,6 +150,23 @@ class Home extends React.Component {
           />
       )
     })
+    var postCardsChanges = this.state.postsChanges.map(function(post) {
+      return (
+        <PostCard
+          id={post.id}
+          title={post.title}
+          subtitle={post.subtitle}
+          detailLabel={post.detailLabel}
+          source={post.organization}
+          imageUrl={post.imageUrlCropped}
+          analytics={post.analytics}
+          publishDate={post.publishDate}
+          endDate={post.endDate}
+          status={post.status}
+          approved={post.approved}
+          />
+      )
+    })
     var postCardsRejected = this.state.postsRejected.map(function(post) {
       return (
         <PostCard
@@ -161,7 +184,7 @@ class Home extends React.Component {
           />
       )
     })
-    var postCardsDrafts = this.state.postsDrafts.map(function(post) {
+    var postCardsApproved = this.state.postsApproved.map(function(post) {
       return (
         <PostCard
           id={post.id}
@@ -195,23 +218,6 @@ class Home extends React.Component {
           />
       )
     })
-    var postCardsPast = this.state.postsPast.map(function(post) {
-      return (
-        <PostCard
-          id={post.id}
-          title={post.title}
-          subtitle={post.subtitle}
-          detailLabel={post.detailLabel}
-          source={post.organization}
-          imageUrl={post.imageUrlCropped}
-          analytics={post.analytics}
-          publishDate={post.publishDate}
-          endDate={post.endDate}
-          status={post.status}
-          approved={post.approved}
-          />
-      )
-    })
 
     return(
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
@@ -219,7 +225,15 @@ class Home extends React.Component {
         <div style={{flex: 1}}>
           <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh'}}>
             <div className="rows is-mobile">
-              <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: "-10px 0px"}}>
+              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: "-10px 0px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
+                Awaiting Approval
+                </b>
+                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+                  {postCardsSubmitted}
+                </div>
+              </div>
+              <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: this.state.postsSubmitted.length == 0 ? "-10px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Live
                 </b>
@@ -227,36 +241,28 @@ class Home extends React.Component {
                   {postCardsLive}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: this.state.postsLive.length == 0 ? "-10px 0px" : "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsApproved.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0) ? "-10px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Submitted
+                Approved
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsSubmitted}
+                  {postCardsApproved}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0) ? "-10px 0px" : "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsChanges.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0) ? "-10px 0px" : "-15px 0px"}}>
+                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
+                Changes Requested
+                </b>
+                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+                  {postCardsChanges}
+                </div>
+              </div>
+              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0 && this.state.postsChanges.length == 0) ? "-10px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Rejected
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
                   {postCardsRejected}
-                </div>
-              </div>
-              <div className="column" style={{display: this.state.postsDrafts.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0 && this.state.postsRejected.length == 0) ? "-10px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Drafts
-                </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsDrafts}
-                </div>
-              </div>
-              <div className="column" style={{display: this.state.postsPast.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0 && this.state.postsRejected.length == 0 && this.state.postsDrafts.length == 0) ? "-10px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Past Posts
-                </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsPast}
                 </div>
               </div>
             </div>
@@ -268,4 +274,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home
+export default Admin

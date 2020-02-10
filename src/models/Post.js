@@ -1,12 +1,17 @@
 class Post {
-  constructor(id, name, imageUrl, imageUrlCropped, publishDate, status, analytics) {//
+  constructor(id, title, subtitle, detail_label, imageUrl, imageUrlCropped, publishDate, endDate, status, analytics, org, approved) {
     this.id = id;
-    this.name = name;
+    this.title = title;
+    this.subtitle = subtitle;
+    this.detailLabel = detail_label;
     this.imageUrl = imageUrl;
-    this.imageUrlCropped = imageUrlCropped;//
+    this.imageUrlCropped = imageUrlCropped;
     this.publishDate = publishDate;
+    this.endDate = endDate;
     this.status = status;
     this.analytics = analytics;
+    this.organization = org;
+    this.approved = approved;
   }
 }
 

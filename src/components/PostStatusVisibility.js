@@ -22,7 +22,12 @@ class PostStatusVisibility extends React.Component {
   }
 
   render() {
+    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
+    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
+    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
+
     var buttons;
+
     if (this.props.isApproved) {
       buttons = (
         <div className="column has-text-centered">
@@ -42,17 +47,17 @@ class PostStatusVisibility extends React.Component {
       <div>
         <div className="columns is-mobile is-vcentered" style={{margin: "10px 12px 0px 12px", height: 50}}>
           <div className="column is-one-third">
-            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "20px"}}>Status:</b>
+            <b style={{fontFamily: mediumFont, fontSize: "20px"}}>Status:</b>
           </div>
           <div className="column has-text-centered">
-            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "16px", textAlign: "center", color: "rgba(0, 0, 0, 0.4)"}}>
+            <b style={{fontFamily: mediumFont, fontSize: "16px", textAlign: "center", color: "rgba(0, 0, 0, 0.4)"}}>
               {this.props.postStatus}
             </b>
           </div>
         </div>
         <div className="columns is-mobile is-vcentered" style={{margin: "10px 12px 0px 12px", height: 50}}>
           <div className="column is-one-third">
-            <b style={{fontFamily: "HelveticaNeue-Medium", fontSize: "20px"}}>Visibility:</b>
+            <b style={{fontFamily: mediumFont, fontSize: "20px"}}>Visibility:</b>
           </div>
           {buttons}
         </div>
