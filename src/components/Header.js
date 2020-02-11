@@ -10,7 +10,7 @@ class Header extends React.Component {
     const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     return (
-      <div style={{position: "sticky", top: 0, zIndex: 1, boxShadow: "0 0 6px 4px rgba(182, 182, 182, 0.5)"}}>
+      <div style={{position: "sticky", top: 0, zIndex: 1}}>
         <head>
           <title>Penn Mobile Portal</title>
           <meta charSet="utf-8" />
@@ -30,7 +30,9 @@ class Header extends React.Component {
             justifyContent: "space-between",
             height: 93,
             padding: 20,
-            backgroundColor: "#ffffff"}}>
+            backgroundColor: "#ffffff",
+            boxShadow: "0 0 6px 4px rgba(182, 182, 182, 0.5)"
+          }}>
           <div
             className="hero is-flex"
             style={{
@@ -38,15 +40,15 @@ class Header extends React.Component {
               alignItems: "center",
               justifyContent: "space-between"
             }}>
-              <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="42" height="42"></img>
-              <div
-                style={{
-                  padding: 15,
-                  fontFamily: boldFont,
-                  fontSize: "28px",
-                  color: "#4a4a4a"}}>
-                  <p>Penn Mobile Portal</p>
-              </div>
+            <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="44" height="44" style={{margin: "5px 0 4px 7px"}}></img>
+            <div
+              style={{
+                padding: 20,
+                fontFamily: boldFont,
+                fontSize: "30px",
+                color: "#4a4a4a"}}>
+                <p>Penn Mobile Portal</p>
+            </div>
           </div>
           <div>
             <a href="/" className="button">Home</a>

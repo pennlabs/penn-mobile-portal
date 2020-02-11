@@ -14,41 +14,49 @@ class PostCard extends React.Component {
     var statusColor;
     var statusText;
     var statusSymbol;
+    var symbolPadding;
 
     if ((this.props.status.toUpperCase() == 'SUBMITTED' || this.props.status.toUpperCase() == 'UPDATED') && dateNow < this.props.endDate && !this.props.approved) {
       statusColor = '#209cee'
       statusText = 'Awaiting Approval'
       statusSymbol = 'fas fa-edit'
+      symbolPadding = 2
     }
     if (this.props.status.toUpperCase() == 'DRAFT') {
       statusColor = '#999999'
       statusText = 'Draft'
       statusSymbol = 'fas fa-edit'
+      symbolPadding = 2
     }
     if (dateNow < this.props.publishDate && this.props.approved) {
       statusColor = '#3faa6d'
       statusText = `Goes Live ${(this.props.publishDate.getMonth() + 1) + "/" + this.props.publishDate.getDate() + "/" + (this.props.publishDate.getFullYear() % 2000)}`
       statusSymbol = 'fas fa-edit' //'far fa-check-circle'
+      symbolPadding = 2
     }
     if (dateNow > this.props.publishDate && dateNow < this.props.endDate && this.props.approved) {
       statusColor = '#3faa6d'
       statusText = 'Live'
       statusSymbol = 'far fa-circle'
+      symbolPadding = 3
     }
     if (this.props.status.toUpperCase() == 'CHANGES' && dateNow < this.props.endDate) {
       statusColor = '#ffc520'
       statusText = 'Changes Requested'
       statusSymbol = 'fas fa-edit' //'fas fa-exclamation-circle'
+      symbolPadding = 2
     }
     if (this.props.status.toUpperCase() == 'REJECTED' && dateNow < this.props.endDate) {
       statusColor = '#e25152'
       statusText = 'Rejected'
       statusSymbol = 'far fa-times-circle'
+      symbolPadding = 3
     }
     if (dateNow > this.props.endDate) {
       statusColor = '#999999'
       statusText = `Expired ${(this.props.endDate.getMonth() + 1) + "/" + this.props.endDate.getDate() + "/" + (this.props.endDate.getFullYear() % 2000)}`
       statusSymbol = 'fas fa-copy'
+      symbolPadding = 3
     }
 
     return(
@@ -108,7 +116,7 @@ class PostCard extends React.Component {
                                   color: '#fff',
                                   fontSize: 20,
                                   textAlign: 'right'
-                                }}><i class={statusSymbol} style={{paddingTop: 3, verticalAlign: 'top'}}></i></b>
+                                }}><i class={statusSymbol} style={{paddingTop: symbolPadding, verticalAlign: 'top'}}></i></b>
                               </span>
                             </div>
                           <div style={{

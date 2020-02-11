@@ -137,90 +137,26 @@ class Admin extends React.Component {
     const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
     const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
-    var postCardsSubmitted = this.state.postsSubmitted.map(function(post) {
-      return (
-        <PostCard
-          id={post.id}
-          title={post.title}
-          subtitle={post.subtitle}
-          detailLabel={post.detailLabel}
-          source={post.organization}
-          imageUrl={post.imageUrlCropped}
-          analytics={post.analytics}
-          publishDate={post.publishDate}
-          endDate={post.endDate}
-          status={post.status}
-          approved={post.approved}
-          />
-      )
-    })
-    var postCardsChanges = this.state.postsChanges.map(function(post) {
-      return (
-        <PostCard
-          id={post.id}
-          title={post.title}
-          subtitle={post.subtitle}
-          detailLabel={post.detailLabel}
-          source={post.organization}
-          imageUrl={post.imageUrlCropped}
-          analytics={post.analytics}
-          publishDate={post.publishDate}
-          endDate={post.endDate}
-          status={post.status}
-          approved={post.approved}
-          />
-      )
-    })
-    var postCardsRejected = this.state.postsRejected.map(function(post) {
-      return (
-        <PostCard
-          id={post.id}
-          title={post.title}
-          subtitle={post.subtitle}
-          detailLabel={post.detailLabel}
-          source={post.organization}
-          imageUrl={post.imageUrlCropped}
-          analytics={post.analytics}
-          publishDate={post.publishDate}
-          endDate={post.endDate}
-          status={post.status}
-          approved={post.approved}
-          />
-      )
-    })
-    var postCardsApproved = this.state.postsApproved.map(function(post) {
-      return (
-        <PostCard
-          id={post.id}
-          title={post.title}
-          subtitle={post.subtitle}
-          detailLabel={post.detailLabel}
-          source={post.organization}
-          imageUrl={post.imageUrlCropped}
-          analytics={post.analytics}
-          publishDate={post.publishDate}
-          endDate={post.endDate}
-          status={post.status}
-          approved={post.approved}
-          />
-      )
-    })
-    var postCardsLive = this.state.postsLive.map(function(post) {
-      return (
-        <PostCard
-          id={post.id}
-          title={post.title}
-          subtitle={post.subtitle}
-          detailLabel={post.detailLabel}
-          source={post.organization}
-          imageUrl={post.imageUrlCropped}
-          analytics={post.analytics}
-          publishDate={post.publishDate}
-          endDate={post.endDate}
-          status={post.status}
-          approved={post.approved}
-          />
-      )
+    const postTypes = ['Submitted', 'Changes', 'Rejected', 'Approved', 'Live'];
+
+    postTypes.forEach(iterator => {
+      this[`postCards${iterator}`] = this.state[`posts${iterator}`].map(function(post) {
+        return (
+          <PostCard
+            id={post.id}
+            title={post.title}
+            subtitle={post.subtitle}
+            detailLabel={post.detailLabel}
+            source={post.organization}
+            imageUrl={post.imageUrlCropped}
+            analytics={post.analytics}
+            publishDate={post.publishDate}
+            endDate={post.endDate}
+            status={post.status}
+            approved={post.approved}
+            />
+        )
+      })
     })
 
     return(
@@ -239,7 +175,7 @@ class Admin extends React.Component {
                 Awaiting Approval
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsSubmitted}
+                  {this.postCardsSubmitted}
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: this.state.postsSubmitted.length == 0 ? "5px 0px" : "-15px 0px"}}>
@@ -247,7 +183,7 @@ class Admin extends React.Component {
                 Live
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsLive}
+                  {this.postCardsLive}
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsApproved.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0) ? "5px 0px" : "-15px 0px"}}>
@@ -255,7 +191,7 @@ class Admin extends React.Component {
                 Approved
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsApproved}
+                  {this.postCardsApproved}
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsChanges.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0) ? "5px 0px" : "-15px 0px"}}>
@@ -263,7 +199,7 @@ class Admin extends React.Component {
                 Changes Requested
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsChanges}
+                  {this.postCardsChanges}
                 </div>
               </div>
               <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0 && this.state.postsChanges.length == 0) ? "5px 0px" : "-15px 0px"}}>
@@ -271,7 +207,7 @@ class Admin extends React.Component {
                 Rejected
                 </b>
                 <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
-                  {postCardsRejected}
+                  {this.postCardsRejected}
                 </div>
               </div>
             </div>
