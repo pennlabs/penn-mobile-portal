@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Footer = () => (
-  <footer className="footer" style={{right: 0, bottom: 0, left: 0, height: "8rem"}}>
+  <footer className="footer" style={{right: 0, bottom: 0, left: 0, height: "8rem", zIndex: 1, backgroundColor: "#ffffff"}}>
       <div className="container">
         <div className="content has-text-centered">
           <p style={{fontSize: "0.85rem"}}>

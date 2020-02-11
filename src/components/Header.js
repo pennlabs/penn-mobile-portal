@@ -28,9 +28,9 @@ class Header extends React.Component {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            height: 80,
+            height: 93,
             padding: 20,
-            backgroundColor: "#f2f2f2"}}>
+            backgroundColor: "#ffffff"}}>
           <div
             className="hero is-flex"
             style={{
@@ -38,12 +38,12 @@ class Header extends React.Component {
               alignItems: "center",
               justifyContent: "space-between"
             }}>
-              <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="35" height="35"></img>
+              <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="42" height="42"></img>
               <div
                 style={{
                   padding: 15,
                   fontFamily: boldFont,
-                  fontSize: "20px",
+                  fontSize: "28px",
                   color: "#4a4a4a"}}>
                   <p>Penn Mobile Portal</p>
               </div>

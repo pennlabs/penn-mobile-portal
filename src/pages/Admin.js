@@ -24,7 +24,8 @@ class Admin extends React.Component {
       postsRejected: [],
       postsApproved: [],
       postsLive: [],
-      isAdmin: false
+      isAdmin: false,
+      finishedLoading: false
     }
   }
 
@@ -108,12 +109,15 @@ class Admin extends React.Component {
         postsRejected.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsApproved.sort((a, b) => (a.date > b.date) ? 1 : -1)
         postsLive.sort((a, b) => (a.date > b.date) ? 1 : -1)
-        this.setState({posts: posts})
-        this.setState({postsSubmitted: postsSubmitted})
-        this.setState({postsChanges: postsChanges})
-        this.setState({postsRejected: postsRejected})
-        this.setState({postsApproved: postsApproved})
-        this.setState({postsLive: postsLive})
+        this.setState({
+          posts: posts,
+          postsSubmitted: postsSubmitted,
+          postsChanges: postsChanges,
+          postsRejected: postsRejected,
+          postsApproved: postsApproved,
+          postsLive: postsLive,
+          finishedLoading: true
+        })
       })
       .catch((error) => {
         console.log('Unable to fetch posts with error message:' + error.message)
@@ -220,12 +224,17 @@ class Admin extends React.Component {
     })
 
     return(
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh'}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh', backgroundColor: "#f7f7f7"}}>
         <Header isAdmin={this.state.isAdmin}/>
         <div style={{flex: 1}}>
-          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh'}}>
-            <div className="rows is-mobile">
-              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: "-10px 0px"}}>
+          <div style={{display: (this.state.finishedLoading ? "block" : "none"), position: "absolute", left: "50%", top: "46%", transform: "translate(-50%, -50%)"}}>
+            <span style={{display: 'block', wordWrap: 'break-word', fontFamily: mediumFont, fontSize: "26px"}}>
+              No posts found.
+            </span>
+          </div>
+          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh', display: (this.state.posts.length == 0 ? "none" : "block"), backgroundColor: "#f7f7f7"}}>
+            <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
+              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: "5px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Awaiting Approval
                 </b>
@@ -233,7 +242,7 @@ class Admin extends React.Component {
                   {postCardsSubmitted}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: this.state.postsSubmitted.length == 0 ? "-10px 0px" : "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: this.state.postsSubmitted.length == 0 ? "5px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Live
                 </b>
@@ -241,7 +250,7 @@ class Admin extends React.Component {
                   {postCardsLive}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsApproved.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0) ? "-10px 0px" : "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsApproved.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0) ? "5px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Approved
                 </b>
@@ -249,7 +258,7 @@ class Admin extends React.Component {
                   {postCardsApproved}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsChanges.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0) ? "-10px 0px" : "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsChanges.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0) ? "5px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Changes Requested
                 </b>
@@ -257,7 +266,7 @@ class Admin extends React.Component {
                   {postCardsChanges}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0 && this.state.postsChanges.length == 0) ? "-10px 0px" : "-15px 0px"}}>
+              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0 && this.state.postsChanges.length == 0) ? "5px 0px" : "-15px 0px"}}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
                 Rejected
                 </b>
