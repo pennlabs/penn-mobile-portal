@@ -4,6 +4,8 @@ import Login from './pages/Login.js'
 import Home from './pages/Home.js'
 import Post from './pages/Post.js'
 import Admin from './pages/Admin.js'
+import Postv2 from './pages/Postv2.js'
+
 
 import './App.sass';
 
@@ -15,6 +17,7 @@ class App extends Component {
         <Route path="/login" component={Login} />
         <Route path="/post" component={Post} />
         <Route path="/admin" component={Admin} />
+        <Route path="/postv2" component={Postv2} />
         {/* when none of the above match, <NoMatch> will be rendered */}
         <Route component={Home} />
       </Switch>
