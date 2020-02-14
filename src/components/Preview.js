@@ -14,7 +14,7 @@ class Preview extends React.Component {
         transformOrigin: 'top center',
         transform: 'scale(0.8)'
       }}>
-        <div className="marvel-device iphone8 silver">
+        <div className="marvel-device iphone5s silver">
             <div className="top-bar"></div>
             <div className="sleep"></div>
             <div className="volume"></div>
