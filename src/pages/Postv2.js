@@ -554,7 +554,7 @@ class PostPage extends React.Component {
     const { crop, croppedImageUrl, src } = this.state;
 
     return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh', backgroundColor:"#f7f7f7"}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '220vh', backgroundColor:"#f7f7f7"}}>
         <Header isAdmin={this.state.isAdmin}/>
         <div className="columns is-mobile" style={{display: 'flex', flex: 1}}>
           <div className="column has-text-centered">
@@ -582,7 +582,7 @@ class PostPage extends React.Component {
                             fontWeight:"700",
                             fontSize:15,
                             fontFamily: regularFont
-                            }}>Reject</button>
+                            }}>Delete</button>
                         <button 
                           className="button" 
                           style={{
@@ -597,6 +597,7 @@ class PostPage extends React.Component {
                             }}>Save for later</button>
                         <button 
                           className="button" 
+                          onClick={this.onSubmit}
                           style={{
                             borderRadius:17, 
                             backgroundColor:"rgba(63, 170, 109, 0.2)", 
@@ -606,7 +607,7 @@ class PostPage extends React.Component {
                             width: 80,
                             fontSize: 15,
                             fontFamily: regularFont
-                            }}>Approve</button>
+                            }}>Submit</button>
                       </div>
                     </div>
                   </div>
@@ -622,21 +623,21 @@ class PostPage extends React.Component {
                         <div style={{fontSize:16, color: "#2175cb", fontWeight:600}}>Draft</div>
                       </div>
                       <div className="column is-2" style={{backgroundColor:"#2175cb", marginLeft:0, padding:"0px 0px 0px 0px", marginTop:22, height:5, width:"22%"}}></div>
-                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25, zIndex:1}}>
+                      <div className="column is-1" style={{width:25, zIndex:0, padding:"13px 0px 0px 0px"}}>
                         <span class="icon" style={{color:"#2175cb", width:15, height: 20, boxShadow: "0 0 9px 4px #c9c9c9"}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
                         </span>
-                        <div style={{fontSize:16, color: "#2175cb", fontWeight:600}}>Under Review</div>
+                        <div style={{fontSize:16, color: "#2175cb", fontWeight:600, width:100}}>Under Review</div>
                       </div>
                       <div className="column is-2" style={{backgroundColor:"#cccccc", marginLeft:0, padding:"0px 0px 0px 0px", marginTop:22, height:5, width:"22%"}}></div>
-                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25}}>
+                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25, padding:"13px 0px 0px 0px"}}>
                         <span class="icon" style={{color:"#cccccc"}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
                         </span>
                         <div style={{fontSize:16, color: "#999999", fontWeight:600}}>Live</div>
                       </div>
                       <div className="column is-2" style={{backgroundColor:"#cccccc", marginLeft:0, padding:"0px 0px 0px 0px", marginTop:22, height:5, width:"22%"}}></div>
-                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25}}>
+                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25, padding:"13px 0px 0px 0px"}}>
                         <span class="icon" style={{color:"#cccccc"}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
                         </span>
@@ -648,7 +649,7 @@ class PostPage extends React.Component {
                   <div className="has-text-left" style={{marginLeft:91, fontSize:20}}><b>Content</b></div>
                   <div 
                     className="card" 
-                    style={{borderRadius: 10, height: '50%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
+                    style={{borderRadius: 10, height: '45%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
                     {/* <div className="has-text-center">
                       <b style={{fontFamily: mediumFont, fontSize: "26px"}}>
                         Edit Details
@@ -778,18 +779,10 @@ class PostPage extends React.Component {
                     </div>
 
                     {/* <div style={{backgroundColor: "rgba(0,0,0,0.18)", height: 1, margin: "16px 6px 0px 12px"}}/> */}
-
-                    <div style={{marginTop:16}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Any Notes for Portal Staff</b>
-                      <textarea 
-                        className="textarea is-small" type="text" name="comments" value={this.state.comments} 
-                        placeholder="Enter any comments here." rows="2" onChange={this.updateInput}
-                        style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", marginTop:8}}/>
-                    </div>
                     </div>
                     <div className="has-text-left" style={{marginLeft:91, marginTop:32, fontSize:20}}><b>Dates</b></div>
-                    <div class="card" style={{borderRadius: 10, height: '12%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
-                    <div style={{margin: "20px 40px 20px 40px"}}>
+                    <div class="card" style={{borderRadius: 10, height: '7%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
+                    <div style={{}}>
                       <input
                         className="input"
                         type="datetime"
@@ -797,7 +790,31 @@ class PostPage extends React.Component {
                       />
                     </div>
                     </div>
-                    <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+
+                    <div className="has-text-left columns" style={{marginLeft:91, marginTop:32}}>
+                      <div className="column is-7">
+                        <p style={{fontSize:12, color:"#999999", fontWeight:500, letterSpacing:.2}}>
+                          <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Filters</b>
+                          <span class="icon">
+                            <i class="fas fa-info-circle"></i>
+                          </span>            
+                          Filters available by class year, school, or college house.
+                          </p>
+                      </div>{/* 
+                      <div className="column is-5 has-text-right">
+                        <b style={{color:"#2175cb"}}>Advanced Filters</b>
+                      </div> */}
+                    </div>                    
+                    <div 
+                      class="card has-text-left" 
+                      style={{
+                        borderRadius: 10, 
+                        height: '20%', 
+                        margin:"0px 0px 0px 91px", 
+                        boxShadow: "0 0 8px 3px #d9d9d9", 
+                        marginTop:16, 
+                        padding:"18px 26px 0px 26px"}}>
+                          <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
                         <button id="showHideFilters" className="buttonCrop" onClick={this.showFilters} style={{
                             margin: "16px 0px 0px 0px",
                             width: 115,
@@ -812,8 +829,7 @@ class PostPage extends React.Component {
                           }}>
                             {this.state.filters.options.enabled ? "Remove Filters" : "Add Filters"}
                         </button>
-                    </div>
-
+                    </div> 
                     <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                       <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
@@ -841,12 +857,39 @@ class PostPage extends React.Component {
                         <label for="NUR">Nursing</label>
                       </div>
                     </div>
+                          {/* <div className="file-cta"  
+                          style={{backgroundColor:"#2175cb", borderRadius:12, border:0, height:24, marginRight:10, color:"#ffffff", fontWeight:500, fontSize:16}}>
+                              Save filters
+                          </div> 
+                          <div className="file-cta"  
+                          style={{backgroundColor:"#2175cb", borderRadius:12, border:0, height:24, marginRight:10, color:"#ffffff", fontWeight:500, fontSize:16}}>
+                              Save filters
+                          </div>  */}
+                    </div>
 
-                    <div style={{margin: "10px 40px 0px 40px"}}>
+                     
+
+                    {/* <div style={{margin: "10px 40px 0px 40px"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Major</b>
                       <input className="input is-small" type="tags" name="majorFilter" value="Tag1,Tag2" placeholder="Add tags" onChange={this.updateInput} />
+                    </div> */}
+                    <div className="has-text-left" style={{marginLeft:91, marginTop:32}}>
+                      <p style={{fontSize:12, color:"#999999", fontWeight:500, letterSpacing:.2}}>
+                        <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Notes</b>
+                        <span class="icon">
+                          <i class="fas fa-info-circle"></i>
+                        </span>            
+                        Portal administrators will see this message during the review process.</p>
                     </div>
-                    <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+                    <div className="card" style={{borderRadius: 10, height:150, margin:"0px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"26px 26px 26px 26px"}}>
+                      <div style={{height:94}}>
+                        <textarea 
+                          className="textarea is-small" type="text" name="comments" value={this.state.comments} 
+                          placeholder="Enter any comments here." rows="2" onChange={this.updateInput}
+                          style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", height:94}}/>
+                      </div>
+                    </div>
+                    {/* <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
                         <button className="button" onClick={this.onSubmit} style={{
                           margin: "16px 0px 0px 0px",
                           width: 300,
@@ -861,7 +904,7 @@ class PostPage extends React.Component {
                         }}>
                           Submit for Review
                         </button>
-                    </div>
+                    </div> */}
 
                 </div>
 
