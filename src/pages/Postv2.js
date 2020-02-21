@@ -809,13 +809,13 @@ class PostPage extends React.Component {
                       class="card has-text-left" 
                       style={{
                         borderRadius: 10, 
-                        height: '20%', 
+                        height: '13%', 
                         margin:"0px 0px 0px 91px", 
                         boxShadow: "0 0 8px 3px #d9d9d9", 
                         marginTop:16, 
                         padding:"18px 26px 0px 26px"}}>
                           <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
-                        <button id="showHideFilters" className="buttonCrop" onClick={this.showFilters} style={{
+                        {/* <button id="showHideFilters" className="buttonCrop" onClick={this.showFilters} style={{
                             margin: "16px 0px 0px 0px",
                             width: 115,
                             height: 30,
@@ -828,9 +828,10 @@ class PostPage extends React.Component {
                             color: "#ffffff"
                           }}>
                             {this.state.filters.options.enabled ? "Remove Filters" : "Add Filters"}
-                        </button>
+                        </button> */}
                     </div> 
-                    <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
+                    {/* <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}> */}
+                    <div id="yearBoxes" style={{margin: "0px 40px 0px 40px"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
                       <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
                         <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
@@ -844,7 +845,7 @@ class PostPage extends React.Component {
                       </div>
                     </div>
 
-                    <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}>
+                    <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                       <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                         <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
