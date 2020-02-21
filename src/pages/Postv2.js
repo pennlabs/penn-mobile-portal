@@ -649,7 +649,7 @@ class PostPage extends React.Component {
                   <div className="has-text-left" style={{marginLeft:91, fontSize:20}}><b>Content</b></div>
                   <div 
                     className="card" 
-                    style={{borderRadius: 10, height: '45%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
+                    style={{borderRadius: 10, height: '38%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
                     {/* <div className="has-text-center">
                       <b style={{fontFamily: mediumFont, fontSize: "26px"}}>
                         Edit Details
@@ -753,17 +753,17 @@ class PostPage extends React.Component {
                         <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
                             <button id="buttonCrop" className="buttonCrop" style={{
                                 margin: "16px 0px 0px 0px",
-                                width: 300,
-                                height: 35,
-                                boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                                width: 190,
+                                height: 32,
                                 border: "solid 0 #979797",
                                 backgroundColor: "#2175cb",
                                 fontFamily: boldFont,
                                 fontWeight: 500,
                                 fontSize: 18,
-                                color: "#ffffff"
+                                color: "#ffffff",
+                                borderRadius: 16
                               }}>
-                                Save Cropped Image
+                                Crop and Upload
                             </button>
                         </div>
                       </div>
