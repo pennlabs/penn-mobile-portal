@@ -200,7 +200,7 @@ class PostPage extends React.Component {
         alert('Unable to fetch post with error message:' + error.message)
       })
     } else {
-      // By default, check off all filter boxes
+      // By default, uncheck all filter boxes
       var filters = this.state.filters;
       for (var type in filters) {
         // Set all filter checkboxes to FALSE
@@ -210,7 +210,7 @@ class PostPage extends React.Component {
           if (type == 'options') {
             filters[type][key] = filters[type][key]
           } else {
-            filters[type][key] = true
+            filters[type][key] = false
           }
         }
       }
@@ -567,7 +567,7 @@ class PostPage extends React.Component {
                         <b style={{fontFamily: mediumFont, fontSize: "30px", margin:"0px 0px 0px 91px"}}>
                           Post Details
                         </b>
-                      </div>                  
+                      </div>              
                     </div>
                     <div className="column">
                       <div className="buttons are-small is-right">
@@ -792,18 +792,14 @@ class PostPage extends React.Component {
                     </div>
 
                     <div className="has-text-left columns" style={{marginLeft:91, marginTop:32}}>
-                      <div className="column is-7">
+                      <div className="column">
                         <p style={{fontSize:12, color:"#999999", fontWeight:500, letterSpacing:.2}}>
                           <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Filters</b>
                           <span class="icon">
                             <i class="fas fa-info-circle"></i>
                           </span>            
-                          Filters available by class year, school, or college house.
-                          </p>
-                      </div>{/* 
-                      <div className="column is-5 has-text-right">
-                        <b style={{color:"#2175cb"}}>Advanced Filters</b>
-                      </div> */}
+                          If no filters are applied, the post will be shared with all Penn Mobile users by default.                          </p>
+                      </div>
                     </div>                    
                     <div 
                       class="card has-text-left" 
@@ -814,6 +810,39 @@ class PostPage extends React.Component {
                         boxShadow: "0 0 8px 3px #d9d9d9", 
                         marginTop:16, 
                         padding:"18px 26px 0px 26px"}}>
+                          
+                    
+                        <div className="columns">
+                          <div className = "column is-3">
+                            <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>Class Year</b>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label"> 
+                              <input id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">2020</div>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label"> 
+                              <input id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">2021</div>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label"> 
+                            <input id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">2022</div>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label"> 
+                            <input id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">2023</div>
+                            </label>
+                          </div>
+                        </div>
+                          
+                        
                           <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
                         {/* <button id="showHideFilters" className="buttonCrop" onClick={this.showFilters} style={{
                             margin: "16px 0px 0px 0px",
@@ -831,9 +860,13 @@ class PostPage extends React.Component {
                         </button> */}
                     </div> 
                     {/* <div id="yearBoxes" style={{margin: "0px 40px 0px 40px", display: this.state.filters.options.enabled ? "block" : "none"}}> */}
-                    <div id="yearBoxes" style={{margin: "0px 40px 0px 40px"}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
+                    {/* <div id="yearBoxes" style={{margin: "0px 40px 0px 40px"}}>
+                      <div>                      
+                        <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Class Year</b>
+                      </div>
                       <div className="field" id="yearCheck" style={{margin: "4px 0px 20px 0px", float: "center"}}>
+                        
+
                         <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
                         <label for="year_0">2020</label>
                         <input className="is-checkradio is-small" id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState}/>
@@ -843,9 +876,39 @@ class PostPage extends React.Component {
                         <input className="is-checkradio is-small" id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
                         <label for="year_3">2023</label>
                       </div>
-                    </div>
-
-                    <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px"}}>
+                    </div> */}
+                    <div className="columns">
+                          <div className = "column is-3">
+                            <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>Class Year</b>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label" for="COL"> 
+                            <input id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">College</div>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label" for="WH"> 
+                              <input id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">Wharton</div>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label" for="EAS"> 
+                            <input id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">SEAS</div>
+                              <input className="is-checkradio is-small" id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label" for="NUR"> 
+                            <input id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">Nursing</div>
+                            </label>
+                            <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
+                          </div>
+                        </div>
+                    {/* <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                       <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                         <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
@@ -857,7 +920,7 @@ class PostPage extends React.Component {
                         <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
                         <label for="NUR">Nursing</label>
                       </div>
-                    </div>
+                    </div> */}
                           {/* <div className="file-cta"  
                           style={{backgroundColor:"#2175cb", borderRadius:12, border:0, height:24, marginRight:10, color:"#ffffff", fontWeight:500, fontSize:16}}>
                               Save filters
