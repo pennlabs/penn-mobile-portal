@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import PostCard from '../components/AdminPostCard'
+import AdminPostCard from '../components/AdminPostCard'
 
 import Post from '../models/Post.js'
 import PostAnalytics from '../models/PostAnalytics.js'
@@ -29,7 +29,7 @@ class Admin extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     var accountID = Cookies.get('accountID')
     if (accountID) {
       var url = dev ? 'http://localhost:5000/portal/account?account_id=' : 'https://api.pennlabs.org/portal/account?account_id='
@@ -142,7 +142,7 @@ class Admin extends React.Component {
     postTypes.forEach(iterator => {
       this[`postCards${iterator}`] = this.state[`posts${iterator}`].map(function(post) {
         return (
-          <PostCard
+          <AdminPostCard
             id={post.id}
             title={post.title}
             subtitle={post.subtitle}
@@ -154,59 +154,149 @@ class Admin extends React.Component {
             endDate={post.endDate}
             status={post.status}
             approved={post.approved}
-            />
+          />
         )
       })
     })
 
-    return(
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh', backgroundColor: "#f7f7f7"}}>
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        minHeight: '99vh',
+        backgroundColor: "#f7f7f7"
+      }}>
         <Header isAdmin={this.state.isAdmin}/>
         <div style={{flex: 1}}>
-          <div style={{display: (this.state.finishedLoading ? "block" : "none"), position: "absolute", left: "50%", top: "46%", transform: "translate(-50%, -50%)"}}>
-            <span style={{display: 'block', wordWrap: 'break-word', fontFamily: mediumFont, fontSize: "26px"}}>
+          <div style={{
+            display: (this.state.finishedLoading ? "block" : "none"),
+            position: "absolute",
+            left: "50%",
+            top: "46%",
+            transform: "translate(-50%, -50%)"
+          }}>
+            <span style={{
+              display: 'block',
+              wordWrap: 'break-word',
+              fontFamily: mediumFont,
+              fontSize: "26px"
+            }}>
               No posts found.
             </span>
           </div>
-          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh', display: (this.state.posts.length == 0 ? "none" : "block"), backgroundColor: "#f7f7f7"}}>
+
+          <div className="card" style={{
+            padding: 20,
+            borderRadius: 5,
+            minHeight: '72vh',
+            display: (this.state.posts.length == 0 ? "none" : "block"),
+            backgroundColor: "#f7f7f7"
+          }}>
             <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
-              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: "5px 0px"}}>
+              <div className="column" style={{
+                display: this.state.postsSubmitted.length > 0 ? "block" : "none",
+                margin: "5px 0px"
+              }}>
                 <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Awaiting Approval
+                  Awaiting Approval
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsSubmitted}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: this.state.postsSubmitted.length == 0 ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Live
+
+              <div className="column" style={{
+                display: this.state.postsLive.length > 0 ? "block" : "none",
+                margin: this.state.postsSubmitted.length == 0 ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "28px"
+                }}>
+                  Live
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsLive}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsApproved.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0) ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Approved
+
+              <div className="column" style={{
+                display: this.state.postsApproved.length > 0 ? "block" : "none",
+                margin: (this.state.postsSubmitted.length == 0 &&
+                         this.state.postsLive.length == 0) ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "28px"
+                }}>
+                  Approved
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsApproved}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsChanges.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0) ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Changes Requested
+
+              <div className="column" style={{
+                display: this.state.postsChanges.length > 0 ? "block" : "none",
+                margin: (this.state.postsSubmitted.length == 0 &&
+                         this.state.postsLive.length == 0 &&
+                         this.state.postsApproved.length == 0) ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "28px"
+                }}>
+                  Changes Requested
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsChanges}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsSubmitted.length == 0 && this.state.postsLive.length == 0 && this.state.postsApproved.length == 0 && this.state.postsChanges.length == 0) ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "28px"}}>
-                Rejected
+
+              <div className="column" style={{
+                display: this.state.postsRejected.length > 0 ? "block" : "none",
+                margin: (this.state.postsSubmitted.length == 0 &&
+                         this.state.postsLive.length == 0 &&
+                         this.state.postsApproved.length == 0 &&
+                         this.state.postsChanges.length == 0) ? "5px 0px" : "-15px 0px"}}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "28px"
+                }}>
+                  Rejected
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsRejected}
                 </div>
               </div>
