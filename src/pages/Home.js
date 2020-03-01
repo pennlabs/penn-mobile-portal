@@ -29,7 +29,7 @@ class Home extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     var accountID = Cookies.get('accountID')
     if (accountID) {
       var url = dev ? 'http://localhost:5000/portal/account?account_id=' : 'https://api.pennlabs.org/portal/account?account_id='
@@ -119,7 +119,6 @@ class Home extends React.Component {
     }
   }
 
-
   render() {
     if (!Cookies.get('accountID')) {
       return (
@@ -148,73 +147,192 @@ class Home extends React.Component {
             endDate={post.endDate}
             status={post.status}
             approved={post.approved}
-            />
+          />
         )
       })
     })
 
-    return(
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'stretch', minHeight: '99vh', backgroundColor: "#f7f7f7"}}>
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        minHeight: '99vh',
+        backgroundColor: "#f7f7f7"
+      }}>
         <Header isAdmin={this.state.isAdmin}/>
         <div style={{flex: 1}}>
-          <div style={{display: (this.state.finishedLoading ? "block" : "none"), position: "absolute", left: "50%", top: "46%", transform: "translate(-50%, -50%)"}}>
+          <div style={{
+            display: (this.state.finishedLoading ? "block" : "none"),
+            position: "absolute",
+            left: "50%",
+            top: "46%",
+            transform: "translate(-50%, -50%)"
+          }}>
             <div className="columns is-mobile">
               <div className="row">
                 <img src="images/desk.svg" alt="Penn Mobile Logo" width="366" height="321"></img>
               </div>
+
               <div className="row" style={{margin: "0 0 0 50px"}}>
-                <span style={{display: 'block', wordWrap: 'break-word'}}>
-                  <b style={{fontFamily: boldFont, fontSize: "42px"}}>Oh, hello there.</b>
+                <span style={{
+                  display: 'block',
+                  wordWrap: 'break-word'
+                }}>
+                  <b style={{
+                    fontFamily: boldFont,
+                    fontSize: "42px"
+                  }}>
+                    Oh, hello there.
+                  </b>
                 </span>
-                <span style={{display: 'block', wordWrap: 'break-word', fontFamily: regularFont, fontSize: "20px", margin: "10px 0 5px 0"}}>Looks like you're new here.</span>
-                <span style={{display: 'block', wordWrap: 'break-word', fontFamily: regularFont, fontSize: "20px", maxWidth: "500px"}}>
+
+                <span style={{
+                  display: 'block',
+                  wordWrap: 'break-word',
+                  fontFamily: regularFont,
+                  fontSize: "20px",
+                  margin: "10px 0 5px 0"
+                }}>
+                  Looks like you're new here.
+                </span>
+
+                <span style={{
+                  display: 'block',
+                  wordWrap: 'break-word',
+                  fontFamily: regularFont,
+                  fontSize: "20px",
+                  maxWidth: "500px"
+                }}>
                   Penn Mobile Portal allows organizations to connect and engage with students on the Penn Mobile app. Make posts for recruiting, events, or campaigns and watch in real time as users see and interact with your content.
                 </span>
-                <span style={{display: 'block', wordWrap: 'break-word', fontFamily: mediumFont, fontSize: "20px", margin: "15px 0 5px 0"}}>
+
+                <span style={{
+                  display: 'block',
+                  wordWrap: 'break-word',
+                  fontFamily: mediumFont,
+                  fontSize: "20px",
+                  margin: "15px 0 5px 0"
+                }}>
                   Ready to get started? <a href="/post">Create a new post <i class="fas fa-arrow-circle-right" style={{fontSize: "17px", paddingBottom: 3, verticalAlign: 'middle'}}></i></a>
                 </span>
               </div>
             </div>
           </div>
-          <div className="card" style={{padding: 20, borderRadius: 5, minHeight: '72vh', display: (this.state.posts.length == 0 ? "none" : "block"), backgroundColor: "#f7f7f7"}}>
+          <div className="card" style={{
+            padding: 20,
+            borderRadius: 5,
+            minHeight: '72vh',
+            display: (this.state.posts.length == 0 ? "none" : "block"),
+            backgroundColor: "#f7f7f7"
+          }}>
             <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
-              <div className="column" style={{display: this.state.postsLive.length > 0 ? "block" : "none", margin: "5px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "30px"}}>
-                Live
+              <div className="column" style={{
+                display: this.state.postsLive.length > 0 ? "block" : "none",
+                margin: "5px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "30px"
+                }}>
+                  Live
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsLive}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsSubmitted.length > 0 ? "block" : "none", margin: this.state.postsLive.length == 0 ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "30px"}}>
-                Submitted
+              <div className="column" style={{
+                display: this.state.postsSubmitted.length > 0 ? "block" : "none",
+                margin: this.state.postsLive.length == 0 ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "30px"
+                }}>
+                  Submitted
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsSubmitted}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsRejected.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0) ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "30px"}}>
-                Rejected
+
+              <div className="column" style={{
+                display: this.state.postsRejected.length > 0 ? "block" : "none",
+                margin: (this.state.postsLive.length == 0 &&
+                         this.state.postsSubmitted.length == 0) ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "30px"
+                }}>
+                  Rejected
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsRejected}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsDrafts.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0 && this.state.postsRejected.length == 0) ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "30px"}}>
-                Drafts
+
+              <div className="column" style={{
+                display: this.state.postsDrafts.length > 0 ? "block" : "none",
+                margin: (this.state.postsLive.length == 0 &&
+                         this.state.postsSubmitted.length == 0 &&
+                         this.state.postsRejected.length == 0) ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "30px"
+                }}>
+                  Drafts
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsDrafts}
                 </div>
               </div>
-              <div className="column" style={{display: this.state.postsPast.length > 0 ? "block" : "none", margin: (this.state.postsLive.length == 0 && this.state.postsSubmitted.length == 0 && this.state.postsRejected.length == 0 && this.state.postsDrafts.length == 0) ? "5px 0px" : "-15px 0px"}}>
-                <b style={{fontFamily: mediumFont, fontSize: "30px"}}>
-                Past Posts
+
+              <div className="column" style={{
+                display: this.state.postsPast.length > 0 ? "block" : "none",
+                margin: (this.state.postsLive.length == 0 &&
+                         this.state.postsSubmitted.length == 0 &&
+                         this.state.postsRejected.length == 0 &&
+                         this.state.postsDrafts.length == 0) ? "5px 0px" : "-15px 0px"
+              }}>
+                <b style={{
+                  fontFamily: mediumFont,
+                  fontSize: "30px"
+                }}>
+                  Past Posts
                 </b>
-                <div className="columns is-mobile" style={{flex: 1, flexWrap: "wrap", flexDirection: "row", margin: "20px 0px 0px 0px"}}>
+
+                <div className="columns is-mobile" style={{
+                  flex: 1,
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  margin: "20px 0px 0px 0px"
+                }}>
                   {this.postCardsPast}
                 </div>
               </div>
