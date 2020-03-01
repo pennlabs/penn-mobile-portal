@@ -94,7 +94,6 @@ class Preview extends React.Component {
           <div className="home"></div>
           <div className="bottom-bar"></div>
         </div>
-      </div>
     )
   }
 }
