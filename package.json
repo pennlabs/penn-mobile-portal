@@ -7,6 +7,7 @@
     "bulma-calendar": "^6.0.7",
     "bulma-checkradio": "^1.1.1",
     "bulma-tagsinput": "^2.0.0",
+    "feather-icons": "^4.26.0",
     "form-data": "^2.5.1",
     "js-cookie": "^2.2.1",
     "node-fetch": "^2.6.0",
