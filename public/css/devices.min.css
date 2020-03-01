@@ -7,6 +7,7 @@
   position: relative;
   cursor: pointer;
   font-size: 22px;
+  font-weight:1000px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -18,7 +19,6 @@
 .label input {
   position: absolute;
   opacity: 0;
-  font-weight:100px;
   cursor: pointer;
   height: 0;
   width: 0;

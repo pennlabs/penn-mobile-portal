@@ -819,7 +819,7 @@ class PostPage extends React.Component {
                           <div className="column is-2">
                             <label class="label"> 
                               <input id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">2020</div>
+                              <div class="checkmark" style={{fontWeight:2000}}>2020</div>
                             </label>
                           </div>
                           <div className="column is-2">
