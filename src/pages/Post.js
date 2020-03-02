@@ -638,7 +638,8 @@ class PostPage extends React.Component {
                             height: "30px",
                             borderRadius: "17px",
                             borderWidth: 0,
-                            backgroundColor: "rgba(63, 170, 109, 0.2)"
+                            backgroundColor: "rgba(63, 170, 109, 0.2)",
+                            display: this.state.isExpired ? "none" : "flex"
                           }}
                         >
                           <b style={{
