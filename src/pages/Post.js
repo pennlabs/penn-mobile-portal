@@ -73,6 +73,7 @@ class PostPage extends React.Component {
       isLive: false,
       isApproved: false,
       isSubmitted: false,
+      isExpired: false,
       modalIsOpen: false,
       modalStyle: {
         content: {
@@ -128,6 +129,9 @@ class PostPage extends React.Component {
     const query = queryString.parse(this.props.location.search);
     if ('id' in query) {
       const id = query.id
+      this.setState({
+        isSubmitted: true
+      })
       var url = dev ? 'http://localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
       fetch(url + id + '?account=' + accountID)
       .then((response) => response.json())
@@ -166,8 +170,17 @@ class PostPage extends React.Component {
           filters: filters,
           startDate: new Date(startDateStr),
           endDate: new Date(endDateStr),
-          status: json.status
+          status: json.status,
+          isApproved: json.approved
         })
+        var dateNow = new Date();
+        if (dateNow > this.state.startDate && dateNow < this.state.endDate && this.state.isApproved) {
+          this.setState({isLive: true})
+        }
+        if (dateNow > this.state.endDate) {
+          this.setState({isExpired: true})
+        }
+
         this.setupDatePicker()
         bulmaTagsInput.attach()
 
@@ -564,89 +577,191 @@ class PostPage extends React.Component {
                   <div className="columns">
                     <div className="column has-text-left"> 
                       <div>
-                        <b style={{fontFamily: mediumFont, fontSize: "30px", margin:"0px 0px 0px 91px"}}>
+                        <b style={{fontFamily: mediumFont, fontSize: "30px", margin: "0px 0px 0px 91px"}}>
                           Post Details
                         </b>
                       </div>              
                     </div>
                     <div className="column">
-                      <div className="buttons are-small is-right">
+                      <div className="buttons are-small is-right" style={{marginTop: 7}}>
                         <button 
                           className="button" 
                           style={{
-                            width:70, 
-                            marginRight: "15px", 
-                            borderRadius:17, 
-                            borderWidth:"0px", 
-                            backgroundColor:"#ffd4d1", color:"#ed2f3f", 
-                            fontWeight:"700",
-                            fontSize:15,
-                            fontFamily: regularFont
-                            }}>Delete</button>
+                            width: "91px", 
+                            height: "30px",
+                            borderRadius: "17px", 
+                            borderWidth: 0,
+                            backgroundColor: "#ffd4d1",
+                            marginRight: "15px",
+                            display: this.state.isSubmitted ? "flex" : "none"
+                          }}
+                        >
+                          <b style={{
+                            width: "62px",
+                            height: "24px",
+                            fontFamily: boldFont,
+                            fontSize: "20px",
+                            color: "#e25152",
+                            marginTop: -8
+                          }}>
+                            Delete
+                          </b>
+                        </button>
                         <button 
                           className="button" 
                           style={{
-                            width:120, 
-                            marginRight: "15px", 
-                            borderRadius:17, 
-                            borderWidth:"0px", 
-                            backgroundColor:"#e3e3e3", color:"#999999", 
-                            fontWeight:"700",
-                            fontSize:15,
-                            fontFamily: regularFont
-                            }}>Save for later</button>
+                            width: "158px", 
+                            height: "30px",
+                            borderRadius: "17px", 
+                            borderWidth: 0,
+                            backgroundColor: "#e3e3e3", 
+                            marginRight: "15px",
+                            display: this.state.isSubmitted ? "none" : "flex"
+                          }}
+                        >
+                          <b style={{
+                            width: "128px",
+                            height: "24px",
+                            fontFamily: boldFont,
+                            fontSize: "20px",
+                            color: "#999999",
+                            marginTop: -8
+                          }}>
+                            Save for later
+                          </b>
+                        </button>
                         <button 
                           className="button" 
                           onClick={this.onSubmit}
                           style={{
-                            borderRadius:17, 
-                            backgroundColor:"rgba(63, 170, 109, 0.2)", 
-                            borderWidth:"0px", 
-                            color:"#3faa6d", 
-                            fontWeight:"700",
-                            width: 80,
-                            fontSize: 15,
-                            fontFamily: regularFont
-                            }}>Submit</button>
+                            width: "99px",
+                            height: "30px",
+                            borderRadius: "17px",
+                            borderWidth: 0,
+                            backgroundColor: "rgba(63, 170, 109, 0.2)"
+                          }}
+                        >
+                          <b style={{
+                            width: "68px",
+                            height: "24px",
+                            fontFamily: boldFont,
+                            fontSize: "20px",
+                            color: "#3faa6d",
+                            marginTop: -8
+                          }}>
+                            Submit
+                          </b>
+                        </button>
                       </div>
                     </div>
                   </div>
 
                   {/* <NewPostLabel text="Current Status" single={true} /> */}
                   {/* <PostStatusVisibility isApproved={this.state.isApproved} postStatus={this.state.status} notifyChange={this.setState}/> */}
-                    <div className="columns">
-                      <div className="column is-2"></div>
-                      <div className="column is-1" style={{width:25, padding:"13px 0px 0px 0px"}}>
-                        <span class="icon" style={{color:"#2175cb", width:15, height: 20, boxShadow: "0 0 9px 4px #c9c9c9"}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
+                    <div className="columns" style={{marginTop: 10}}>
+                      <div className="column is-2" style={{
+                        width: 120
+                      }}></div>
+                      <div className="column is-1" style={{
+                        width: 25,
+                        padding: "13px 0px 0px 0px",
+                        zIndex: 1
+                      }}>
+                        <span class="icon" style={{color: "#2175cb", width: 20, height: 20}}>
+                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
-                        <div style={{fontSize:16, color: "#2175cb", fontWeight:600}}>Draft</div>
+                        <div style={{fontSize:16, color: "#2175cb", fontFamily: boldFont, marginLeft: -7, paddingTop: 6}}>
+                          Draft
+                        </div>
                       </div>
-                      <div className="column is-2" style={{backgroundColor:"#2175cb", marginLeft:0, padding:"0px 0px 0px 0px", marginTop:22, height:5, width:"22%"}}></div>
-                      <div className="column is-1" style={{width:25, zIndex:0, padding:"13px 0px 0px 0px"}}>
-                        <span class="icon" style={{color:"#2175cb", width:15, height: 20, boxShadow: "0 0 9px 4px #c9c9c9"}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
+                      <div className="column is-2" style={{
+                        backgroundColor: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#cccccc",
+                        marginLeft: 0,
+                        padding: "0px 0px 0px 0px",
+                        marginTop: 20,
+                        height: 5,
+                        width: "18%",
+                        zIndex: this.state.isSubmitted || this.state.isExpired ? 2 : 0
+                      }}></div>
+                      <div className="column is-1" style={{
+                        width: 25,
+                        padding: "13px 0px 0px 0px",
+                        zIndex: 1
+                      }}>
+                        <span class="icon" style={{color: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isSubmitted && !this.state.isApproved ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
-                        <div style={{fontSize:16, color: "#2175cb", fontWeight:600, width:100}}>Under Review</div>
+                        <div style={{fontSize: 16, color: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#999999", width: 107, fontFamily: boldFont, marginLeft: -42, paddingTop: 6}}>
+                          Under Review
+                        </div>
                       </div>
-                      <div className="column is-2" style={{backgroundColor:"#cccccc", marginLeft:0, padding:"0px 0px 0px 0px", marginTop:22, height:5, width:"22%"}}></div>
-                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25, padding:"13px 0px 0px 0px"}}>
-                        <span class="icon" style={{color:"#cccccc"}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
+                      <div className="column is-2" style={{
+                        backgroundColor: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#cccccc",
+                        marginLeft: 0,
+                        padding: "0px 0px 0px 0px",
+                        marginTop: 20,
+                        height: 5, 
+                        width: "18%",
+                        zIndex: this.state.isApproved || this.state.isExpired  ? 2 : 0
+                      }}></div>
+                      <div className="column is-1" style={{
+                        width: 25,
+                        padding: "13px 0px 0px 0px",
+                        zIndex: 1
+                      }}>
+                        <span class="icon" style={{color: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isApproved && !this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
-                        <div style={{fontSize:16, color: "#999999", fontWeight:600}}>Live</div>
+                        <div style={{fontSize:16, color: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#999999", fontFamily: boldFont, marginLeft: -24, paddingTop: 6}}>
+                          Approved
+                        </div>
                       </div>
-                      <div className="column is-2" style={{backgroundColor:"#cccccc", marginLeft:0, padding:"0px 0px 0px 0px", marginTop:22, height:5, width:"22%"}}></div>
-                      <div className="column is-1" style={{paddingLeft:0, paddingRight:0, width:25, padding:"13px 0px 0px 0px"}}>
-                        <span class="icon" style={{color:"#cccccc"}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize:27}}></i>
+                      <div className="column is-2" style={{
+                        backgroundColor: this.state.isLive || this.state.isExpired ? "#2175cb" : "#cccccc",
+                        marginLeft: 0,
+                        padding: "0px 0px 0px 0px",
+                        marginTop: 20,
+                        height: 5, 
+                        width: "18%",
+                        zIndex: this.state.isLive || this.state.isExpired ? 2 : 0
+                      }}></div>
+                      <div className="column is-1" style={{
+                        width: 25,
+                        padding: "13px 0px 0px 0px",
+                        zIndex: 1
+                      }}>
+                        <span class="icon" style={{color: this.state.isLive || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
-                        <div style={{fontSize:16, color: "#999999", fontWeight:600}}>Expired</div>
+                        <div style={{fontSize:16, color: this.state.isLive || this.state.isExpired ? "#2175cb" : "#999999", fontFamily: boldFont, marginLeft: -3, paddingTop: 6}}>
+                          Live
+                        </div>
+                      </div>
+                      <div className="column is-2" style={{
+                        backgroundColor: this.state.isExpired ? "#2175cb" : "#cccccc",
+                        marginLeft: 0,
+                        padding: "0px 0px 0px 0px",
+                        marginTop: 20,
+                        height: 5,
+                        width: "18%",
+                        zIndex: this.state.isExpired ? 2 : 0
+                      }}></div>
+                      <div className="column is-1" style={{
+                        width: 25,
+                        padding: "13px 0px 0px 0px",
+                        zIndex: 1
+                      }}>
+                        <span class="icon" style={{color: this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
+                        </span>
+                        <div style={{fontSize:16, color: this.state.isExpired ? "#2175cb" : "#999999", fontFamily: boldFont, marginLeft: -16, paddingTop: 6}}>
+                          Expired
+                        </div>
                       </div>
                     </div>                    
                   
                   {/* <NewPostLabel text="Post Options" single={true} /> */}
-                  <div className="has-text-left" style={{marginLeft:91, fontSize:20}}><b>Content</b></div>
+                  <div className="has-text-left" style={{marginLeft: 91, marginTop: 42, fontSize: 20}}><b>Content</b></div>
                   <div 
                     className="card" 
                     style={{borderRadius: 10, height: '38%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
@@ -656,7 +771,7 @@ class PostPage extends React.Component {
                       </b>
                     </div> */}
                     <div>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Title</b>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Title</b>
                       <input 
                         className="input is-small" 
                         type="text" 
@@ -664,51 +779,50 @@ class PostPage extends React.Component {
                         value={this.state.title} 
                         placeholder="Ex: Apply to Penn Labs!" 
                         onChange={this.updateInput}
-                        style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", marginTop:8}} />
+                        style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
                     </div>
 
-                    <div style={{marginTop:16}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Subtitle (optional)</b>
+                    <div style={{marginTop: 26}}>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Description (Optional)</b>
                       <textarea
-                        className="textarea is-small"
+                        className="input is-small"
                         type="text"
                         name="subtitle"
                         value={this.state.subtitle}
                         placeholder="Ex: Interested in developing new features for Penn Mobile or Penn Course Review? Come out and meet the team!"
                         rows="2"
                         onChange={this.updateInput}
-                        style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", marginTop:8}}
-                        />
+                        style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
                     </div>
 
-                    <div style={{marginTop:16}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (optional)</b>
+                    <div style={{marginTop: 26}}>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (optional)</b>
                       <input 
-                      className="input is-small" 
-                      type="text" 
-                      name="detailLabel" 
-                      value={this.state.detailLabel} 
-                      placeholder="Ex: Due Today" 
-                      onChange={this.updateInput}
-                      style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", marginTop:8}}/>
+                        className="input is-small" 
+                        type="text" 
+                        name="detailLabel" 
+                        value={this.state.detailLabel} 
+                        placeholder="Ex: Due Today" 
+                        onChange={this.updateInput}
+                        style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
                     </div>
 
-                    <div style={{marginTop:16}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Upload Cover Image</b>
+                    <div style={{marginTop: 26}}>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Upload Cover Image</b>
                       <div style={{height: '10px'}} />
                     </div>
 
-                    <div style={{marginTop:16}}>
+                    <div style={{marginTop: 16}}>
                       <div className="file has-name is-small">
                         <label className="file-label" >
                           <input className="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
-                          <span className="file-cta"  style={{backgroundColor:"#2175cb", borderRadius:12, border:0, height:24}}>
+                          <span className="file-cta"  style={{backgroundColor: "#2175cb", borderRadius: "12px", width: "105px", height: "24px", border: 0}}>
                             {/* <span className="file-icon">
                               <i className="fas fa-upload"></i>
                             </span> */}
-                            <span className="file-label" style={{color:"#ffffff", fontWeight:500, fontSize:16}}>
+                            <b className="file-label" style={{color: "#ffffff", fontFamily: boldFont, fontSize: "16px", width: "72px", height: "19px", marginTop: -5, marginLeft: 5}}>
                               Browse…
-                            </span>
+                            </b>
                           </span>
                           <span className="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
                             {this.state.imageFileName ? this.state.imageFileName : null}
@@ -770,12 +884,12 @@ class PostPage extends React.Component {
                       </center>
                     </Modal>
 
-                    <div style={{marginTop:16}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Link (optional)</b>
+                    <div style={{marginTop: 26}}>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Link (optional)</b>
                       <input 
                         className="input is-small" type="text" name="postUrl" value={this.state.postUrl} 
                         placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}
-                        style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", marginTop:8}}/>
+                        style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
                     </div>
 
                     {/* <div style={{backgroundColor: "rgba(0,0,0,0.18)", height: 1, margin: "16px 6px 0px 12px"}}/> */}
@@ -791,10 +905,10 @@ class PostPage extends React.Component {
                     </div>
                     </div>
 
-                    <div className="has-text-left columns" style={{marginLeft:91, marginTop:32}}>
+                    <div className="has-text-left columns" style={{marginLeft: 91, marginTop: 32}}>
                       <div className="column">
-                        <p style={{fontSize:12, color:"#999999", fontWeight:500, letterSpacing:.2}}>
-                          <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Filters</b>
+                        <p style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
+                          <b style={{fontSize: 20, marginRight: 21, color: "#4a4a4a"}}>Filters</b>
                           <span class="icon">
                             <i class="fas fa-info-circle"></i>
                           </span>            
@@ -950,7 +1064,7 @@ class PostPage extends React.Component {
                         <textarea 
                           className="textarea is-small" type="text" name="comments" value={this.state.comments} 
                           placeholder="Enter any comments here." rows="2" onChange={this.updateInput}
-                          style={{backgroundColor:"#f9f9f9", borderRadius:5, border:"1px solid #f9f9f9", height:94}}/>
+                          style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", height:94, fontSize: "14px"}}/>
                       </div>
                     </div>
                     {/* <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
@@ -974,7 +1088,7 @@ class PostPage extends React.Component {
 
                 <div className="column has-text-centered is-5">
                   <div>
-                    <b style={{fontFamily: regularFont, fontSize:30}}>Live Preview</b>
+                    <b style={{fontFamily: mediumFont, fontSize: 30}}>Live Preview</b>
                   </div>
                   
                   {/* <NewPostLabel text="Live Preview" single={false} left={false} /> */}

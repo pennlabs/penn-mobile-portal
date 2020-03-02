@@ -15,6 +15,7 @@ class Header extends React.Component {
           <title>Penn Mobile Portal</title>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <link rel="stylesheet" href="devices.min.css" type="text/css"></link>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"/>
           <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" />
           <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
