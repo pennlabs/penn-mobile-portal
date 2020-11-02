@@ -57,10 +57,10 @@ class PostPage extends React.Component {
           enabled: false
         },
         class: {
-          year_0: false, // 2020
-          year_1: false, // 2021
-          year_2: false, // 2022
-          year_3: false, // 2023
+          year_0: false, // 2021
+          year_1: false, // 2022
+          year_2: false, // 2023
+          year_3: false, // 2024
         },
         school: {
           WH: false,
@@ -82,7 +82,14 @@ class PostPage extends React.Component {
           right: '50%',
           bottom: 'auto',
           marginRight: '-50%',
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          borderRadius: 10,
+          border: null,
+          padding: "51px"
+        },
+        overlay: {
+          zIndex: 10,
+          backgroundColor: "rgba(174, 174, 174, 0.4)"
         }
       },
       isAdmin: false,
@@ -759,7 +766,7 @@ class PostPage extends React.Component {
                           Expired
                         </div>
                       </div>
-                    </div>                    
+                    </div>
                   
                   {/* <NewPostLabel text="Post Options" single={true} /> */}
                   <div className="has-text-left" style={{marginLeft: 91, marginTop: 42, fontSize: 20}}><b>Content</b></div>
@@ -797,7 +804,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (optional)</b>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (Optional)</b>
                       <input 
                         className="input is-small" 
                         type="text" 
@@ -813,7 +820,7 @@ class PostPage extends React.Component {
                       <div style={{height: '10px'}} />
                     </div>
 
-                    <div style={{marginTop: 16}}>
+                    <div style={{marginTop: 22}}>
                       <div className="file has-name is-small">
                         <label className="file-label" >
                           <input className="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
@@ -854,18 +861,22 @@ class PostPage extends React.Component {
                       onRequestClose={this.closeModal}
                       style={this.state.modalStyle}
                       contentLabel="Cropping Modal">
-                      <center>
-                      <div id="cropping" style={{margin: "16px 40px 0px 40px"}}>
-                        {src && (
-                          <ReactCrop
-                            src={src}
-                            crop={crop}
-                            onImageLoaded={this.onImageLoaded}
-                            onComplete={this.onCropComplete}
-                            onChange={this.onCropChange}
-                          />
-                        )}
-                        <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
+                        <div style={{marginTop: "-16px"}}>
+                          <b style={{fontFamily: boldFont, fontSize: "30px", color: "#4a4a4a"}}>
+                            Crop Cover Image
+                          </b>
+                        </div>
+                        <div id="cropping" style={{paddingTop: "27px"}}>
+                          {src && (
+                            <ReactCrop
+                              src={src}
+                              crop={crop}
+                              onImageLoaded={this.onImageLoaded}
+                              onComplete={this.onCropComplete}
+                              onChange={this.onCropChange}
+                            />
+                          )}
+                          <div style={{margin: "20px 0px -4px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
                             <button id="buttonCrop" className="buttonCrop" style={{
                                 margin: "16px 0px 0px 0px",
                                 width: 190,
@@ -880,13 +891,12 @@ class PostPage extends React.Component {
                               }}>
                                 Crop and Upload
                             </button>
+                          </div>
                         </div>
-                      </div>
-                      </center>
                     </Modal>
 
                     <div style={{marginTop: 26}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Link (optional)</b>
+                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Link (Optional)</b>
                       <input 
                         className="input is-small" type="text" name="postUrl" value={this.state.postUrl} 
                         placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}
@@ -934,25 +944,25 @@ class PostPage extends React.Component {
                           <div className="column is-2">
                             <label class="label"> 
                               <input id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark" style={{fontWeight:2000}}>2020</div>
+                              <div class="checkmark" style={{fontWeight:2000}}>2021</div>
                             </label>
                           </div>
                           <div className="column is-2">
                             <label class="label"> 
                               <input id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">2021</div>
-                            </label>
-                          </div>
-                          <div className="column is-2">
-                            <label class="label"> 
-                            <input id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState}/>
                               <div class="checkmark">2022</div>
                             </label>
                           </div>
                           <div className="column is-2">
                             <label class="label"> 
-                            <input id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
+                            <input id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState}/>
                               <div class="checkmark">2023</div>
+                            </label>
+                          </div>
+                          <div className="column is-2">
+                            <label class="label"> 
+                            <input id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
+                              <div class="checkmark">2024</div>
                             </label>
                           </div>
                         </div>
@@ -994,7 +1004,7 @@ class PostPage extends React.Component {
                     </div> */}
                     <div className="columns">
                           <div className = "column is-3">
-                            <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>Class Year</b>
+                            <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>School</b>
                           </div>
                           <div className="column is-2">
                             <label class="label" for="COL"> 
