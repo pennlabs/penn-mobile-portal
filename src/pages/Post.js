@@ -772,7 +772,7 @@ class PostPage extends React.Component {
                   <div className="has-text-left" style={{marginLeft: 91, marginTop: 42, fontSize: 20}}><b>Content</b></div>
                   <div 
                     className="card" 
-                    style={{borderRadius: 10, height: '38%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
+                    style={{borderRadius: 10, margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 18px 26px"}}>
                     {/* <div className="has-text-center">
                       <b style={{fontFamily: mediumFont, fontSize: "26px"}}>
                         Edit Details
@@ -824,15 +824,15 @@ class PostPage extends React.Component {
                       <div className="file has-name is-small">
                         <label className="file-label" >
                           <input className="file-input" type="file" accept="image/*" onChange={this.saveFile}/>
-                          <span className="file-cta"  style={{backgroundColor: "#2175cb", borderRadius: "12px", width: "105px", height: "24px", border: 0}}>
-                            {/* <span className="file-icon">
+                          <span className="file-cta"  style={{backgroundColor: "#2175cb", borderRadius: "16px", width: "115px", height: "30px", border: 0}}>
+                            <span className="file-icon" style={{color: "#ffffff"}}>
                               <i className="fas fa-upload"></i>
-                            </span> */}
-                            <b className="file-label" style={{color: "#ffffff", fontFamily: boldFont, fontSize: "16px", width: "72px", height: "19px", marginTop: -5, marginLeft: 5}}>
-                              Browse…
+                            </span>
+                            <b className="file-label" style={{color: "#ffffff", fontFamily: boldFont, fontSize: "14px"}}>
+                              Browse...
                             </b>
                           </span>
-                          <span className="file-name" style={{visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
+                          <span className="file-name" style={{height: "30px", visibility: (this.state.imageFileName ? "visible" : "hidden")}}>
                             {this.state.imageFileName ? this.state.imageFileName : null}
                           </span>
                         </label>
@@ -842,16 +842,15 @@ class PostPage extends React.Component {
                               margin: "16px 0px 0px 0px",
                               width: 115,
                               height: 30,
-                              boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
                               border: "solid 0 #979797",
                               backgroundColor: "#2175cb",
                               fontFamily: boldFont,
-                              fontWeight: 500,
                               fontSize: 14,
                               color: "#ffffff",
+                              borderRadius: 16,
                               display: this.state.imageUrl ? "block" : "none"
                             }}>
-                              Crop Image
+                            <b>Crop Image</b>
                           </button>
                       </div>
                     </div>
