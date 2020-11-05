@@ -666,14 +666,12 @@ class PostPage extends React.Component {
 
                   {/* <NewPostLabel text="Current Status" single={true} /> */}
                   {/* <PostStatusVisibility isApproved={this.state.isApproved} postStatus={this.state.status} notifyChange={this.setState}/> */}
-                    <div className="columns" style={{marginTop: 10}}>
-                      <div className="column is-2" style={{
-                        width: 120
-                      }}></div>
+                    <div className="columns" style={{marginTop: 10, marginLeft: 91}}>
                       <div className="column is-1" style={{
-                        width: 25,
+                        width: "1vw",
                         padding: "13px 0px 0px 0px",
-                        zIndex: 1
+                        zIndex: 1,
+                        position: "relative",
                       }}>
                         <span class="icon" style={{color: "#2175cb", width: 20, height: 20}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
@@ -688,13 +686,15 @@ class PostPage extends React.Component {
                         padding: "0px 0px 0px 0px",
                         marginTop: 20,
                         height: 5,
-                        width: "18%",
-                        zIndex: this.state.isSubmitted || this.state.isExpired ? 2 : 0
+                        width: "22%",
+                        zIndex: this.state.isSubmitted || this.state.isExpired ? 2 : 0,
+                        position: "relative",
                       }}></div>
                       <div className="column is-1" style={{
-                        width: 25,
+                        width: "1vw",
                         padding: "13px 0px 0px 0px",
-                        zIndex: 1
+                        zIndex: 1,
+                        position: "relative",
                       }}>
                         <span class="icon" style={{color: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isSubmitted && !this.state.isApproved ? "0 0 8px 3px #d9d9d9" : ""}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
@@ -709,13 +709,15 @@ class PostPage extends React.Component {
                         padding: "0px 0px 0px 0px",
                         marginTop: 20,
                         height: 5, 
-                        width: "18%",
-                        zIndex: this.state.isApproved || this.state.isExpired  ? 2 : 0
+                        width: "22%",
+                        zIndex: this.state.isApproved || this.state.isExpired  ? 2 : 0,
+                        position: "relative",
                       }}></div>
                       <div className="column is-1" style={{
-                        width: 25,
+                        width: "1vw",
                         padding: "13px 0px 0px 0px",
-                        zIndex: 1
+                        zIndex: 1,
+                        position: "relative",
                       }}>
                         <span class="icon" style={{color: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isApproved && !this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
@@ -730,13 +732,15 @@ class PostPage extends React.Component {
                         padding: "0px 0px 0px 0px",
                         marginTop: 20,
                         height: 5, 
-                        width: "18%",
-                        zIndex: this.state.isLive || this.state.isExpired ? 2 : 0
+                        width: "22%",
+                        zIndex: this.state.isLive || this.state.isExpired ? 2 : 0,
+                        position: "relative",
                       }}></div>
                       <div className="column is-1" style={{
-                        width: 25,
+                        width: "1vw",
                         padding: "13px 0px 0px 0px",
-                        zIndex: 1
+                        zIndex: 1,
+                        position: "relative",
                       }}>
                         <span class="icon" style={{color: this.state.isLive || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
@@ -751,13 +755,15 @@ class PostPage extends React.Component {
                         padding: "0px 0px 0px 0px",
                         marginTop: 20,
                         height: 5,
-                        width: "18%",
-                        zIndex: this.state.isExpired ? 2 : 0
+                        width: "22%",
+                        zIndex: this.state.isExpired ? 2 : 0,
+                        position: "relative",
                       }}></div>
                       <div className="column is-1" style={{
-                        width: 25,
+                        width: "1vw",
                         padding: "13px 0px 0px 0px",
-                        zIndex: 1
+                        zIndex: 1,
+                        position: "relative",
                       }}>
                         <span class="icon" style={{color: this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
