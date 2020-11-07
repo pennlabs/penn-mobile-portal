@@ -38,6 +38,14 @@ const CardLabel = styled.div`
   color: #4a4a4a
 `
 
+const FormHeader = styled.div`
+  margin-top: 26px;
+  font-size: 16px;
+  float: left;
+  margin: 0px 0px 2px 0px;
+  font-weight: 600;
+`
+
 class PostPage extends React.Component {
   constructor(props){
     super(props)
@@ -811,7 +819,7 @@ class PostPage extends React.Component {
                       </b>
                     </div> */}
                     <div>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Title</b>
+                      <FormHeader>Title</FormHeader>
                       <input 
                         className="input is-small" 
                         type="text" 
@@ -823,7 +831,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Description (Optional)</b>
+                      <FormHeader>Description (Optional)</FormHeader>
                       <textarea
                         className="input is-small"
                         type="text"
@@ -836,7 +844,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Detail Label (Optional)</b>
+                      <FormHeader>Detail Label (Optional)</FormHeader>
                       <input 
                         className="input is-small" 
                         type="text" 
@@ -848,7 +856,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Upload Cover Image</b>
+                      <FormHeader>Upload Cover Image</FormHeader>
                       <div style={{height: '10px'}} />
                     </div>
 
@@ -860,7 +868,7 @@ class PostPage extends React.Component {
                             <span className="file-icon" style={{color: "#ffffff"}}>
                               <i className="fas fa-upload"></i>
                             </span>
-                            <b className="file-label" style={{color: "#ffffff", fontFamily: boldFont, fontSize: "14px"}}>
+                            <b className="file-label" style={{color: "#ffffff", fontWeight: "bold", fontSize: "14px"}}>
                               Browse...
                             </b>
                           </span>
@@ -876,13 +884,13 @@ class PostPage extends React.Component {
                               height: 30,
                               border: "solid 0 #979797",
                               backgroundColor: "#2175cb",
-                              fontFamily: boldFont,
+                              fontWeight: "bold",
                               fontSize: 14,
                               color: "#ffffff",
                               borderRadius: 16,
                               display: this.state.imageUrl ? "block" : "none"
                             }}>
-                            <b>Crop Image</b>
+                            Crop Image
                           </button>
                       </div>
                     </div>
@@ -926,8 +934,8 @@ class PostPage extends React.Component {
                         </div>
                     </Modal>
 
-                    <div style={{marginTop: 26}}>
-                      <b style={{fontFamily: mediumFont, fontSize: "16px", float: "left", margin: "0px 0px 2px 0px"}}>Link (Optional)</b>
+                    <div>
+                      <FormHeader>Link (Optional)</FormHeader>
                       <input 
                         className="input is-small" type="text" name="postUrl" value={this.state.postUrl} 
                         placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}
@@ -948,28 +956,7 @@ class PostPage extends React.Component {
                         ref={e => this.dateInput = e}
                       />
                     </div> */}
-                    {/* <div>
-                    <DatePicker dateFormat="m/d/Y" datePickerType="range">
-                      <DatePickerInput
-                        id="date-picker-range-start"
-                        placeholder="mm/dd/yyyy"
-                        labelText="Start Date"
-                        type="text"
-                        onChange={e => this.dateInput = e}
-                        style={{fontFamily: mediumFont}}
-                      />
 
-                      <DatePickerInput
-                        id="date-picker-range-end"
-                        placeholder="mm/dd/yyyy"
-                        labelText="End Date"
-                        type="text"
-                      />
-                    </DatePicker>
-                    </div>
-                    </div> */}
-
-                    {/* <div className="has-text-left columns"> */}
                     <CardLabel>
                     <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Filters</b>
                         <span style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
@@ -979,7 +966,6 @@ class PostPage extends React.Component {
                           If no filters are applied, the post will be shared with all Penn Mobile users by default.
                         </span>
                     </CardLabel>
-                    {/* </div>                     */}
                     <div 
                       class="card has-text-left" 
                       style={{
@@ -992,7 +978,7 @@ class PostPage extends React.Component {
                           
                         <div className="columns">
                           <div className = "column is-3">
-                            <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>Class Year</b>
+                            <FormHeader>Class Year</FormHeader>
                           </div>
                           <div className="column is-2">
                             <label class="label"> 
@@ -1057,7 +1043,7 @@ class PostPage extends React.Component {
                     </div> */}
                     <div className="columns">
                           <div className = "column is-3">
-                            <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>School</b>
+                            <FormHeader>School</FormHeader>
                           </div>
                           <div className="column is-2">
                             <label class="label" for="COL"> 

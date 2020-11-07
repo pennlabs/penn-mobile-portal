@@ -67,15 +67,19 @@ const DatesCard = ( {updateStartDate, updateEndDate} ) => {
     <div className="columns" style={{display: "flex"}}>
       <div className="column">
       <DatePicker dateFormat="m/d/Y" datePickerType="single" minDate={new Date().toISOString()} //start date must be after current day
-        onChange={e => handleStartDate(e)} style={{ textAlign: "left" }} >
-        <DatePickerInput id="date-picker-start" placeholder="mm/dd/yyyy" labelText="Start Date" type="text" />
+        onChange={e => handleStartDate(e)} style={{ textAlign: "left", fontFamily: "inherit" }} >
+        <DatePickerInput id="date-picker-start" placeholder="mm/dd/yyyy" labelText="Start Date" type="text" 
+          style={{fontFamily: "inherit", borderBottom: "none" }}/>
       </DatePicker>
       </div>
       <div className="column">
       <TimePicker id="time-picker-from" labelText="Start Time" 
         value={startTime} invalid={invalidStart} invalidText="Invalid time." 
-        onChange={e => handleStartTime(e.target.value, startTimeMode)}>
-          <TimePickerSelect id="time-picker-select-1" labelText="AMPM" onChange={e => handleStartTime(startTime, e.target.value)}>
+        onChange={e => handleStartTime(e.target.value, startTimeMode)}
+        style={{fontFamily: "inherit", borderBottom: "none"}} >
+          <TimePickerSelect id="time-picker-select-1" labelText="AMPM" 
+            onChange={e => handleStartTime(startTime, e.target.value)}
+            style={{fontFamily: "inherit", borderBottom: "none"}} >
             <SelectItem value="AM" text="AM" />
             <SelectItem value="PM" text="PM" />
           </TimePickerSelect>
@@ -86,13 +90,17 @@ const DatesCard = ( {updateStartDate, updateEndDate} ) => {
       <div className="column">
       <DatePicker dateFormat="m/d/Y" datePickerType="single" minDate={startDate.toISOString()} //start date must be after current day
         onChange={e => handleEndDate(e)} style={{ textAlign: "left" }} >
-        <DatePickerInput id="date-picker-end" placeholder="mm/dd/yyyy" labelText="End Date" type="text" />
+        <DatePickerInput id="date-picker-end" placeholder="mm/dd/yyyy" labelText="End Date" type="text"
+          style={{fontFamily: "inherit", borderBottom: "none"}} />
       </DatePicker>
       </div>
       <div className="column">
       <TimePicker id="time-picker-to" labelText="End Time" value={endTime}
-        invalid={invalidEnd} invalidText="Invalid time." onChange={e => handleEndTime(e.target.value, endTimeMode)}>
-          <TimePickerSelect id="time-picker-select-2" labelText="AMPM" onChange={e => handleEndTime(endTime, e.target.value)}>
+        invalid={invalidEnd} invalidText="Invalid time."
+        onChange={e => handleEndTime(e.target.value, endTimeMode)}
+        style={{fontFamily: "inherit", borderBottom: "none"}} >
+          <TimePickerSelect id="time-picker-select-2" labelText="AMPM" onChange={e => handleEndTime(endTime, e.target.value)}
+          style={{fontFamily: "inherit", borderBottom: "none"}}>
             <SelectItem value="AM" text="AM" />
             <SelectItem value="PM" text="PM" />
           </TimePickerSelect>

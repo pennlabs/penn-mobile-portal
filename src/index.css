@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.bx--date-picker__input:focus, .bx--text-input:focus, .bx--select-input:focus{
+  outline: none !important;
+  box-shadow: 0 0 0 0.125em rgba(50,115,220,.25);
+}
