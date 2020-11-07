@@ -39,12 +39,8 @@ class Header extends React.Component {
             justifyContent: "space-between"
           }}>
             <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="44" height="44" style={{margin: "5px 0 4px 7px"}}></img>
-            <div style={{
-              padding: 20,
-              fontFamily: boldFont,
-              fontSize: "30px",
-              color: "#4a4a4a"}}>
-              <p>Penn Mobile Portal</p>
+            <div style={{padding: 20}}>
+              <p style={{ fontFamily: boldFont, fontSize: "30px", color: "#4a4a4a" }}>Penn Mobile Portal</p>
             </div>
           </div>
           <div className="hero is-flex" style={{

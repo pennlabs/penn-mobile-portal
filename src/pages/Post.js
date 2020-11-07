@@ -3,11 +3,12 @@ import Header from '../components/Header'
 import NewPostLabel from '../components/NewPostLabel'
 import PostStatusVisibility from '../components/PostStatusVisibility'
 import Preview from '../components/Preview'
+import DatesCard from '../components/DatesCard'
 
 import '../App.sass';
 
-import 'bulma-calendar/dist/css/bulma-calendar.min.css';
-import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
+// import 'bulma-calendar/dist/css/bulma-calendar.min.css';
+// import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
 
 import 'bulma-checkradio/dist/css/bulma-checkradio.min.css';
 
@@ -18,6 +19,7 @@ import ReactCrop from 'react-image-crop';
 import "react-image-crop/dist/ReactCrop.css";
 
 import Modal from 'react-modal';
+import styled from 'styled-components';
 
 const fetch = require("node-fetch");
 const FormData = require("form-data");
@@ -26,6 +28,15 @@ const Cookies = require("js-cookie");
 const Redirect = require("react-router-dom").Redirect;
 
 const dev = false;
+
+const CardLabel = styled.div`
+  margin-left: 91px;
+  margin-top: 32px;
+  font-size: 20px;
+  text-align: left !important;
+  font-weight: bold;
+  color: #4a4a4a
+`
 
 class PostPage extends React.Component {
   constructor(props){
@@ -107,8 +118,10 @@ class PostPage extends React.Component {
     this.getCroppedImg = this.getCroppedImg.bind(this)
     this.saveFile = this.saveFile.bind(this)
     this.saveFileCropped = this.saveFileCropped.bind(this)
-    this.setupDatePicker = this.setupDatePicker.bind(this)
+    // this.setupDatePicker = this.setupDatePicker.bind(this)
     this.updateDateRange = this.updateDateRange.bind(this)
+    this.updateStartDate = this.updateStartDate.bind(this)
+    this.updateEndDate = this.updateEndDate.bind(this)
     this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
     this.setCheckBoxState = this.setCheckBoxState.bind(this)
     this.showFilters = this.showFilters.bind(this)
@@ -188,7 +201,7 @@ class PostPage extends React.Component {
           this.setState({isExpired: true})
         }
 
-        this.setupDatePicker()
+        // this.setupDatePicker()
         bulmaTagsInput.attach()
 
         let imageURL = this.state.imageUrl;
@@ -215,7 +228,7 @@ class PostPage extends React.Component {
         img.src = imageURL;
       })
       .catch((error) => {
-        this.setupDatePicker()
+        // this.setupDatePicker()
         bulmaTagsInput.attach()
         alert('Unable to fetch post with error message:' + error.message)
       })
@@ -240,7 +253,7 @@ class PostPage extends React.Component {
   componentDidMount() {
     const query = queryString.parse(this.props.location.search);
     if (!('id' in query)) {
-      this.setupDatePicker()
+      // this.setupDatePicker()
       bulmaTagsInput.attach()
     }
   }
@@ -476,43 +489,43 @@ class PostPage extends React.Component {
     })
   }
 
-  setupDatePicker() {
-    const options = {
-      startDate: this.state.startDate, // Date selected by default
-      endDate: this.state.endDate,
-      dateFormat: 'M/D', // the date format `field` value
-      timeFormat: 'h:mma', // the time format `field` value
-      lang: 'en', // internationalization
-      overlay: false,
-      isRange: true,
-      labelFrom: 'Start Time',
-      labelTo: 'End Time',
-      closeOnOverlayClick: true,
-      closeOnSelect: true,
-      showHeader: false,
-      showTodayButton: false,
-      validateLabel: "Save",
-    }
+  // setupDatePicker() {
+  //   const options = {
+  //     startDate: this.state.startDate, // Date selected by default
+  //     endDate: this.state.endDate,
+  //     dateFormat: 'M/D', // the date format `field` value
+  //     timeFormat: 'h:mma', // the time format `field` value
+  //     lang: 'en', // internationalization
+  //     overlay: false,
+  //     isRange: true,
+  //     labelFrom: 'Start Time',
+  //     labelTo: 'End Time',
+  //     closeOnOverlayClick: true,
+  //     closeOnSelect: true,
+  //     showHeader: false,
+  //     showTodayButton: false,
+  //     validateLabel: "Save",
+  //   }
 
-    const calendars = bulmaCalendar.attach(this.dateInput, options);
+    // const calendars = bulmaCalendar.attach(this.dateInput, options);
 
   	// Loop on each calendar initialized
-  	calendars.forEach(calendar => {
-    	// Add listener to date:selected event
-      calendar.on('select:start', datetime => {
-    	  this.updateDateRange(datetime.data)
-    	});
-    	calendar.on('select', datetime => {
-    	  this.updateDateRange(datetime.data)
-    	});
-      calendar.on('clear', datetime => {
-    	  this.setState({
-          startDate: null,
-          endDate: null,
-        })
-    	});
-  	});
-  }
+  	// calendars.forEach(calendar => {
+    // 	// Add listener to date:selected event
+    //   calendar.on('select:start', datetime => {
+    // 	  this.updateDateRange(datetime.data)
+    // 	});
+    // 	calendar.on('select', datetime => {
+    // 	  this.updateDateRange(datetime.data)
+    // 	});
+    //   calendar.on('clear', datetime => {
+    // 	  this.setState({
+    //       startDate: null,
+    //       endDate: null,
+    //     })
+    // 	});
+  	// });
+  // }
 
   setCheckBoxState(event) {
     const id = event.target.id;
@@ -525,24 +538,37 @@ class PostPage extends React.Component {
     this.setState({filters: filters})
   }
 
-  updateDateRange(data) {
-    var startDate = data.datePicker._date.start
-    var endDate = data.datePicker._date.end
-    const startTime = data.timePicker._time.start
-    const endTime = data.timePicker._time.end
-
-    startDate.setHours(startTime.getHours())
-    startDate.setMinutes(startTime.getMinutes())
-
-    if (endDate) {
-      endDate.setHours(endTime.getHours())
-      endDate.setMinutes(endTime.getMinutes())
-    }
-
+  updateStartDate(date) {
     this.setState({
-      startDate: startDate,
-      endDate: endDate
+      startDate: date
     })
+  }
+
+  updateEndDate(date) {
+    this.setState({
+      endDate: date
+    })
+  }
+
+  updateDateRange(data) {
+    // console.log(this.state.startDate)
+    // var startDate = data.datePicker._date.start
+    // var endDate = data.datePicker._date.end
+    // const startTime = data.timePicker._time.start
+    // const endTime = data.timePicker._time.end
+
+    // startDate.setHours(startTime.getHours())
+    // startDate.setMinutes(startTime.getMinutes())
+
+    // if (endDate) {
+    //   endDate.setHours(endTime.getHours())
+    //   endDate.setMinutes(endTime.getMinutes())
+    // }
+
+    // this.setState({
+    //   startDate: startDate,
+    //   endDate: endDate
+    // })
   }
   
   showFilters() {
@@ -584,7 +610,7 @@ class PostPage extends React.Component {
                   <div className="columns">
                     <div className="column has-text-left"> 
                       <div>
-                        <b style={{fontFamily: mediumFont, fontSize: "30px", margin: "0px 0px 0px 91px"}}>
+                        <b style={{fontWeight: "bold", fontSize: "30px", margin: "0px 0px 0px 91px"}}>
                           Post Details
                         </b>
                       </div>              
@@ -629,7 +655,7 @@ class PostPage extends React.Component {
                           <b style={{
                             width: "128px",
                             height: "24px",
-                            fontFamily: boldFont,
+                            fontWeight: "bold",
                             fontSize: "20px",
                             color: "#999999",
                             marginTop: -8
@@ -652,7 +678,7 @@ class PostPage extends React.Component {
                           <b style={{
                             width: "68px",
                             height: "24px",
-                            fontFamily: boldFont,
+                            fontWeight: "bold",
                             fontSize: "20px",
                             color: "#3faa6d",
                             marginTop: -8
@@ -676,7 +702,7 @@ class PostPage extends React.Component {
                         <span class="icon" style={{color: "#2175cb", width: 20, height: 20}}>
                           <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
-                        <div style={{fontSize:16, color: "#2175cb", fontFamily: boldFont, marginLeft: -7, paddingTop: 6}}>
+                        <div style={{fontSize:16, color: "#2175cb", fontWeight: "bold", marginLeft: -7, paddingTop: 6}}>
                           Draft
                         </div>
                       </div>
@@ -775,7 +801,7 @@ class PostPage extends React.Component {
                     </div>
                   
                   {/* <NewPostLabel text="Post Options" single={true} /> */}
-                  <div className="has-text-left" style={{marginLeft: 91, marginTop: 42, fontSize: 20}}><b>Content</b></div>
+                  <CardLabel>Content</CardLabel>
                   <div 
                     className="card" 
                     style={{borderRadius: 10, margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 18px 26px"}}>
@@ -908,29 +934,52 @@ class PostPage extends React.Component {
                         style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
                     </div>
 
-                    {/* <div style={{backgroundColor: "rgba(0,0,0,0.18)", height: 1, margin: "16px 6px 0px 12px"}}/> */}
                     </div>
-                    <div className="has-text-left" style={{marginLeft:91, marginTop:32, fontSize:20}}><b>Dates</b></div>
+                    <CardLabel>Dates</CardLabel>
+                    <DatesCard 
+                      updateStartDate={this.updateStartDate}
+                      updateEndDate={this.updateEndDate} />
+                    {/* <div className="has-text-left" style={{marginLeft:91, marginTop:32, fontSize:20}}><b>Dates</b></div>
                     <div class="card" style={{borderRadius: 10, height: '7%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
-                    <div style={{}}>
+                    {/* <div> 
                       <input
                         className="input"
                         type="datetime"
                         ref={e => this.dateInput = e}
                       />
-                    </div>
-                    </div>
+                    </div> */}
+                    {/* <div>
+                    <DatePicker dateFormat="m/d/Y" datePickerType="range">
+                      <DatePickerInput
+                        id="date-picker-range-start"
+                        placeholder="mm/dd/yyyy"
+                        labelText="Start Date"
+                        type="text"
+                        onChange={e => this.dateInput = e}
+                        style={{fontFamily: mediumFont}}
+                      />
 
-                    <div className="has-text-left columns" style={{marginLeft: 91, marginTop: 32}}>
-                      <div className="column">
-                        <p style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
-                          <b style={{fontSize: 20, marginRight: 21, color: "#4a4a4a"}}>Filters</b>
+                      <DatePickerInput
+                        id="date-picker-range-end"
+                        placeholder="mm/dd/yyyy"
+                        labelText="End Date"
+                        type="text"
+                      />
+                    </DatePicker>
+                    </div>
+                    </div> */}
+
+                    {/* <div className="has-text-left columns"> */}
+                    <CardLabel>
+                    <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Filters</b>
+                        <span style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
                           <span class="icon">
                             <i class="fas fa-info-circle"></i>
                           </span>            
-                          If no filters are applied, the post will be shared with all Penn Mobile users by default.                          </p>
-                      </div>
-                    </div>                    
+                          If no filters are applied, the post will be shared with all Penn Mobile users by default.
+                        </span>
+                    </CardLabel>
+                    {/* </div>                     */}
                     <div 
                       class="card has-text-left" 
                       style={{
@@ -941,7 +990,6 @@ class PostPage extends React.Component {
                         marginTop:16, 
                         padding:"18px 26px 0px 26px"}}>
                           
-                    
                         <div className="columns">
                           <div className = "column is-3">
                             <b style={{fontSize:16, marginRight:21, color:"#4a4a4a"}}>Class Year</b>
@@ -1067,14 +1115,15 @@ class PostPage extends React.Component {
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Major</b>
                       <input className="input is-small" type="tags" name="majorFilter" value="Tag1,Tag2" placeholder="Add tags" onChange={this.updateInput} />
                     </div> */}
-                    <div className="has-text-left" style={{marginLeft:91, marginTop:32}}>
-                      <p style={{fontSize:12, color:"#999999", fontWeight:500, letterSpacing:.2}}>
-                        <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Notes</b>
-                        <span class="icon">
-                          <i class="fas fa-info-circle"></i>
-                        </span>            
-                        Portal administrators will see this message during the review process.</p>
-                    </div>
+                    <CardLabel>
+                    <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Notes</b>
+                        <span style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
+                          <span class="icon">
+                            <i class="fas fa-info-circle"></i>
+                          </span>            
+                          Portal administrators will see this message during the review process.
+                        </span>
+                    </CardLabel>
                     <div className="card" style={{borderRadius: 10, height:150, margin:"0px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"26px 26px 26px 26px"}}>
                       <div style={{height:94}}>
                         <textarea 
@@ -1104,7 +1153,7 @@ class PostPage extends React.Component {
 
                 <div className="column has-text-centered is-5">
                   <div>
-                    <b style={{fontFamily: mediumFont, fontSize: 30}}>Live Preview</b>
+                    <b style={{fontWeight: "bold", fontSize: 30}}>Live Preview</b>
                   </div>
                   
                   {/* <NewPostLabel text="Live Preview" single={false} left={false} /> */}
