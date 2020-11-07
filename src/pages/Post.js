@@ -7,9 +7,6 @@ import DatesCard from '../components/DatesCard'
 
 import '../App.sass';
 
-// import 'bulma-calendar/dist/css/bulma-calendar.min.css';
-// import bulmaCalendar from 'bulma-calendar/dist/js/bulma-calendar.min.js';
-
 import 'bulma-checkradio/dist/css/bulma-checkradio.min.css';
 
 import 'bulma-tagsinput/dist/css/bulma-tagsinput.min.css';
@@ -38,7 +35,7 @@ const CardLabel = styled.div`
   color: #4a4a4a
 `
 
-const FormHeader = styled.div`
+const FormLabel = styled.div`
   margin-top: 26px;
   font-size: 16px;
   float: left;
@@ -126,8 +123,6 @@ class PostPage extends React.Component {
     this.getCroppedImg = this.getCroppedImg.bind(this)
     this.saveFile = this.saveFile.bind(this)
     this.saveFileCropped = this.saveFileCropped.bind(this)
-    // this.setupDatePicker = this.setupDatePicker.bind(this)
-    this.updateDateRange = this.updateDateRange.bind(this)
     this.updateStartDate = this.updateStartDate.bind(this)
     this.updateEndDate = this.updateEndDate.bind(this)
     this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
@@ -209,7 +204,6 @@ class PostPage extends React.Component {
           this.setState({isExpired: true})
         }
 
-        // this.setupDatePicker()
         bulmaTagsInput.attach()
 
         let imageURL = this.state.imageUrl;
@@ -236,7 +230,6 @@ class PostPage extends React.Component {
         img.src = imageURL;
       })
       .catch((error) => {
-        // this.setupDatePicker()
         bulmaTagsInput.attach()
         alert('Unable to fetch post with error message:' + error.message)
       })
@@ -261,7 +254,6 @@ class PostPage extends React.Component {
   componentDidMount() {
     const query = queryString.parse(this.props.location.search);
     if (!('id' in query)) {
-      // this.setupDatePicker()
       bulmaTagsInput.attach()
     }
   }
@@ -497,44 +489,6 @@ class PostPage extends React.Component {
     })
   }
 
-  // setupDatePicker() {
-  //   const options = {
-  //     startDate: this.state.startDate, // Date selected by default
-  //     endDate: this.state.endDate,
-  //     dateFormat: 'M/D', // the date format `field` value
-  //     timeFormat: 'h:mma', // the time format `field` value
-  //     lang: 'en', // internationalization
-  //     overlay: false,
-  //     isRange: true,
-  //     labelFrom: 'Start Time',
-  //     labelTo: 'End Time',
-  //     closeOnOverlayClick: true,
-  //     closeOnSelect: true,
-  //     showHeader: false,
-  //     showTodayButton: false,
-  //     validateLabel: "Save",
-  //   }
-
-    // const calendars = bulmaCalendar.attach(this.dateInput, options);
-
-  	// Loop on each calendar initialized
-  	// calendars.forEach(calendar => {
-    // 	// Add listener to date:selected event
-    //   calendar.on('select:start', datetime => {
-    // 	  this.updateDateRange(datetime.data)
-    // 	});
-    // 	calendar.on('select', datetime => {
-    // 	  this.updateDateRange(datetime.data)
-    // 	});
-    //   calendar.on('clear', datetime => {
-    // 	  this.setState({
-    //       startDate: null,
-    //       endDate: null,
-    //     })
-    // 	});
-  	// });
-  // }
-
   setCheckBoxState(event) {
     const id = event.target.id;
     const name = event.target.name;
@@ -556,27 +510,6 @@ class PostPage extends React.Component {
     this.setState({
       endDate: date
     })
-  }
-
-  updateDateRange(data) {
-    // console.log(this.state.startDate)
-    // var startDate = data.datePicker._date.start
-    // var endDate = data.datePicker._date.end
-    // const startTime = data.timePicker._time.start
-    // const endTime = data.timePicker._time.end
-
-    // startDate.setHours(startTime.getHours())
-    // startDate.setMinutes(startTime.getMinutes())
-
-    // if (endDate) {
-    //   endDate.setHours(endTime.getHours())
-    //   endDate.setMinutes(endTime.getMinutes())
-    // }
-
-    // this.setState({
-    //   startDate: startDate,
-    //   endDate: endDate
-    // })
   }
   
   showFilters() {
@@ -819,7 +752,7 @@ class PostPage extends React.Component {
                       </b>
                     </div> */}
                     <div>
-                      <FormHeader>Title</FormHeader>
+                      <FormLabel>Title</FormLabel>
                       <input 
                         className="input is-small" 
                         type="text" 
@@ -831,7 +764,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <FormHeader>Description (Optional)</FormHeader>
+                      <FormLabel>Description (Optional)</FormLabel>
                       <textarea
                         className="input is-small"
                         type="text"
@@ -844,7 +777,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <FormHeader>Detail Label (Optional)</FormHeader>
+                      <FormLabel>Detail Label (Optional)</FormLabel>
                       <input 
                         className="input is-small" 
                         type="text" 
@@ -856,7 +789,7 @@ class PostPage extends React.Component {
                     </div>
 
                     <div style={{marginTop: 26}}>
-                      <FormHeader>Upload Cover Image</FormHeader>
+                      <FormLabel>Upload Cover Image</FormLabel>
                       <div style={{height: '10px'}} />
                     </div>
 
@@ -935,7 +868,7 @@ class PostPage extends React.Component {
                     </Modal>
 
                     <div>
-                      <FormHeader>Link (Optional)</FormHeader>
+                      <FormLabel>Link (Optional)</FormLabel>
                       <input 
                         className="input is-small" type="text" name="postUrl" value={this.state.postUrl} 
                         placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}
@@ -978,7 +911,7 @@ class PostPage extends React.Component {
                           
                         <div className="columns">
                           <div className = "column is-3">
-                            <FormHeader>Class Year</FormHeader>
+                            <FormLabel>Class Year</FormLabel>
                           </div>
                           <div className="column is-2">
                             <label class="label"> 
@@ -1043,7 +976,7 @@ class PostPage extends React.Component {
                     </div> */}
                     <div className="columns">
                           <div className = "column is-3">
-                            <FormHeader>School</FormHeader>
+                            <FormLabel>School</FormLabel>
                           </div>
                           <div className="column is-2">
                             <label class="label" for="COL"> 
