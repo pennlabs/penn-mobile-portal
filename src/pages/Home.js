@@ -179,12 +179,13 @@ class Home extends React.Component {
                   display: 'block',
                   wordWrap: 'break-word'
                 }}>
-                  <b style={{
+                  <p style={{
                     fontFamily: boldFont,
-                    fontSize: "42px"
+                    fontSize: "42px",
+                    fontWeight: 600,
                   }}>
                     Oh, hello there.
-                  </b>
+                  </p>
                 </span>
 
                 <span style={{

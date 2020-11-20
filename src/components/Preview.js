@@ -13,26 +13,35 @@ class Preview extends React.Component {
         transformOrigin: 'top center',
         transform: 'scale(0.8)'
       }}>
-        <div className="marvel-device iphone8 silver">
+        <div className="marvel-device iphone-x">
+          <div class="notch" style={{marginTop: -1}}>
+            <div class="camera"></div>
+            <div class="speaker"></div>
+          </div>
           <div className="top-bar"></div>
           <div className="sleep"></div>
+          <div className="bottom-bar"></div>
           <div className="volume"></div>
-          <div className="camera"></div>
-          <div className="sensor"></div>
-          <div className="speaker"></div>
+          <div className="overflow">
+            <div class="shadow shadow--tr"></div>
+            <div class="shadow shadow--tl"></div>
+            <div class="shadow shadow--br"></div>
+            <div class="shadow shadow--bl"></div>
+          </div>
+          <div class="inner-shadow"></div>
           <div className="screen" style={{
             textAlign: 'left',
             fontFamily: regularFont,
             userSelect: 'none',
             pointerEvents: 'none'
           }}>
-            <img src="images/phone_header.png" style={{ width: '100%' }} />
+            <img src="images/phone_header.png" style={{width: '100%'}} />
             <div className="box" style={{
-              margin: 15,
               backgroundColor: 'white',
               boxShadow: '1px 1px 10px #ccc',
               borderRadius: 15,
-              padding: 0
+              padding: 0,
+              margin: "15px 20px 15px 20px"
             }}>
               <div className="img-wrapper" style={{
                 backgroundColor: '#eee',
@@ -99,8 +108,6 @@ class Preview extends React.Component {
               </div>
             </div>
           </div>
-          <div className="home"></div>
-          <div className="bottom-bar"></div>
         </div>
       </div>
     )

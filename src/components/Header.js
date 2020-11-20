@@ -4,17 +4,13 @@ const Cookies = require("js-cookie");
 
 class Header extends React.Component {
   render() {
-
-    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
-    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
-    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
-
     return (
       <div style={{position: "sticky", top: 0, zIndex: 10}}>
         <head>
           <title>Penn Mobile Portal</title>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <link rel="stylesheet" href="devices.min.css" type="text/css"></link>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"/>
           <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" />
           <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
@@ -38,12 +34,8 @@ class Header extends React.Component {
             justifyContent: "space-between"
           }}>
             <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="44" height="44" style={{margin: "5px 0 4px 7px"}}></img>
-            <div style={{
-              padding: 20,
-              fontFamily: boldFont,
-              fontSize: "30px",
-              color: "#4a4a4a"}}>
-              <p>Penn Mobile Portal</p>
+            <div style={{padding: 20}}>
+              <p style={{ fontSize: "30px", color: "#4a4a4a" }}>Penn Mobile Portal</p>
             </div>
           </div>
           <div className="hero is-flex" style={{
@@ -54,9 +46,9 @@ class Header extends React.Component {
           }}>
             <a href="/" className="button" style={{
               padding: 10,
-              fontFamily: mediumFont,
               fontSize: "17px",
-              color: "#4a4a4a"
+              color: "#4a4a4a",
+              marginRight: "0.5em",
             }}>
               Home
             </a>
@@ -64,25 +56,24 @@ class Header extends React.Component {
             <a href="/admin" className="button" style={{
               display: this.props.isAdmin ? null : "none",
               padding: 10,
-              fontFamily: mediumFont,
               fontSize: "17px",
-              color: "#4a4a4a"
+              color: "#4a4a4a",
+              marginRight: "0.5em",
             }}>
               Admin
             </a>
 
             <a href="/post" className="button" style={{
               padding: 10,
-              fontFamily: mediumFont,
               fontSize: "17px",
-              color: "#4a4a4a"
+              color: "#4a4a4a",
+              marginRight: "0.5em",
             }}>
               New Post +
             </a>
             
             <a href="/logout" className="button" onClick={() => {Cookies.remove('accountID')}} style={{
               padding: 10,
-              fontFamily: mediumFont,
               fontSize: "17px",
               color: "#4a4a4a"
             }}>
