@@ -44,7 +44,7 @@ class Home extends React.Component {
     }
 
     if (accountID) {
-      var url = dev ? 'http://localhost:5000/portal/posts?account=' : 'https://api.pennlabs.org/portal/posts?account='
+      url = dev ? 'http://localhost:5000/portal/posts?account=' : 'https://api.pennlabs.org/portal/posts?account='
       fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -80,20 +80,20 @@ class Home extends React.Component {
           posts.push(post)
           var dateNow = new Date()
 
-          if ((post.status.toUpperCase() == 'SUBMITTED' || post.status.toUpperCase() == 'UPDATED'
-              || post.status.toUpperCase() == 'CHANGES' || post.status.toUpperCase() == 'APPROVED') && dateNow < endDate) {
+          if ((post.status.toUpperCase() === 'SUBMITTED' || post.status.toUpperCase() === 'UPDATED'
+              || post.status.toUpperCase() === 'CHANGES' || post.status.toUpperCase() === 'APPROVED') && dateNow < endDate) {
             postsSubmitted.push(post)
           }
-          if (post.status.toUpperCase() == 'REJECTED' && dateNow < endDate && !post.approved) {
+          if (post.status.toUpperCase() === 'REJECTED' && dateNow < endDate && !post.approved) {
             postsRejected.push(post)
           }
-          if (post.status.toUpperCase() == 'DRAFT') {
+          if (post.status.toUpperCase() === 'DRAFT') {
             postsDrafts.push(post)
           }
-          if (post.status.toUpperCase() == 'APPROVED' && dateNow > date && dateNow < endDate && post.approved) {
+          if (post.status.toUpperCase() === 'APPROVED' && dateNow > date && dateNow < endDate && post.approved) {
             postsLive.push(post)
           }
-          if (post.status.toUpperCase() != 'DRAFT' && dateNow > endDate) {
+          if (post.status.toUpperCase() !== 'DRAFT' && dateNow > endDate) {
             postsPast.push(post)
           }
         })
@@ -224,7 +224,7 @@ class Home extends React.Component {
             padding: 20,
             borderRadius: 5,
             minHeight: '72vh',
-            display: (this.state.posts.length == 0 ? "none" : "block"),
+            display: (this.state.posts.length === 0 ? "none" : "block"),
             backgroundColor: "#f7f7f7"
           }}>
             <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
@@ -250,7 +250,7 @@ class Home extends React.Component {
               </div>
               <div className="column" style={{
                 display: this.state.postsSubmitted.length > 0 ? "block" : "none",
-                margin: this.state.postsLive.length == 0 ? "5px 0px" : "-15px 0px"
+                margin: this.state.postsLive.length === 0 ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,
@@ -271,8 +271,8 @@ class Home extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsRejected.length > 0 ? "block" : "none",
-                margin: (this.state.postsLive.length == 0 &&
-                         this.state.postsSubmitted.length == 0) ? "5px 0px" : "-15px 0px"
+                margin: (this.state.postsLive.length === 0 &&
+                         this.state.postsSubmitted.length === 0) ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,
@@ -293,9 +293,9 @@ class Home extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsDrafts.length > 0 ? "block" : "none",
-                margin: (this.state.postsLive.length == 0 &&
-                         this.state.postsSubmitted.length == 0 &&
-                         this.state.postsRejected.length == 0) ? "5px 0px" : "-15px 0px"
+                margin: (this.state.postsLive.length === 0 &&
+                         this.state.postsSubmitted.length === 0 &&
+                         this.state.postsRejected.length === 0) ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,
@@ -316,10 +316,10 @@ class Home extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsPast.length > 0 ? "block" : "none",
-                margin: (this.state.postsLive.length == 0 &&
-                         this.state.postsSubmitted.length == 0 &&
-                         this.state.postsRejected.length == 0 &&
-                         this.state.postsDrafts.length == 0) ? "5px 0px" : "-15px 0px"
+                margin: (this.state.postsLive.length === 0 &&
+                         this.state.postsSubmitted.length === 0 &&
+                         this.state.postsRejected.length === 0 &&
+                         this.state.postsDrafts.length === 0) ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,

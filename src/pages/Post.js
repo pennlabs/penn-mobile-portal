@@ -155,7 +155,7 @@ class PostPage extends React.Component {
       this.setState({
         isSubmitted: true
       })
-      var url = dev ? 'http://localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
+      url = dev ? 'http://localhost:5000/portal/post/' : 'https://api.pennlabs.org/portal/post/'
       fetch(url + id + '?account=' + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -173,7 +173,7 @@ class PostPage extends React.Component {
               filterKey = "year_" + (parseInt(filterObj.filter) - this.state.seniorClassYear)
             }
             filters[filterObj.type][filterKey] = true
-          } else if (filterObj.type == 'options') {
+          } else if (filterObj.type === 'options') {
             filters.options.enabled = filterObj.filter
           }
         }
@@ -241,9 +241,7 @@ class PostPage extends React.Component {
         if (!filters.hasOwnProperty(type)) continue
         for (var key in filters[type]) {
           if (!filters[type].hasOwnProperty(key)) continue
-          if (type == 'options') {
-            filters[type][key] = filters[type][key]
-          } else {
+          if (type !== 'options') {
             filters[type][key] = false
           }
         }
@@ -534,8 +532,6 @@ class PostPage extends React.Component {
       )
     }
     
-    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
-    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
     const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     const { crop, croppedImageUrl, src } = this.state;
@@ -640,8 +636,8 @@ class PostPage extends React.Component {
                         zIndex: 1,
                         position: "relative",
                       }}>
-                        <span class="icon" style={{color: "#2175cb", width: 20, height: 20}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
+                        <span className="icon" style={{color: "#2175cb", width: 20, height: 20}}>
+                          <i className="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
                         <div style={{fontSize:16, color: "#2175cb", fontWeight: "bold", marginLeft: -7, paddingTop: 6}}>
                           Draft
@@ -663,8 +659,8 @@ class PostPage extends React.Component {
                         zIndex: 1,
                         position: "relative",
                       }}>
-                        <span class="icon" style={{color: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isSubmitted && !this.state.isApproved ? "0 0 8px 3px #d9d9d9" : ""}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
+                        <span className="icon" style={{color: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isSubmitted && !this.state.isApproved ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i className="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
                         <div style={{fontSize: 16, color: this.state.isSubmitted || this.state.isExpired ? "#2175cb" : "#999999", width: 107, fontFamily: boldFont, marginLeft: -42, paddingTop: 6}}>
                           Under Review
@@ -686,8 +682,8 @@ class PostPage extends React.Component {
                         zIndex: 1,
                         position: "relative",
                       }}>
-                        <span class="icon" style={{color: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isApproved && !this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
+                        <span className="icon" style={{color: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isApproved && !this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i className="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
                         <div style={{fontSize:16, color: this.state.isApproved || this.state.isExpired ? "#2175cb" : "#999999", fontFamily: boldFont, marginLeft: -24, paddingTop: 6}}>
                           Approved
@@ -709,8 +705,8 @@ class PostPage extends React.Component {
                         zIndex: 1,
                         position: "relative",
                       }}>
-                        <span class="icon" style={{color: this.state.isLive || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
+                        <span className="icon" style={{color: this.state.isLive || this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isLive && !this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i className="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
                         <div style={{fontSize:16, color: this.state.isLive || this.state.isExpired ? "#2175cb" : "#999999", fontFamily: boldFont, marginLeft: -3, paddingTop: 6}}>
                           Live
@@ -732,8 +728,8 @@ class PostPage extends React.Component {
                         zIndex: 1,
                         position: "relative",
                       }}>
-                        <span class="icon" style={{color: this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
-                          <i class="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
+                        <span className="icon" style={{color: this.state.isExpired ? "#2175cb" : "#cccccc", width: 20, height: 20, boxShadow: this.state.isExpired ? "0 0 8px 3px #d9d9d9" : ""}}>
+                          <i className="fas fa-circle fa-lg" style={{fontSize: 27}}></i>
                         </span>
                         <div style={{fontSize:16, color: this.state.isExpired ? "#2175cb" : "#999999", fontFamily: boldFont, marginLeft: -16, paddingTop: 6}}>
                           Expired
@@ -757,7 +753,7 @@ class PostPage extends React.Component {
                         className="input is-small" 
                         type="text" 
                         name="title" 
-                        value={this.state.title} 
+                        value={this.state.title || ''} 
                         placeholder="Ex: Apply to Penn Labs!" 
                         onChange={this.updateInput}
                         style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
@@ -769,7 +765,7 @@ class PostPage extends React.Component {
                         className="input is-small"
                         type="text"
                         name="subtitle"
-                        value={this.state.subtitle}
+                        value={this.state.subtitle || ""}
                         placeholder="Ex: Interested in developing new features for Penn Mobile or Penn Course Review? Come out and meet the team!"
                         rows="2"
                         onChange={this.updateInput}
@@ -782,7 +778,7 @@ class PostPage extends React.Component {
                         className="input is-small" 
                         type="text" 
                         name="detailLabel" 
-                        value={this.state.detailLabel} 
+                        value={this.state.detailLabel || ""} 
                         placeholder="Ex: Due Today" 
                         onChange={this.updateInput}
                         style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
@@ -870,7 +866,7 @@ class PostPage extends React.Component {
                     <div>
                       <FormLabel>Link (Optional)</FormLabel>
                       <input 
-                        className="input is-small" type="text" name="postUrl" value={this.state.postUrl} 
+                        className="input is-small" type="text" name="postUrl" value={this.state.postUrl || ""} 
                         placeholder="Ex: https://pennlabs.org" onChange={this.updateInput}
                         style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", marginTop:8, fontSize: "14px"}} />
                     </div>
@@ -881,7 +877,7 @@ class PostPage extends React.Component {
                       updateStartDate={this.updateStartDate}
                       updateEndDate={this.updateEndDate} />
                     {/* <div className="has-text-left" style={{marginLeft:91, marginTop:32, fontSize:20}}><b>Dates</b></div>
-                    <div class="card" style={{borderRadius: 10, height: '7%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
+                    <div className="card" style={{borderRadius: 10, height: '7%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
                     {/* <div> 
                       <input
                         className="input"
@@ -893,14 +889,14 @@ class PostPage extends React.Component {
                     <CardLabel>
                     <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Filters</b>
                         <span style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
-                          <span class="icon">
-                            <i class="fas fa-info-circle"></i>
+                          <span className="icon">
+                            <i className="fas fa-info-circle"></i>
                           </span>            
                           If no filters are applied, the post will be shared with all Penn Mobile users by default.
                         </span>
                     </CardLabel>
                     <div 
-                      class="card has-text-left" 
+                      className="card has-text-left" 
                       style={{
                         borderRadius: 10, 
                         height: '13%', 
@@ -914,27 +910,27 @@ class PostPage extends React.Component {
                             <FormLabel>Class Year</FormLabel>
                           </div>
                           <div className="column is-2">
-                            <label class="label"> 
-                              <input id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark" style={{fontWeight:2000}}>2021</div>
+                            <label className="label"> 
+                              <input id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark" style={{fontWeight:2000}}>2021</div>
                             </label>
                           </div>
                           <div className="column is-2">
-                            <label class="label"> 
-                              <input id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">2022</div>
+                            <label className="label"> 
+                              <input id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">2022</div>
                             </label>
                           </div>
                           <div className="column is-2">
-                            <label class="label"> 
-                            <input id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">2023</div>
+                            <label className="label"> 
+                            <input id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">2023</div>
                             </label>
                           </div>
                           <div className="column is-2">
-                            <label class="label"> 
-                            <input id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">2024</div>
+                            <label className="label"> 
+                            <input id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">2024</div>
                             </label>
                           </div>
                         </div>
@@ -965,13 +961,13 @@ class PostPage extends React.Component {
                         
 
                         <input className="is-checkradio is-small" id="year_0" type="checkbox" checked={this.state.filters.class.year_0} name="class_0" onClick={this.setCheckBoxState}/>
-                        <label for="year_0">2020</label>
+                        <label htmlFor="year_0">2020</label>
                         <input className="is-checkradio is-small" id="year_1" type="checkbox" checked={this.state.filters.class.year_1} name="class_1" onClick={this.setCheckBoxState}/>
-                        <label for="year_1">2021</label>
+                        <label htmlFor="year_1">2021</label>
                         <input className="is-checkradio is-small" id="year_2" type="checkbox" checked={this.state.filters.class.year_2} name="class_2" onClick={this.setCheckBoxState}/>
-                        <label for="year_2">2022</label>
+                        <label htmlFor="year_2">2022</label>
                         <input className="is-checkradio is-small" id="year_3" type="checkbox" checked={this.state.filters.class.year_3} name="class_3" onClick={this.setCheckBoxState}/>
-                        <label for="year_3">2023</label>
+                        <label htmlFor="year_3">2023</label>
                       </div>
                     </div> */}
                     <div className="columns">
@@ -979,43 +975,43 @@ class PostPage extends React.Component {
                             <FormLabel>School</FormLabel>
                           </div>
                           <div className="column is-2">
-                            <label class="label" for="COL"> 
-                            <input id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">College</div>
+                            <label className="label" htmlFor="COL"> 
+                            <input id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">College</div>
                             </label>
                           </div>
                           <div className="column is-2">
-                            <label class="label" for="WH"> 
-                              <input id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">Wharton</div>
+                            <label className="label" htmlFor="WH"> 
+                              <input id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">Wharton</div>
                             </label>
                           </div>
                           <div className="column is-2">
-                            <label class="label" for="EAS"> 
-                            <input id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">SEAS</div>
-                              <input className="is-checkradio is-small" id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
+                            <label className="label" htmlFor="EAS"> 
+                            <input id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">SEAS</div>
+                              <input className="is-checkradio is-small" id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onChange={this.setCheckBoxState}/>
                             </label>
                           </div>
                           <div className="column is-2">
-                            <label class="label" for="NUR"> 
-                            <input id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
-                              <div class="checkmark">Nursing</div>
+                            <label className="label" htmlFor="NUR"> 
+                            <input id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onChange={this.setCheckBoxState}/>
+                              <div className="checkmark">Nursing</div>
                             </label>
-                            <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
+                            <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onChange={this.setCheckBoxState}/>
                           </div>
                         </div>
                     {/* <div id="schoolBoxes" style={{margin: "0px 40px 0px 40px"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>School</b>
                       <div className="field" id="schoolCheck" style={{margin: "4px 0px 10px 0px", float: "center"}}>
                         <input className="is-checkradio is-small" id="COL" type="checkbox" checked={this.state.filters.school.COL} name="school_COL" onClick={this.setCheckBoxState}/>
-                        <label for="COL">College</label>
+                        <label htmlFor="COL">College</label>
                         <input className="is-checkradio is-small" id="WH" type="checkbox" checked={this.state.filters.school.WH} name="school_WH" onClick={this.setCheckBoxState}/>
-                        <label for="WH">Wharton</label>
+                        <label htmlFor="WH">Wharton</label>
                         <input className="is-checkradio is-small" id="EAS" type="checkbox" checked={this.state.filters.school.EAS} name="school_EAS" onClick={this.setCheckBoxState}/>
-                        <label for="EAS">SEAS</label>
+                        <label htmlFor="EAS">SEAS</label>
                         <input className="is-checkradio is-small" id="NUR" type="checkbox" checked={this.state.filters.school.NUR} name="school_NUR" onClick={this.setCheckBoxState}/>
-                        <label for="NUR">Nursing</label>
+                        <label htmlFor="NUR">Nursing</label>
                       </div>
                     </div> */}
                           {/* <div className="file-cta"  
@@ -1037,8 +1033,8 @@ class PostPage extends React.Component {
                     <CardLabel>
                     <b style={{fontSize:20, marginRight:21, color:"#4a4a4a"}}>Notes</b>
                         <span style={{fontSize: 12, color:"#999999", fontWeight: 500, letterSpacing: .2}}>
-                          <span class="icon">
-                            <i class="fas fa-info-circle"></i>
+                          <span className="icon">
+                            <i className="fas fa-info-circle"></i>
                           </span>            
                           Portal administrators will see this message during the review process.
                         </span>
@@ -1046,7 +1042,7 @@ class PostPage extends React.Component {
                     <div className="card" style={{borderRadius: 10, height:150, margin:"0px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"26px 26px 26px 26px"}}>
                       <div style={{height:94}}>
                         <textarea 
-                          className="textarea is-small" type="text" name="comments" value={this.state.comments} 
+                          className="textarea is-small" type="text" name="comments" value={this.state.comments || ""} 
                           placeholder="Enter any comments here." rows="2" onChange={this.updateInput}
                           style={{backgroundColor:"#f7f7f7", borderRadius:5, border:"solid 1px #e6e6e6", height:94, fontSize: "14px"}}/>
                       </div>

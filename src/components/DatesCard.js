@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { DatePicker, DatePickerInput, TimePicker, TimePickerSelect, SelectItem } from 'carbon-components-react';
 import moment from 'moment'; 
-import 'carbon-components/css/carbon-components.min.css';
 
 const DatesCard = ( {updateStartDate, updateEndDate} ) => {
   //startDate and endDate initialized to today

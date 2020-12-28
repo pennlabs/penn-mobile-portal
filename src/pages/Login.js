@@ -1,7 +1,4 @@
 import React from 'react'
-import ExternalHeader from '../components/ExternalHeader'
-import Footer from '../components/Footer'
-
 import '../App.sass';
 
 const fetch = require("node-fetch");
@@ -91,7 +88,6 @@ class Login extends React.Component {
       )
     }
 
-    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
     const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
     const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
@@ -103,7 +99,6 @@ class Login extends React.Component {
         minHeight: '99vh',
         backgroundColor: "#f2f2f2"
       }}>
-        <ExternalHeader />
         <div className="columns is-mobile" style={{
           display: 'flex',
           flex: 1
@@ -133,7 +128,6 @@ class Login extends React.Component {
                     }}>
                       <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="96" height="96"></img>
                       <b style={{
-                        fontFamily: mediumFont,
                         fontSize: "40px",
                         margin: "0% 0% 2px 0%",
                         display: "block"
@@ -160,13 +154,13 @@ class Login extends React.Component {
                       }}>
                         Organization Name
                       </span>
-                      <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{
+                      <input className="input is-small" type="text" name="name" value={this.state.name ? this.state.name : ""} onChange={this.updateInput} style={{
                         display: (this.state.newAccount ? "block" : "none"),
                         backgroundColor: "#f7f7f7",
                         height: 35,
                         border: "solid 1px #e6e6e6",
                         borderRadius: 5
-                      }} placeholder="Ex: Penn Labs" maxlength="30" />
+                      }} placeholder="Ex: Penn Labs" maxLength="30" />
 
                       <span style={{
                         fontFamily: mediumFont,
@@ -177,7 +171,7 @@ class Login extends React.Component {
                       }}>
                         {this.state.newAccount ? "Contact Email" : "Email"}
                       </span>
-                      <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{
+                      <input className="input is-small" type="text" name="email" value={this.state.email ? this.state.email : ""} onChange={this.updateInput} style={{
                         display: "block",
                         backgroundColor: "#f7f7f7",
                         height: 35,
@@ -194,7 +188,7 @@ class Login extends React.Component {
                       }}>
                         Password
                       </span>
-                      <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{
+                      <input className="input is-small" type="password" name="password" value={this.state.password ? this.state.password : ""} onChange={this.updateInput} style={{
                         display: "block",
                         backgroundColor: "#f7f7f7",
                         height: 35,
@@ -222,12 +216,13 @@ class Login extends React.Component {
 
                     <div style={{margin: "8px 0% 0px 0%"}}>
                       <span className="statusSwitch" onClick={this.swapMode} style={{
-                        fontFamily: mediumFont,
                         fontSize: "12px",
-                        color: "#757575"
+                        color: "#757575",
+                        cursor: "pointer",
                       }}>
                         {this.state.newAccount ? "Already have a Penn Mobile Portal account? " : "Don't have a Penn Mobile Portal account? "}
-                        <b><u><a href="#">{this.state.newAccount ? "Log in" : "Create one"}</a></u></b>
+                        <span className="has-text-link"><strong><u>{this.state.newAccount ? "Log in" : "Create one"}</u></strong></span>
+                        {/* <b><u><a href="#">{this.state.newAccount ? "Log in" : "Create one"}</a></u></b> */}
                       </span>
                     </div>
                   </div>

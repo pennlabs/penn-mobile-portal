@@ -3,8 +3,6 @@ import React from 'react'
 class Preview extends React.Component {
   render() {
     const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
-    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
-    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     return (
       <div className="phone-preview" style={{
@@ -14,28 +12,28 @@ class Preview extends React.Component {
         transform: 'scale(0.8)'
       }}>
         <div className="marvel-device iphone-x">
-          <div class="notch" style={{marginTop: -1}}>
-            <div class="camera"></div>
-            <div class="speaker"></div>
+          <div className="notch" style={{marginTop: -1}}>
+            <div className="camera"></div>
+            <div className="speaker"></div>
           </div>
           <div className="top-bar"></div>
           <div className="sleep"></div>
           <div className="bottom-bar"></div>
           <div className="volume"></div>
           <div className="overflow">
-            <div class="shadow shadow--tr"></div>
-            <div class="shadow shadow--tl"></div>
-            <div class="shadow shadow--br"></div>
-            <div class="shadow shadow--bl"></div>
+            <div className="shadow shadow--tr"></div>
+            <div className="shadow shadow--tl"></div>
+            <div className="shadow shadow--br"></div>
+            <div className="shadow shadow--bl"></div>
           </div>
-          <div class="inner-shadow"></div>
+          <div className="inner-shadow"></div>
           <div className="screen" style={{
             textAlign: 'left',
             fontFamily: regularFont,
             userSelect: 'none',
             pointerEvents: 'none'
           }}>
-            <img src="images/phone_header.png" style={{width: '100%'}} />
+            <img src="images/phone_header.png" style={{width: '100%'}} alt="Phone Header" />
             <div className="box" style={{
               backgroundColor: 'white',
               boxShadow: '1px 1px 10px #ccc',

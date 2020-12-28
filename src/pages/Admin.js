@@ -50,7 +50,7 @@ class Admin extends React.Component {
     }
 
     if (accountID) {
-      var url = dev ? 'http://localhost:5000/portal/posts/all?account=' : 'https://api.pennlabs.org/portal/posts/all?account='
+      url = dev ? 'http://localhost:5000/portal/posts/all?account=' : 'https://api.pennlabs.org/portal/posts/all?account='
       fetch(url + accountID)
       .then((response) => response.json())
       .then((json) => {
@@ -86,20 +86,20 @@ class Admin extends React.Component {
           posts.push(post)
           var dateNow = new Date()
 
-          if ((post.status.toUpperCase() == 'SUBMITTED' || post.status.toUpperCase() == 'UPDATED')
+          if ((post.status.toUpperCase() === 'SUBMITTED' || post.status.toUpperCase() === 'UPDATED')
               && dateNow < endDate && !post.approved) {
             postsSubmitted.push(post)
           }
-          if (post.status.toUpperCase() == 'CHANGES' && dateNow < endDate && !post.approved) {
+          if (post.status.toUpperCase() === 'CHANGES' && dateNow < endDate && !post.approved) {
             postsChanges.push(post)
           }
-          if (post.status.toUpperCase() == 'REJECTED' && dateNow < endDate && !post.approved) {
+          if (post.status.toUpperCase() === 'REJECTED' && dateNow < endDate && !post.approved) {
             postsRejected.push(post)
           }
-          if (post.status.toUpperCase() == 'APPROVED' && dateNow < date && post.approved) {
+          if (post.status.toUpperCase() === 'APPROVED' && dateNow < date && post.approved) {
             postsApproved.push(post)
           }
-          if (post.status.toUpperCase() == 'APPROVED' && dateNow > date && dateNow < endDate && post.approved) {
+          if (post.status.toUpperCase() === 'APPROVED' && dateNow > date && dateNow < endDate && post.approved) {
             postsLive.push(post)
           }
         })
@@ -133,9 +133,7 @@ class Admin extends React.Component {
       )
     }
 
-    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
     const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
-    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     const postTypes = ['Submitted', 'Changes', 'Rejected', 'Approved', 'Live'];
 
@@ -190,7 +188,7 @@ class Admin extends React.Component {
             padding: 20,
             borderRadius: 5,
             minHeight: '72vh',
-            display: (this.state.posts.length == 0 ? "none" : "block"),
+            display: (this.state.posts.length === 0 ? "none" : "block"),
             backgroundColor: "#f7f7f7"
           }}>
             <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
@@ -214,7 +212,7 @@ class Admin extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsLive.length > 0 ? "block" : "none",
-                margin: this.state.postsSubmitted.length == 0 ? "5px 0px" : "-15px 0px"
+                margin: this.state.postsSubmitted.length === 0 ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,
@@ -235,8 +233,8 @@ class Admin extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsApproved.length > 0 ? "block" : "none",
-                margin: (this.state.postsSubmitted.length == 0 &&
-                         this.state.postsLive.length == 0) ? "5px 0px" : "-15px 0px"
+                margin: (this.state.postsSubmitted.length === 0 &&
+                         this.state.postsLive.length === 0) ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,
@@ -257,9 +255,9 @@ class Admin extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsChanges.length > 0 ? "block" : "none",
-                margin: (this.state.postsSubmitted.length == 0 &&
-                         this.state.postsLive.length == 0 &&
-                         this.state.postsApproved.length == 0) ? "5px 0px" : "-15px 0px"
+                margin: (this.state.postsSubmitted.length === 0 &&
+                         this.state.postsLive.length === 0 &&
+                         this.state.postsApproved.length === 0) ? "5px 0px" : "-15px 0px"
               }}>
                 <b style={{
                   fontFamily: mediumFont,
@@ -280,10 +278,10 @@ class Admin extends React.Component {
 
               <div className="column" style={{
                 display: this.state.postsRejected.length > 0 ? "block" : "none",
-                margin: (this.state.postsSubmitted.length == 0 &&
-                         this.state.postsLive.length == 0 &&
-                         this.state.postsApproved.length == 0 &&
-                         this.state.postsChanges.length == 0) ? "5px 0px" : "-15px 0px"}}>
+                margin: (this.state.postsSubmitted.length === 0 &&
+                         this.state.postsLive.length === 0 &&
+                         this.state.postsApproved.length === 0 &&
+                         this.state.postsChanges.length === 0) ? "5px 0px" : "-15px 0px"}}>
                 <b style={{
                   fontFamily: mediumFont,
                   fontSize: "28px"

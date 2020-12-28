@@ -22,9 +22,7 @@ class PostStatusVisibility extends React.Component {
   }
 
   render() {
-    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
     const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
-    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
 
     var buttons;
 
