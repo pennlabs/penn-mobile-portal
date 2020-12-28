@@ -1,20 +1,28 @@
 import React from 'react'
 import '../App.sass';
+import styled from 'styled-components';
 
 const fetch = require("node-fetch");
 const Cookies = require("js-cookie");
 const URLSearchParams = require("url-search-params");
 const Redirect = require("react-router-dom").Redirect;
 
+const InputLabel = styled.span`
+  font-size: 0.75em;
+  float: left;
+  margin: 0.75em 0 0.25em 0;
+  color: #757575;
+  display: ${props => props.show ? "block" : "none"};
+`
 class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       newAccount: false,
-      name: null,
-      email: null,
-      password: null,
-      accountId: null,
+      name: '',
+      email: '',
+      password: '',
+      accountId: '',
       shouldRedirect: false
     }
 
@@ -88,145 +96,68 @@ class Login extends React.Component {
       )
     }
 
-    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
-    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
-
     return (
       <div style={{
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         minHeight: '99vh',
-        backgroundColor: "#f2f2f2"
       }}>
-        <div className="columns is-mobile" style={{
-          display: 'flex',
-          flex: 1
-        }}>
-          <div className="column has-text-centered">
-            <div style={{
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-              left: "50%",
-              top: "45%",
-              transform: "translate(-50%, -50%)"
+        <div className="columns is-vcentered is-mobile is-centered" style={{margin: 'auto'}}>
+          <div className="column has-text-centered" style={{width: '488px'}}>
+            <div className="card" style={{
+              borderRadius: 10,
+              boxShadow: '0 0 8px 3px rgba(217, 217, 217, 0.5)',
+              padding: '3.5em',
             }}>
-              <div className="card" style={{
-                borderRadius: 10,
-                boxShadow: '0 0 8px 3px rgba(217, 217, 217, 0.5)',
-                width: "488px"
-              }}>
-                <div className="columns is-mobile">
-                  <div className="column has-text-centered" style={{margin: "5% 0 7% 0"}}>
-                    <div style={{
-                      margin: "20px 14% 0px 14%",
-                      float: "center",
-                      verticalAlign: "middle",
-                      clear: "left"
-                    }}>
-                      <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="96" height="96"></img>
-                      <b style={{
-                        fontSize: "40px",
-                        margin: "0% 0% 2px 0%",
-                        display: "block"
-                      }}>
-                        Welcome.
-                      </b>
-                      
-                      <span style={{
-                        fontSize: "20px",
-                        display: "block"
-                      }}>
-                        {this.state.newAccount ? "Create your Penn Mobile Portal account" : "Log in to continue to Penn Mobile Portal"}
-                      </span>
-                    </div>
-                    
-                    <div style={{margin: "16px 16% 0px 16%"}}>
-                      <span style={{
-                        fontFamily: mediumFont,
-                        fontSize: "12px",
-                        float: "left",
-                        margin: "6px 0% 2px 0%",
-                        display: (this.state.newAccount ? "block" : "none"),
-                        color: "#757575"
-                      }}>
-                        Organization Name
-                      </span>
-                      <input className="input is-small" type="text" name="name" value={this.state.name ? this.state.name : ""} onChange={this.updateInput} style={{
-                        display: (this.state.newAccount ? "block" : "none"),
-                        backgroundColor: "#f7f7f7",
-                        height: 35,
-                        border: "solid 1px #e6e6e6",
-                        borderRadius: 5
-                      }} placeholder="Ex: Penn Labs" maxLength="30" />
+              <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="96" height="96"></img>
+              <h2 class="title is-2">Welcome.</h2>                      
+              <h5 class="subtitle is-5">
+                {this.state.newAccount ? "Create your Penn Mobile Portal account" : "Log in to continue to Penn Mobile Portal"}
+              </h5>
 
-                      <span style={{
-                        fontFamily: mediumFont,
-                        fontSize: "12px",
-                        float: "left",
-                        margin: (this.state.newAccount ? "15px 0% 2px 0%" : "6px 0% 2px 0%"),
-                        color: "#757575"
-                      }}>
-                        {this.state.newAccount ? "Contact Email" : "Email"}
-                      </span>
-                      <input className="input is-small" type="text" name="email" value={this.state.email ? this.state.email : ""} onChange={this.updateInput} style={{
-                        display: "block",
-                        backgroundColor: "#f7f7f7",
-                        height: 35,
-                        border: "solid 1px #e6e6e6",
-                        borderRadius: 5
-                      }} placeholder={this.state.newAccount ? "Ex: contact@pennlabs.org" : ""} />
+              <InputLabel show={this.state.newAccount}>Organization Name</InputLabel>
+              <input className="input is-small" type="text" name="name" value={this.state.name} onChange={this.updateInput} style={{
+                display: (this.state.newAccount ? "block" : "none"),
+                height: "2.75em",
+                border: "solid 1px #e6e6e6",
+              }} placeholder="Ex: Penn Labs" />
 
-                      <span style={{
-                        fontFamily: mediumFont,
-                        fontSize: "12px",
-                        float: "left",
-                        margin: "15px 0% 2px 0%",
-                        color: "#757575"
-                      }}>
-                        Password
-                      </span>
-                      <input className="input is-small" type="password" name="password" value={this.state.password ? this.state.password : ""} onChange={this.updateInput} style={{
-                        display: "block",
-                        backgroundColor: "#f7f7f7",
-                        height: 35,
-                        border: "solid 1px #e6e6e6",
-                        borderRadius: 5
-                      }} />
-                    </div>
-
-                    <div style={{margin: "32px 0% 0 0%"}}>
-                      <button className="button" onClick={this.onSubmit} style={{
-                        width: "68%",
-                        height: 35,
-                        boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.5)",
-                        border: "solid 0 #979797",
-                        borderRadius: 5,
-                        backgroundColor: "#2175cb",
-                        fontFamily: boldFont,
-                        fontWeight: 500,
-                        fontSize: 16,
-                        color: "#ffffff"
-                      }}>
-                        {this.state.newAccount ? "Register" : "Log in"}
-                      </button>
-                    </div>
-
-                    <div style={{margin: "8px 0% 0px 0%"}}>
-                      <span className="statusSwitch" onClick={this.swapMode} style={{
-                        fontSize: "12px",
-                        color: "#757575",
-                        cursor: "pointer",
-                      }}>
-                        {this.state.newAccount ? "Already have a Penn Mobile Portal account? " : "Don't have a Penn Mobile Portal account? "}
-                        <span className="has-text-link"><strong><u>{this.state.newAccount ? "Log in" : "Create one"}</u></strong></span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <InputLabel show={true}>{this.state.newAccount ? "Contact Email" : "Email"}</InputLabel>
+              <input className="input is-small" type="text" name="email" value={this.state.email} onChange={this.updateInput} style={{
+                height: "2.75em",
+                border: "solid 1px #e6e6e6",
+              }} placeholder={this.state.newAccount ? "Ex: contact@pennlabs.org" : ""} />
+                
+              <InputLabel show={true}>Password</InputLabel>
+              <input className="input is-small" type="password" name="password" value={this.state.password} onChange={this.updateInput} style={{
+                height: "2.75em",
+                border: "solid 1px #e6e6e6",
+              }} />
+              
+              <div>
+                <button className="button" onClick={this.onSubmit} style={{
+                  width: "100%",
+                  height: 35,
+                  boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.5)",
+                  border: "solid 0 #979797",
+                  borderRadius: 5,
+                  backgroundColor: "#2175cb",
+                  fontWeight: 500,
+                  fontSize: 16,
+                  color: "#ffffff",
+                  margin: "32px 0% 0 0%",
+                }}>
+                  {this.state.newAccount ? "Register" : "Log in"}
+                </button>
               </div>
+
+              <span className="statusSwitch" onClick={this.swapMode} style={{
+                fontSize: "0.75em",
+                color: "#757575",
+                cursor: "pointer",
+              }}>
+                {this.state.newAccount ? "Already have a Penn Mobile Portal account? " : "Don't have a Penn Mobile Portal account? "}
+                <span className="has-text-link"><b><u>{this.state.newAccount ? "Log in" : "Create one"}</u></b></span>
+              </span>
             </div>
           </div>
         </div>

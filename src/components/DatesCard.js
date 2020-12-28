@@ -87,6 +87,7 @@ const DatesCard = ( {updateStartDate, updateEndDate} ) => {
 
   return (
     <>
+    <div className="date">
     <div className="card" style={{borderRadius: 10, margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 18px 18px 18px"}}>      
     <div className="columns" style={{display: "flex"}}>
       <div className="column">
@@ -133,6 +134,7 @@ const DatesCard = ( {updateStartDate, updateEndDate} ) => {
           </TimePickerSelect>
         </TimePicker>
       </div>
+    </div>
     </div>
     </div>
     </>
