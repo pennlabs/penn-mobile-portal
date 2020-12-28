@@ -178,7 +178,7 @@ class PostCard extends React.Component {
                           }}>
                             <ResponsiveEllipsis
                               style={{whiteSpace: 'pre-wrap'}}
-                              text={this.props.subtitle}
+                              text={this.props.subtitle || ""}
                               maxLine='3'
                               ellipsis='...'
                               trimRight

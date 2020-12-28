@@ -222,7 +222,6 @@ class Login extends React.Component {
                       }}>
                         {this.state.newAccount ? "Already have a Penn Mobile Portal account? " : "Don't have a Penn Mobile Portal account? "}
                         <span className="has-text-link"><strong><u>{this.state.newAccount ? "Log in" : "Create one"}</u></strong></span>
-                        {/* <b><u><a href="#">{this.state.newAccount ? "Log in" : "Create one"}</a></u></b> */}
                       </span>
                     </div>
                   </div>

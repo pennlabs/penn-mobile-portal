@@ -147,11 +147,12 @@ class Home extends React.Component {
             endDate={post.endDate}
             status={post.status}
             approved={post.approved}
+            key={post.id}
           />
         )
       })
     })
-
+    
     return (
       <div style={{
         display: 'flex',
@@ -215,7 +216,7 @@ class Home extends React.Component {
                   fontSize: "20px",
                   margin: "15px 0 5px 0"
                 }}>
-                  Ready to get started? <a href="/post">Create a new post <i class="fas fa-arrow-circle-right" style={{fontSize: "17px", paddingBottom: 3, verticalAlign: 'middle'}}></i></a>
+                  Ready to get started? <a href="/post">Create a new post <i className="fas fa-arrow-circle-right" style={{fontSize: "17px", paddingBottom: 3, verticalAlign: 'middle'}}></i></a>
                 </span>
               </div>
             </div>
