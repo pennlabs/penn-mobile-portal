@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DatePicker, DatePickerInput, TimePicker, TimePickerSelect, SelectItem } from 'carbon-components-react';
 import moment from 'moment'; 
 
-const DatesCard = ( {updateStartDate, updateEndDate} ) => {
+const DatePickerCard = ( {updateStartDate, updateEndDate} ) => {
   //startDate and endDate initialized to today
   const [data, setData] = useState({startDate: new Date(), endDate: new Date(), startTime: "12:00", endTime: "12:00", startTimeMode: "AM", endTimeMode: "AM"})
   const [invalidStart, setInvalidStart] = useState(false);
@@ -88,7 +88,7 @@ const DatesCard = ( {updateStartDate, updateEndDate} ) => {
   return (
     <>
     <div className="date">
-    <div className="card" style={{borderRadius: 10, margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 18px 18px 18px"}}>      
+    <div className="card" style={{borderRadius: 10, margin:"30px 0px 0px 0px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 18px 18px 18px"}}>      
     <div className="columns" style={{display: "flex"}}>
       <div className="column">
       <DatePicker dateFormat="m/d/Y" datePickerType="single" minDate={new Date().toISOString()} //start date must be after current day
@@ -142,4 +142,4 @@ const DatesCard = ( {updateStartDate, updateEndDate} ) => {
 
 }
 
-export default DatesCard
+export default DatePickerCard
