@@ -109,8 +109,8 @@ class Login extends React.Component {
               padding: '3.5em',
             }}>
               <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="96" height="96"></img>
-              <h2 class="title is-2">Welcome.</h2>                      
-              <h5 class="subtitle is-5">
+              <h2 className="title is-2">Welcome.</h2>                      
+              <h5 className="subtitle is-5">
                 {this.state.newAccount ? "Create your Penn Mobile Portal account" : "Log in to continue to Penn Mobile Portal"}
               </h5>
 

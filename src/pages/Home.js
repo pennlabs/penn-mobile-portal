@@ -126,10 +126,6 @@ class Home extends React.Component {
       )
     }
 
-    const regularFont = "HelveticaNeue, Helvetica, sans-serif, serif";
-    const mediumFont = "HelveticaNeue-Medium, Helvetica-Medium, sans-serif, serif";
-    const boldFont = "HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif";
-
     const postTypes = ['Submitted', 'Rejected', 'Drafts', 'Live', 'Past'];
 
     postTypes.forEach(iterator => {
@@ -158,16 +154,15 @@ class Home extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
-        minHeight: '99vh',
-        backgroundColor: "#f7f7f7"
+        minHeight: '100vh',
       }}>
         <Header isAdmin={this.state.isAdmin}/>
         <div style={{flex: 1}}>
           <div style={{
-            display: (this.state.finishedLoading ? "block" : "none"),
+            display: (this.state.finishedLoading && this.state.posts.length === 0 ? "block" : "none"),
             position: "absolute",
             left: "50%",
-            top: "46%",
+            top: "50%",
             transform: "translate(-50%, -50%)"
           }}>
             <div className="columns is-mobile">
@@ -176,33 +171,19 @@ class Home extends React.Component {
               </div>
 
               <div className="row" style={{margin: "0 0 0 50px"}}>
-                <span style={{
-                  display: 'block',
-                  wordWrap: 'break-word'
-                }}>
-                  <p style={{
-                    fontFamily: boldFont,
-                    fontSize: "42px",
-                    fontWeight: 600,
-                  }}>
-                    Oh, hello there.
-                  </p>
-                </span>
-
+                <h2 className="title is-2">Oh, hello there.</h2> 
                 <span style={{
                   display: 'block',
                   wordWrap: 'break-word',
-                  fontFamily: regularFont,
                   fontSize: "20px",
                   margin: "10px 0 5px 0"
                 }}>
-                  Looks like you're new here.
+                Looks like you're new here.
                 </span>
 
                 <span style={{
                   display: 'block',
                   wordWrap: 'break-word',
-                  fontFamily: regularFont,
                   fontSize: "20px",
                   maxWidth: "500px"
                 }}>
@@ -212,7 +193,6 @@ class Home extends React.Component {
                 <span style={{
                   display: 'block',
                   wordWrap: 'break-word',
-                  fontFamily: mediumFont,
                   fontSize: "20px",
                   margin: "15px 0 5px 0"
                 }}>
@@ -221,122 +201,98 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-          <div className="card" style={{
-            padding: 20,
-            borderRadius: 5,
-            minHeight: '72vh',
-            display: (this.state.posts.length === 0 ? "none" : "block"),
-            backgroundColor: "#f7f7f7"
-          }}>
-            <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
-              <div className="column" style={{
-                display: this.state.postsLive.length > 0 ? "block" : "none",
-                margin: "5px 0px"
+          <div className="rows is-mobile" style={{margin: "0 30px 0 30px"}}>
+            <div className="column" style={{
+              display: this.state.postsLive.length > 0 ? "block" : "none",
+              margin: "5px 0px"
+            }}>
+              <b className="is-size-3">
+                Live
+              </b>
+              <div className="columns is-mobile" style={{
+                flex: 1,
+                flexWrap: "wrap",
+                flexDirection: "row",
+                margin: "20px 0px 0px 0px"
               }}>
-                <b style={{
-                  fontFamily: mediumFont,
-                  fontSize: "30px"
-                }}>
-                  Live
-                </b>
-
-                <div className="columns is-mobile" style={{
-                  flex: 1,
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  margin: "20px 0px 0px 0px"
-                }}>
-                  {this.postCardsLive}
-                </div>
+                {this.postCardsLive}
               </div>
-              <div className="column" style={{
-                display: this.state.postsSubmitted.length > 0 ? "block" : "none",
-                margin: this.state.postsLive.length === 0 ? "5px 0px" : "-15px 0px"
-              }}>
-                <b style={{
-                  fontFamily: mediumFont,
-                  fontSize: "30px"
-                }}>
-                  Submitted
-                </b>
+            </div>
+            <div className="column" style={{
+              display: this.state.postsSubmitted.length > 0 ? "block" : "none",
+              margin: this.state.postsLive.length === 0 ? "5px 0px" : "-15px 0px"
+            }}>
+              <b className="is-size-3">
+                Submitted
+              </b>
 
-                <div className="columns is-mobile" style={{
-                  flex: 1,
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  margin: "20px 0px 0px 0px"
-                }}>
-                  {this.postCardsSubmitted}
-                </div>
+              <div className="columns is-mobile" style={{
+                flex: 1,
+                flexWrap: "wrap",
+                flexDirection: "row",
+                margin: "20px 0px 0px 0px"
+              }}>
+                {this.postCardsSubmitted}
               </div>
+            </div>
 
-              <div className="column" style={{
-                display: this.state.postsRejected.length > 0 ? "block" : "none",
-                margin: (this.state.postsLive.length === 0 &&
-                         this.state.postsSubmitted.length === 0) ? "5px 0px" : "-15px 0px"
+            <div className="column" style={{
+              display: this.state.postsRejected.length > 0 ? "block" : "none",
+              margin: (this.state.postsLive.length === 0 &&
+                        this.state.postsSubmitted.length === 0) ? "5px 0px" : "-15px 0px"
+            }}>
+              <b className="is-size-3">
+                Rejected
+              </b>
+
+              <div className="columns is-mobile" style={{
+                flex: 1,
+                flexWrap: "wrap",
+                flexDirection: "row",
+                margin: "20px 0px 0px 0px"
               }}>
-                <b style={{
-                  fontFamily: mediumFont,
-                  fontSize: "30px"
-                }}>
-                  Rejected
-                </b>
-
-                <div className="columns is-mobile" style={{
-                  flex: 1,
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  margin: "20px 0px 0px 0px"
-                }}>
-                  {this.postCardsRejected}
-                </div>
+                {this.postCardsRejected}
               </div>
+            </div>
 
-              <div className="column" style={{
-                display: this.state.postsDrafts.length > 0 ? "block" : "none",
-                margin: (this.state.postsLive.length === 0 &&
-                         this.state.postsSubmitted.length === 0 &&
-                         this.state.postsRejected.length === 0) ? "5px 0px" : "-15px 0px"
+            <div className="column" style={{
+              display: this.state.postsDrafts.length > 0 ? "block" : "none",
+              margin: (this.state.postsLive.length === 0 &&
+                        this.state.postsSubmitted.length === 0 &&
+                        this.state.postsRejected.length === 0) ? "5px 0px" : "-15px 0px"
+            }}>
+              <b className="is-size-3">
+                Drafts
+              </b>
+
+              <div className="columns is-mobile" style={{
+                flex: 1,
+                flexWrap: "wrap",
+                flexDirection: "row",
+                margin: "20px 0px 0px 0px"
               }}>
-                <b style={{
-                  fontFamily: mediumFont,
-                  fontSize: "30px"
-                }}>
-                  Drafts
-                </b>
-
-                <div className="columns is-mobile" style={{
-                  flex: 1,
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  margin: "20px 0px 0px 0px"
-                }}>
-                  {this.postCardsDrafts}
-                </div>
+                {this.postCardsDrafts}
               </div>
+            </div>
 
-              <div className="column" style={{
-                display: this.state.postsPast.length > 0 ? "block" : "none",
-                margin: (this.state.postsLive.length === 0 &&
-                         this.state.postsSubmitted.length === 0 &&
-                         this.state.postsRejected.length === 0 &&
-                         this.state.postsDrafts.length === 0) ? "5px 0px" : "-15px 0px"
+            <div className="column" style={{
+              display: this.state.postsPast.length > 0 ? "block" : "none",
+              margin: (this.state.postsLive.length === 0 &&
+                        this.state.postsSubmitted.length === 0 &&
+                        this.state.postsRejected.length === 0 &&
+                        this.state.postsDrafts.length === 0) ? "5px 0px" : "-15px 0px"
+            }}>
+              <b className="is-size-3">
+                Past Posts
+              </b>
+
+              <div className="columns is-mobile" style={{
+                flex: 1,
+                flexWrap: "wrap",
+                flexDirection: "row",
+                margin: "20px 0px 0px 0px"
               }}>
-                <b style={{
-                  fontFamily: mediumFont,
-                  fontSize: "30px"
-                }}>
-                  Past Posts
-                </b>
-
-                <div className="columns is-mobile" style={{
-                  flex: 1,
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                  margin: "20px 0px 0px 0px"
-                }}>
-                  {this.postCardsPast}
-                </div>
+                {this.postCardsPast}
               </div>
             </div>
           </div>

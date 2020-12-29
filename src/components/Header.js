@@ -14,14 +14,16 @@ class Header extends React.Component {
           backgroundColor: "#ffffff",
           boxShadow: "0 0 6px 4px rgba(182, 182, 182, 0.5)"
         }}>
-          <div className="hero is-flex" style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}>
-            <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="40" height="40" style={{margin: "0.75em"}}></img>
-            <p style={{fontSize: "1.5em"}}>Penn Mobile Portal</p>
-          </div>
+          <a href="/">
+            <div className="hero is-flex" href="/" style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}>
+              <img src="images/penn-mobile.svg" alt="Penn Mobile Logo" width="40" height="40" style={{margin: "0.75em"}}></img>
+              <p style={{fontSize: "1.5em", color: "#4a4a4a"}}>Penn Mobile Portal</p>
+            </div>
+          </a>
           <div className="hero is-flex" style={{
             flexDirection: "row",
             alignItems: "center",
