@@ -5,9 +5,10 @@ const Footer = () => (
     right: 0,
     bottom: 0,
     left: 0,
-    height: "8rem",
+    height: "4rem",
     zIndex: 10,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    padding: "1em"
   }}>
       <div className="container">
         <div className="content has-text-centered">
