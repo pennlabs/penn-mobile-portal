@@ -28,12 +28,19 @@ const Redirect = require("react-router-dom").Redirect;
 const dev = false;
 
 const CardLabel = styled.div`
-  margin-left: 0px;
-  margin-top: 32px;
+  margin: 12px 0px;
   font-size: 20px;
   text-align: left !important;
   font-weight: bold;
   color: #4a4a4a;
+`;
+
+const Card = styled.div`
+  border-radius: 10px;
+  margin: 12px 0px 24px 0px;
+  box-shadow: 0 0 8px 3px #d9d9d9;
+  padding: 18px 26px 18px 26px;
+  background-color: #ffffff;
 `;
 
 const FormLabel = styled.div`
@@ -626,15 +633,7 @@ class PostPage extends React.Component {
                   {/* <PostStatusVisibility isApproved={this.state.isApproved} postStatus={this.state.status} notifyChange={this.setState}/> */}
                   {/* <NewPostLabel text="Post Options" single={true} /> */}
                   <CardLabel>Content</CardLabel>
-                  <div
-                    className="card"
-                    style={{
-                      borderRadius: 10,
-                      margin: "16px 0px 0px 0px",
-                      boxShadow: "0 0 8px 3px #d9d9d9",
-                      padding: "18px 26px 18px 26px",
-                    }}
-                  >
+                  <Card className="card">
                     {/* <div className="has-text-center">
                       <b style={{fontFamily: mediumFont, fontSize: "26px"}}>
                         Edit Details
@@ -650,6 +649,7 @@ class PostPage extends React.Component {
                       onChange={this.updateInput}
                       style={{
                         border: "solid 1px #e6e6e6",
+                        fontSize: "14px",
                       }}
                     />
 
@@ -853,34 +853,21 @@ class PostPage extends React.Component {
                         }}
                       />
                     </div>
-                  </div>
+                  </Card>
+
                   <CardLabel>Dates</CardLabel>
-                  <DatePickerCard
-                    updateStartDate={this.updateStartDate}
-                    updateEndDate={this.updateEndDate}
-                  />
-                  {/* <div className="has-text-left" style={{marginLeft:91, marginTop:32, fontSize:20}}><b>Dates</b></div>
-                    <div className="card" style={{borderRadius: 10, height: '7%', margin:"30px 0px 0px 91px", boxShadow: "0 0 8px 3px #d9d9d9", marginTop:16, padding:"18px 26px 0px 26px"}}>
-                    {/* <div> 
-                      <input
-                        className="input"
-                        type="datetime"
-                        ref={e => this.dateInput = e}
-                      />
-                    </div> */}
+                  <Card>
+                    <DatePickerCard
+                      updateStartDate={this.updateStartDate}
+                      updateEndDate={this.updateEndDate}
+                    />
+                  </Card>
 
                   <CardLabel>
-                    <b
-                      style={{
-                        fontSize: 20,
-                        marginRight: 21,
-                        color: "#4a4a4a",
-                      }}
-                    >
-                      Filters
-                    </b>
+                    Filters
                     <span
                       style={{
+                        marginLeft: 21,
                         fontSize: 12,
                         color: "#999999",
                         fontWeight: 500,
@@ -894,17 +881,7 @@ class PostPage extends React.Component {
                       all Penn Mobile users by default.
                     </span>
                   </CardLabel>
-                  <div
-                    className="card has-text-left"
-                    style={{
-                      borderRadius: 10,
-                      height: "13%",
-                      margin: "0px 0px 0px 0px",
-                      boxShadow: "0 0 8px 3px #d9d9d9",
-                      marginTop: 16,
-                      padding: "18px 26px 0px 26px",
-                    }}
-                  >
+                  <Card>
                     <div className="columns">
                       <div className="column is-3">
                         <FormLabel>Class Year</FormLabel>
@@ -1095,24 +1072,17 @@ class PostPage extends React.Component {
                           style={{backgroundColor:"#2175cb", borderRadius:12, border:0, height:24, marginRight:10, color:"#ffffff", fontWeight:500, fontSize:16}}>
                               Save filters
                           </div>  */}
-                  </div>
+                  </Card>
 
                   {/* <div style={{margin: "10px 40px 0px 40px"}}>
                       <b style={{fontFamily: mediumFont, fontSize: "14px", float: "left", margin: "0px 0px 2px 0px"}}>Major</b>
                       <input className="input is-small" type="tags" name="majorFilter" value="Tag1,Tag2" placeholder="Add tags" onChange={this.updateInput} />
                     </div> */}
                   <CardLabel>
-                    <b
-                      style={{
-                        fontSize: 20,
-                        marginRight: 21,
-                        color: "#4a4a4a",
-                      }}
-                    >
-                      Notes
-                    </b>
+                    Notes
                     <span
                       style={{
+                        marginLeft: 21,
                         fontSize: 12,
                         color: "#999999",
                         fontWeight: 500,
@@ -1126,17 +1096,7 @@ class PostPage extends React.Component {
                       review process.
                     </span>
                   </CardLabel>
-                  <div
-                    className="card"
-                    style={{
-                      borderRadius: 10,
-                      height: 150,
-                      margin: "0px 0px 0px 0px",
-                      boxShadow: "0 0 8px 3px #d9d9d9",
-                      marginTop: 16,
-                      padding: "26px 26px 26px 26px",
-                    }}
-                  >
+                  <Card>
                     <div style={{ height: 94 }}>
                       <textarea
                         className="textarea is-small"
@@ -1147,15 +1107,13 @@ class PostPage extends React.Component {
                         rows="2"
                         onChange={this.updateInput}
                         style={{
-                          backgroundColor: "#f7f7f7",
-                          borderRadius: 5,
                           border: "solid 1px #e6e6e6",
                           height: 94,
                           fontSize: "14px",
                         }}
                       />
                     </div>
-                  </div>
+                  </Card>
                   {/* <div style={{margin: "20px 0px 20px 0px", float: "center", verticalAlign: "middle", clear: "left" }}>
                         <button className="button" onClick={this.onSubmit} style={{
                           margin: "16px 0px 0px 0px",
@@ -1190,10 +1148,7 @@ class PostPage extends React.Component {
             </div>
           </div>
         </div>
-
-        <div style={{ height: "0px" }} />
       </>
-      // </div>
     );
   }
 }
