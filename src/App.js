@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import { Route, Switch } from "react-router-dom";
+import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import Login from './pages/Login.js'
 import Home from './pages/Home.js'
 import Post from './pages/Post.js'
 import Admin from './pages/Admin.js'
 
-
-import './App.sass';
+import './App.sass'
 
 class App extends Component {
   render() {
@@ -19,8 +18,8 @@ class App extends Component {
         {/* when none of the above match, <NoMatch> will be rendered */}
         <Route component={Home} />
       </Switch>
-    );
+    )
   }
 }
 
-export default App;
+export default App
