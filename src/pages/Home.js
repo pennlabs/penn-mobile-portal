@@ -10,6 +10,7 @@ import PostAnalytics from '../models/PostAnalytics.js'
 
 import Select from 'react-select'
 import styled from 'styled-components'
+import { WHITE, GRAY, RED, YELLOW, PURPLE, MEDIUM_BLUE } from '../colors.js'
 import '../App.sass'
 
 const fetch = require('node-fetch')
@@ -25,13 +26,13 @@ const viewModeStyle = {
   }),
   control: (provided) => ({
     ...provided,
-    background: '#2175CB',
+    background: MEDIUM_BLUE,
     borderRadius: '100px',
     minHeight: '32px',
   }),
   singleValue: (base) => ({
     ...base,
-    color: 'white',
+    color: WHITE,
     marginLeft: 6,
     fontWeight: 600,
   }),
@@ -59,7 +60,7 @@ const ColorKeyRect = styled.rect`
 const ColorKeySpan = styled.span`
   font-weight: bold;
   font-size: 13px;
-  color: #999999;
+  color: ${GRAY};
   margin: 0 12px 0 6px;
 `
 
@@ -75,7 +76,7 @@ class Home extends React.Component {
       postsPast: [],
       isAdmin: false,
       finishedLoading: false,
-      viewMode: 'Analytics',
+      viewMode: 'Content',
     }
   }
 
@@ -250,26 +251,24 @@ class Home extends React.Component {
             <NoPostsMessage />
           )}
           <div className="container is-fluid" style={{ margin: '48px 72px' }}>
-            <div
-              className="columns is-pulled-right is-vcentered"
-            >
+            <div className="columns is-pulled-right is-vcentered">
               {this.state.viewMode === 'Analytics' &&
-              this.state.posts.length !== 0 && (
-                <>
-                <svg width="15" height="15">
-                  <ColorKeyRect color={'#FFD983'} />
-                </svg>
-                <ColorKeySpan> Views </ColorKeySpan>
-                <svg width="15" height="15">
-                  <ColorKeyRect color={'#EB9387'} />
-                </svg>
-                <ColorKeySpan> Unique Views </ColorKeySpan>
-                <svg width="15" height="15">
-                  <ColorKeyRect color={'#A98ABF'} />
-                </svg>
-                <ColorKeySpan> Clicks </ColorKeySpan>
-                </>
-              )}
+                this.state.posts.length !== 0 && (
+                  <>
+                    <svg width="15" height="15">
+                      <ColorKeyRect color={YELLOW} />
+                    </svg>
+                    <ColorKeySpan> Views </ColorKeySpan>
+                    <svg width="15" height="15">
+                      <ColorKeyRect color={RED} />
+                    </svg>
+                    <ColorKeySpan> Unique Views </ColorKeySpan>
+                    <svg width="15" height="15">
+                      <ColorKeyRect color={PURPLE} />
+                    </svg>
+                    <ColorKeySpan> Clicks </ColorKeySpan>
+                  </>
+                )}
               <div className="column">
                 <b>View Mode: </b>
               </div>
@@ -292,7 +291,7 @@ class Home extends React.Component {
               </div>
               <span
                 className="icon"
-                style={{ color: '#2175CB', fontSize: '1.5rem' }}
+                style={{ color: MEDIUM_BLUE, fontSize: '1.5rem' }}
               >
                 <i className="fas fa-angle-down"></i>
               </span>
