@@ -2,10 +2,14 @@ import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import PostCard from '../components/PostCard'
+import NoPostsMessage from '../components/NoPostsMessage'
+import Analytics from '../components/Analytics'
 
 import Post from '../models/Post.js'
 import PostAnalytics from '../models/PostAnalytics.js'
 
+import Select from 'react-select'
+import styled from 'styled-components'
 import '../App.sass'
 
 const fetch = require('node-fetch')
@@ -13,6 +17,37 @@ const Cookies = require('js-cookie')
 const Redirect = require('react-router-dom').Redirect
 
 const dev = false
+
+const viewModeStyle = {
+  container: (provided) => ({
+    ...provided,
+    width: 95,
+  }),
+  control: (provided) => ({
+    ...provided,
+    background: '#2175CB',
+    borderRadius: '100px',
+    minHeight: '32px',
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: 'white',
+    marginLeft: 6,
+    fontWeight: 600,
+  }),
+}
+
+const viewModeOptions = [
+  { value: 'Content', label: 'Content' },
+  { value: 'Analytics', label: 'Analytics' },
+]
+
+const PostWrapper = styled.div`
+  flex: 1;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 20px 0px 0px 0px;
+`
 
 class Home extends React.Component {
   constructor(props) {
@@ -26,6 +61,7 @@ class Home extends React.Component {
       postsPast: [],
       isAdmin: false,
       finishedLoading: false,
+      viewMode: 'Analytics',
     }
   }
 
@@ -196,204 +232,133 @@ class Home extends React.Component {
       >
         <Header isAdmin={this.state.isAdmin} />
         <div style={{ flex: 1 }}>
-          <div
-            style={{
-              display:
-                this.state.finishedLoading && this.state.posts.length === 0
-                  ? 'block'
-                  : 'none',
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            <div className="columns is-mobile">
-              <div className="row">
-                <img
-                  src="images/desk.svg"
-                  alt="Penn Mobile Logo"
-                  width="366"
-                  height="321"
-                ></img>
+          {this.state.finishedLoading && this.state.posts.length === 0 && (
+            <NoPostsMessage />
+          )}
+          <div className="container is-fluid" style={{ margin: '32px 72px' }}>
+            <div className="columns is-pulled-right is-vcentered" style={{maxHeight: '32px'}}>
+              <div className="column">
+                <b>View Mode: </b>
               </div>
-
-              <div className="row" style={{ margin: '0 0 0 50px' }}>
-                <h2 className="title is-2">Oh, hello there.</h2>
-                <span
+              <div className="column" style={{ padding: '12px 0' }}>
+                <Select
+                  components={{
+                    DropdownIndicator: () => null,
+                    IndicatorSeparator: () => null,
+                  }}
+                  styles={viewModeStyle}
+                  options={viewModeOptions}
+                  defaultValue={viewModeOptions[0]}
+                  isSearchable={false}
+                  onChange={(e) =>
+                    this.setState({
+                      viewMode: e.value,
+                    })
+                  }
+                />
+              </div>
+              <span
+                className="icon"
+                style={{ color: '#2175CB', fontSize: '1.5rem' }}
+              >
+                <i className="fas fa-angle-down"></i>
+              </span>
+            </div>
+            {this.state.viewMode === 'Analytics' &&
+              this.state.posts.length !== 0 && (
+                <Analytics
+                  postsLive={this.state.postsLive}
+                  postsPast={this.state.postsPast}
+                />
+            )}
+            {this.state.viewMode === 'Content' && (
+              <>
+                <div
+                  className="column"
                   style={{
-                    display: 'block',
-                    wordWrap: 'break-word',
-                    fontSize: '20px',
-                    margin: '10px 0 5px 0',
+                    display: this.state.postsLive.length > 0 ? 'block' : 'none',
                   }}
                 >
-                  Looks like you're new here.
-                </span>
-
-                <span
+                  <b className="is-size-4">Live</b>
+                  <PostWrapper className="columns is-mobile">
+                    {this.postCardsLive}
+                  </PostWrapper>
+                </div>
+                <div
+                  className="column"
                   style={{
-                    display: 'block',
-                    wordWrap: 'break-word',
-                    fontSize: '20px',
-                    maxWidth: '500px',
+                    display:
+                      this.state.postsSubmitted.length > 0 ? 'block' : 'none',
+                    margin:
+                      this.state.postsLive.length === 0
+                        ? '5px 0px'
+                        : '-10px 0px',
                   }}
                 >
-                  Penn Mobile Portal allows organizations to connect and engage
-                  with students on the Penn Mobile app. Make posts for
-                  recruiting, events, or campaigns and watch in real time as
-                  users see and interact with your content.
-                </span>
+                  <b className="is-size-4">Submitted</b>
 
-                <span
+                  <PostWrapper className="columns is-mobile">
+                    {this.postCardsSubmitted}
+                  </PostWrapper>
+                </div>
+
+                <div
+                  className="column"
                   style={{
-                    display: 'block',
-                    wordWrap: 'break-word',
-                    fontSize: '20px',
-                    margin: '15px 0 5px 0',
+                    display:
+                      this.state.postsRejected.length > 0 ? 'block' : 'none',
+                    margin:
+                      this.state.postsLive.length === 0 &&
+                      this.state.postsSubmitted.length === 0
+                        ? '5px 0px'
+                        : '-15px 0px',
                   }}
                 >
-                  Ready to get started?{' '}
-                  <a href="/post">
-                    Create a new post{' '}
-                    <i
-                      className="fas fa-arrow-circle-right"
-                      style={{
-                        fontSize: '17px',
-                        paddingBottom: 3,
-                        verticalAlign: 'middle',
-                      }}
-                    ></i>
-                  </a>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="rows is-mobile" style={{ margin: '0 30px 0 30px' }}>
-            <div
-              className="column"
-              style={{
-                display: this.state.postsLive.length > 0 ? 'block' : 'none',
-                margin: '5px 0px',
-              }}
-            >
-              <b className="is-size-3">Live</b>
-              <div
-                className="columns is-mobile"
-                style={{
-                  flex: 1,
-                  flexWrap: 'wrap',
-                  flexDirection: 'row',
-                  margin: '20px 0px 0px 0px',
-                }}
-              >
-                {this.postCardsLive}
-              </div>
-            </div>
-            <div
-              className="column"
-              style={{
-                display:
-                  this.state.postsSubmitted.length > 0 ? 'block' : 'none',
-                margin:
-                  this.state.postsLive.length === 0 ? '5px 0px' : '-15px 0px',
-              }}
-            >
-              <b className="is-size-3">Submitted</b>
+                  <b className="is-size-4">Rejected</b>
+                  <PostWrapper className="columns is-mobile">
+                    {this.postCardsRejected}
+                  </PostWrapper>
+                </div>
 
-              <div
-                className="columns is-mobile"
-                style={{
-                  flex: 1,
-                  flexWrap: 'wrap',
-                  flexDirection: 'row',
-                  margin: '20px 0px 0px 0px',
-                }}
-              >
-                {this.postCardsSubmitted}
-              </div>
-            </div>
+                <div
+                  className="column"
+                  style={{
+                    display:
+                      this.state.postsDrafts.length > 0 ? 'block' : 'none',
+                    margin:
+                      this.state.postsLive.length === 0 &&
+                      this.state.postsSubmitted.length === 0 &&
+                      this.state.postsRejected.length === 0
+                        ? '5px 0px'
+                        : '-15px 0px',
+                  }}
+                >
+                  <b className="is-size-4">Drafts</b>
+                  <PostWrapper className="columns is-mobile">
+                    {this.postCardsDrafts}
+                  </PostWrapper>
+                </div>
 
-            <div
-              className="column"
-              style={{
-                display: this.state.postsRejected.length > 0 ? 'block' : 'none',
-                margin:
-                  this.state.postsLive.length === 0 &&
-                  this.state.postsSubmitted.length === 0
-                    ? '5px 0px'
-                    : '-15px 0px',
-              }}
-            >
-              <b className="is-size-3">Rejected</b>
-
-              <div
-                className="columns is-mobile"
-                style={{
-                  flex: 1,
-                  flexWrap: 'wrap',
-                  flexDirection: 'row',
-                  margin: '20px 0px 0px 0px',
-                }}
-              >
-                {this.postCardsRejected}
-              </div>
-            </div>
-
-            <div
-              className="column"
-              style={{
-                display: this.state.postsDrafts.length > 0 ? 'block' : 'none',
-                margin:
-                  this.state.postsLive.length === 0 &&
-                  this.state.postsSubmitted.length === 0 &&
-                  this.state.postsRejected.length === 0
-                    ? '5px 0px'
-                    : '-15px 0px',
-              }}
-            >
-              <b className="is-size-3">Drafts</b>
-
-              <div
-                className="columns is-mobile"
-                style={{
-                  flex: 1,
-                  flexWrap: 'wrap',
-                  flexDirection: 'row',
-                  margin: '20px 0px 0px 0px',
-                }}
-              >
-                {this.postCardsDrafts}
-              </div>
-            </div>
-
-            <div
-              className="column"
-              style={{
-                display: this.state.postsPast.length > 0 ? 'block' : 'none',
-                margin:
-                  this.state.postsLive.length === 0 &&
-                  this.state.postsSubmitted.length === 0 &&
-                  this.state.postsRejected.length === 0 &&
-                  this.state.postsDrafts.length === 0
-                    ? '5px 0px'
-                    : '-15px 0px',
-              }}
-            >
-              <b className="is-size-3">Past Posts</b>
-
-              <div
-                className="columns is-mobile"
-                style={{
-                  flex: 1,
-                  flexWrap: 'wrap',
-                  flexDirection: 'row',
-                  margin: '20px 0px 0px 0px',
-                }}
-              >
-                {this.postCardsPast}
-              </div>
-            </div>
+                <div
+                  className="column"
+                  style={{
+                    display: this.state.postsPast.length > 0 ? 'block' : 'none',
+                    margin:
+                      this.state.postsLive.length === 0 &&
+                      this.state.postsSubmitted.length === 0 &&
+                      this.state.postsRejected.length === 0 &&
+                      this.state.postsDrafts.length === 0
+                        ? '5px 0px'
+                        : '-15px 0px',
+                  }}
+                >
+                  <b className="is-size-4">Past Posts</b>
+                  <PostWrapper className="columns is-mobile">
+                    {this.postCardsPast}
+                  </PostWrapper>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <Footer />
