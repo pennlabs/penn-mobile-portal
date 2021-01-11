@@ -16,6 +16,8 @@ const Card = styled.div`
   padding: 24px 24px 24px 24px;
   background-color: #ffffff;
   cursor: pointer;
+  border-left: ${(props) =>
+    props.live ? 'solid #3FAA6D 12px' : 'solid #999999 12px'};
 `
 
 const AnalyticsBar = styled.hr`
@@ -32,10 +34,10 @@ const CaptionDiv = styled.div`
   box-shadow: 0 0 8px #d9d9d9;
   position: absolute;
   padding: 0.25rem;
-	font-size: 12px;
-	border-radius: 3px;
-	z-index: 10;
-	margin-top: 0.3rem;
+  font-size: 12px;
+  border-radius: 3px;
+  z-index: 10;
+  margin-top: 0.3rem;
   &:after {
     bottom: 100%;
     left: 15%;
@@ -68,6 +70,7 @@ const AnalyticsCard = ({ post, live }) => {
     <Card
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      live={live}
     >
       {console.log(post)}
       <Columns vCentered={true}>

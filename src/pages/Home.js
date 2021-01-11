@@ -49,6 +49,20 @@ const PostWrapper = styled.div`
   margin: 20px 0px 0px 0px;
 `
 
+const ColorKeyRect = styled.rect`
+  fill: ${(props) => props.color};
+  width: 15px;
+  height: 15px;
+  rx: 3px;
+`
+
+const ColorKeySpan = styled.span`
+  font-weight: bold;
+  font-size: 13px;
+  color: #999999;
+  margin: 0 12px 0 6px;
+`
+
 class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -235,8 +249,27 @@ class Home extends React.Component {
           {this.state.finishedLoading && this.state.posts.length === 0 && (
             <NoPostsMessage />
           )}
-          <div className="container is-fluid" style={{ margin: '32px 72px' }}>
-            <div className="columns is-pulled-right is-vcentered" style={{maxHeight: '32px'}}>
+          <div className="container is-fluid" style={{ margin: '48px 72px' }}>
+            <div
+              className="columns is-pulled-right is-vcentered"
+            >
+              {this.state.viewMode === 'Analytics' &&
+              this.state.posts.length !== 0 && (
+                <>
+                <svg width="15" height="15">
+                  <ColorKeyRect color={'#FFD983'} />
+                </svg>
+                <ColorKeySpan> Views </ColorKeySpan>
+                <svg width="15" height="15">
+                  <ColorKeyRect color={'#EB9387'} />
+                </svg>
+                <ColorKeySpan> Unique Views </ColorKeySpan>
+                <svg width="15" height="15">
+                  <ColorKeyRect color={'#A98ABF'} />
+                </svg>
+                <ColorKeySpan> Clicks </ColorKeySpan>
+                </>
+              )}
               <div className="column">
                 <b>View Mode: </b>
               </div>
@@ -270,7 +303,7 @@ class Home extends React.Component {
                   postsLive={this.state.postsLive}
                   postsPast={this.state.postsPast}
                 />
-            )}
+              )}
             {this.state.viewMode === 'Content' && (
               <>
                 <div

@@ -5,12 +5,14 @@ import { Columns } from 'react-bulma-components'
 const Analytics = ({ postsLive, postsPast }) => {
   return (
     <>
-      <div style={{ margin: '20px 0px' }}>
-        <b className="is-size-4">All Posts</b>
-      </div>
+      <Columns vCentered={true}>
+        <Columns.Column>
+          <b className="is-size-4">All Posts</b>
+        </Columns.Column>
+      </Columns>
       <Columns>
         <Columns.Column>
-          <b>Published</b>
+          <b style={{marginLeft: '0.75rem'}}>Published</b>
         </Columns.Column>
         <Columns.Column size={6}>
           <b>Post</b>
@@ -19,7 +21,7 @@ const Analytics = ({ postsLive, postsPast }) => {
           <b>Views</b>
         </Columns.Column>
         <Columns.Column>
-          <b>Interactions</b>
+          <b>Clicks</b>
         </Columns.Column>
       </Columns>
       {postsLive.map((post) => (
