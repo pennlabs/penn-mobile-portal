@@ -74,7 +74,6 @@ const AnalyticsCard = ({ post, live }) => {
       onMouseLeave={() => setHover(false)}
       live={live}
     >
-      {console.log(post)}
       <Columns vCentered={true}>
         <Columns.Column>
           <p className="has-text-weight-medium">
