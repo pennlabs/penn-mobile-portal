@@ -1,0 +1,8 @@
+export const WHITE = '#ffffff'
+export const YELLOW = '#ffd983'
+export const RED = '#eb9387'
+export const PURPLE = '#a98abf'
+export const LIGHT_BLUE = '#d3e3f5'
+export const MEDIUM_BLUE = '#2175cb'
+export const GRAY = '#999999'
+export const GREEN = '#3faa6d'
