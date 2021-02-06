@@ -34,7 +34,8 @@
     "build": "react-scripts build",
     "test": "echo 'No Tests' && exit 0",
     "eject": "react-scripts eject",
-    "lint": "exit 0"
+    "lint": "exit 0",
+    "codecov": "exit 0"
   },
   "eslintConfig": {
     "extends": "react-app"
