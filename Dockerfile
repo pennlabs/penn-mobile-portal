@@ -3,16 +3,17 @@ FROM node:10-buster as build
 WORKDIR /app/
 
 # Copy project dependencies
-COPY package*.json /app/
+COPY package.json /app/
+COPY yarn.lock /app/
 
 # Install project dependencies
-RUN npm install --production=true
+RUN yarn install --frozen-lockfile --production=true
 
 # Copy project files
 COPY . /app/
 
 # Build project
-RUN npm run build
+RUN yarn build
 
 
 FROM nginx:1.17.7
