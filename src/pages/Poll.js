@@ -1,10 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Header from '../components/Header'
-import NewPostLabel from '../components/NewPostLabel'
-import PostStatusVisibility from '../components/PostStatusVisibility'
 import Preview from '../components/Preview'
 import DatePickerCard from '../components/DatePickerCard'
 import StatusBar from '../components/StatusBar'
+import { Button, ToggleButton } from '../components/style-components/Buttons'
 
 import '../App.sass'
 
@@ -49,14 +49,6 @@ const FormLabel = styled.div`
   float: left;
   margin: 0px 0px 2px 0px;
   font-weight: 600;
-`
-
-const Button = styled.button`
-  border-width: 0;
-  background-color: ${(props) => props.color};
-  margin-right: 15px;
-  padding: 1rem;
-  display: ${(props) => (props.show ? 'flex' : 'none')};
 `
 
 class PollPage extends React.Component {
@@ -588,8 +580,18 @@ class PollPage extends React.Component {
             <div>
               <div className="columns is-mobile">
                 <div className="column has-text-centered is-7">
+                  <div className="level-left" style={{ marginBottom: '24px' }}>
+                    <Link to="/post">
+                      <ToggleButton isActive={false} isLeft={true}>
+                        New Post
+                      </ToggleButton>
+                    </Link>
+                    <ToggleButton isActive={true} isLeft={false}>
+                      New Poll
+                    </ToggleButton>
+                  </div>
                   <div className="level">
-                    <div className="level-left is-size-3 has-text-left">
+                    <div className="level-left is-size-4 has-text-left">
                       <b>Poll Details</b>
                     </div>
                     <div className="level-right">
@@ -948,8 +950,7 @@ class PollPage extends React.Component {
                         verticalAlign: 'middle',
                         clear: 'left',
                       }}
-                    >
-                    </div>
+                    ></div>
                     <div className="columns">
                       <div className="column is-3">
                         <FormLabel>School</FormLabel>
@@ -1059,7 +1060,6 @@ class PollPage extends React.Component {
                 </div>
 
                 <div className="column has-text-centered is-5">
-                  <b className="is-size-3 has-text-left">Live Preview</b>
                   <Preview
                     imageUrl={this.state.imageUrlCropped}
                     title={this.state.title}

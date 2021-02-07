@@ -1,10 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Header from '../components/Header'
-import NewPostLabel from '../components/NewPostLabel'
-import PostStatusVisibility from '../components/PostStatusVisibility'
 import Preview from '../components/Preview'
 import DatePickerCard from '../components/DatePickerCard'
 import StatusBar from '../components/StatusBar'
+import { Button, ToggleButton } from '../components/style-components/Buttons'
 
 import '../App.sass'
 
@@ -49,14 +49,6 @@ const FormLabel = styled.div`
   float: left;
   margin: 0px 0px 2px 0px;
   font-weight: 600;
-`
-
-const Button = styled.button`
-  border-width: 0;
-  background-color: ${(props) => props.color};
-  margin-right: 15px;
-  padding: 1rem;
-  display: ${(props) => (props.show ? 'flex' : 'none')};
 `
 
 class PostPage extends React.Component {
@@ -588,8 +580,18 @@ class PostPage extends React.Component {
             <div>
               <div className="columns is-mobile">
                 <div className="column has-text-centered is-7">
+                  <div className="level-left" style={{ marginBottom: '24px' }}>
+                    <ToggleButton isActive={true} isLeft={true}>
+                      New Post
+                    </ToggleButton>
+                    <Link to="/poll">
+                      <ToggleButton isActive={false} isLeft={false}>
+                        New Poll
+                      </ToggleButton>
+                    </Link>
+                  </div>
                   <div className="level">
-                    <div className="level-left is-size-3 has-text-left">
+                    <div className="level-left is-size-4 has-text-left">
                       <b>Post Details</b>
                     </div>
                     <div className="level-right">
@@ -1133,9 +1135,6 @@ class PostPage extends React.Component {
                 </div>
 
                 <div className="column has-text-centered is-5">
-                  <b className="is-size-3 has-text-left">Live Preview</b>
-
-                  {/* <NewPostLabel text="Live Preview" single={false} left={false} /> */}
                   <Preview
                     imageUrl={this.state.imageUrlCropped}
                     title={this.state.title}
