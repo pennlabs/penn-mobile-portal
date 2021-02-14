@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import Preview from '../components/Preview'
 import DatePickerCard from '../components/DatePickerCard'
 import StatusBar from '../components/StatusBar'
-import { Button, ToggleButton } from '../components/style-components/Buttons'
+import { Button, ToggleButton, CardLabel, FormLabel, Card } from '../components/styled-components'
 
 import '../App.sass'
 
@@ -26,30 +26,6 @@ const Cookies = require('js-cookie')
 const Redirect = require('react-router-dom').Redirect
 
 const dev = false
-
-const CardLabel = styled.div`
-  margin: 12px 0px;
-  font-size: 20px;
-  text-align: left !important;
-  font-weight: bold;
-  color: #4a4a4a;
-`
-
-const Card = styled.div`
-  border-radius: 10px;
-  margin: 12px 0px 24px 0px;
-  box-shadow: 0 0 8px 3px #d9d9d9;
-  padding: 18px 26px 18px 26px;
-  background-color: #ffffff;
-`
-
-const FormLabel = styled.div`
-  margin-top: 26px;
-  font-size: 16px;
-  float: left;
-  margin: 0px 0px 2px 0px;
-  font-weight: 600;
-`
 
 class PostPage extends React.Component {
   constructor(props) {
