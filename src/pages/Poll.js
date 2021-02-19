@@ -126,6 +126,7 @@ class PollPage extends React.Component {
       },
       isAdmin: false,
       accountName: null,
+      numOptions: 1,
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -146,6 +147,7 @@ class PollPage extends React.Component {
     this.showFilters = this.showFilters.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+    this.addPollOption = this.addPollOption.bind(this)
   }
 
   componentWillMount() {
@@ -568,6 +570,10 @@ class PollPage extends React.Component {
     this.setState({ modalIsOpen: false })
   }
 
+  addPollOption() {
+    this.setState({numOptions: this.state.numOptions + 1})
+  }
+
   render() {
     if (!Cookies.get('accountID')) {
       return <Redirect to="/login" />
@@ -576,6 +582,28 @@ class PollPage extends React.Component {
     const boldFont = 'HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif'
 
     const { crop, croppedImageUrl, src } = this.state
+
+    const pollOptions = 
+    [
+      ...Array(this.state.numOptions),
+    ].map((index) => (
+      <div key={index} style={{ marginTop: 10 }}>
+        <FormLabel>Poll Option</FormLabel>
+        <input
+          className="input"
+          type="text"
+          name="title"
+          value={this.state.title || ''}
+          placeholder="Ex: Poll Option 1"
+          onChange={this.updateInput}
+          style={{
+            border: 'solid 1px #e6e6e6',
+            fontSize: '14px',
+          }}
+        />
+      </div>
+    ));
+
 
     return (
       <>
@@ -639,13 +667,13 @@ class PollPage extends React.Component {
                         Edit Details
                       </b>
                     </div> */}
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel>Question</FormLabel>
                     <input
                       className="input"
                       type="text"
                       name="title"
                       value={this.state.title || ''}
-                      placeholder="Ex: Apply to Penn Labs!"
+                      placeholder="Ex: What do you think about Penn's COVID response?"
                       onChange={this.updateInput}
                       style={{
                         border: 'solid 1px #e6e6e6',
@@ -654,49 +682,10 @@ class PollPage extends React.Component {
                     />
 
                     <div style={{ marginTop: 26 }}>
-                      <FormLabel>Description (Optional)</FormLabel>
-                      <textarea
-                        className="input is-small"
-                        type="text"
-                        name="subtitle"
-                        value={this.state.subtitle || ''}
-                        placeholder="Ex: Interested in developing new features for Penn Mobile or Penn Course Review? Come out and meet the team!"
-                        rows="2"
-                        onChange={this.updateInput}
-                        style={{
-                          backgroundColor: '#f7f7f7',
-                          borderRadius: 5,
-                          border: 'solid 1px #e6e6e6',
-                          marginTop: 8,
-                          fontSize: '14px',
-                        }}
-                      />
-                    </div>
-
-                    <div style={{ marginTop: 26 }}>
-                      <FormLabel>Detail Label (Optional)</FormLabel>
-                      <input
-                        className="input is-small"
-                        type="text"
-                        name="detailLabel"
-                        value={this.state.detailLabel || ''}
-                        placeholder="Ex: Due Today"
-                        onChange={this.updateInput}
-                        style={{
-                          backgroundColor: '#f7f7f7',
-                          borderRadius: 5,
-                          border: 'solid 1px #e6e6e6',
-                          marginTop: 8,
-                          fontSize: '14px',
-                        }}
-                      />
-                    </div>
-
-                    <div style={{ marginTop: 26 }}>
                       <FormLabel>Upload Cover Image</FormLabel>
                       <div style={{ height: '10px' }} />
                     </div>
-
+                    
                     <div style={{ marginTop: 22 }}>
                       <div className="file has-name is-small">
                         <label className="file-label">
@@ -835,23 +824,43 @@ class PollPage extends React.Component {
                       </div>
                     </Modal>
 
-                    <div>
-                      <FormLabel>Link (Optional)</FormLabel>
-                      <input
-                        className="input is-small"
-                        type="text"
-                        name="postUrl"
-                        value={this.state.postUrl || ''}
-                        placeholder="Ex: https://pennlabs.org"
-                        onChange={this.updateInput}
-                        style={{
-                          backgroundColor: '#f7f7f7',
-                          borderRadius: 5,
-                          border: 'solid 1px #e6e6e6',
-                          marginTop: 8,
-                          fontSize: '14px',
-                        }}
-                      />
+                    {pollOptions}
+                    <div
+                          style={{
+                            margin: '0px 0px -4px 0px',
+                          }}
+                        >
+                      <div className="file has-name is-small">
+                        <button
+                          onClick = {this.addPollOption}
+                          style={{
+                            margin: '16px 0px 0px 0px',
+                            width: 110,
+                            height: 35,
+                            border: 'solid 0 #979797',
+                            backgroundColor: '#2175cb',
+                            fontFamily: boldFont,
+                            fontWeight: 500,
+                            fontSize: 13,
+                            color: '#ffffff',
+                            borderRadius: 10,
+                          }}>Add Option
+                        </button>
+                        <button
+                          style={{
+                            margin: '16px 0px 0px 10px',
+                            width: 188,
+                            height: 35,
+                            border: 'solid 0 #979797',
+                            backgroundColor: '#828282',
+                            fontFamily: boldFont,
+                            fontWeight: 500,
+                            fontSize: 13,
+                            color: '#ffffff',
+                            borderRadius: 10,
+                          }}>Allow Multiple Selections
+                        </button>
+                      </div>
                     </div>
                   </Card>
 
