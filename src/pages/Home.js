@@ -10,7 +10,7 @@ import PostAnalytics from '../models/PostAnalytics.js'
 
 import Select from 'react-select'
 import styled from 'styled-components'
-import { WHITE, GRAY, RED, YELLOW, PURPLE, MEDIUM_BLUE } from '../colors.js'
+import colors from '../colors.js'
 import '../App.sass'
 
 const fetch = require('node-fetch')
@@ -26,13 +26,13 @@ const viewModeStyle = {
   }),
   control: (provided) => ({
     ...provided,
-    background: MEDIUM_BLUE,
+    background: colors.MEDIUM_BLUE,
     borderRadius: '100px',
     minHeight: '32px',
   }),
   singleValue: (base) => ({
     ...base,
-    color: WHITE,
+    color: colors.WHITE,
     marginLeft: 6,
     fontWeight: 600,
   }),
@@ -60,7 +60,7 @@ const ColorKeyRect = styled.rect`
 const ColorKeySpan = styled.span`
   font-weight: bold;
   font-size: 13px;
-  color: ${GRAY};
+  color: ${colors.GRAY};
   margin: 0 12px 0 6px;
 `
 
@@ -256,15 +256,15 @@ class Home extends React.Component {
                 this.state.posts.length !== 0 && (
                   <>
                     <svg width="15" height="15">
-                      <ColorKeyRect color={YELLOW} />
+                      <ColorKeyRect color={colors.YELLOW} />
                     </svg>
                     <ColorKeySpan> Views </ColorKeySpan>
                     <svg width="15" height="15">
-                      <ColorKeyRect color={RED} />
+                      <ColorKeyRect color={colors.RED} />
                     </svg>
                     <ColorKeySpan> Unique Views </ColorKeySpan>
                     <svg width="15" height="15">
-                      <ColorKeyRect color={PURPLE} />
+                      <ColorKeyRect color={colors.PURPLE} />
                     </svg>
                     <ColorKeySpan> Clicks </ColorKeySpan>
                   </>
@@ -291,7 +291,7 @@ class Home extends React.Component {
               </div>
               <span
                 className="icon"
-                style={{ color: MEDIUM_BLUE, fontSize: '1.5rem' }}
+                style={{ color: colors.MEDIUM_BLUE, fontSize: '1.5rem' }}
               >
                 <i className="fas fa-angle-down"></i>
               </span>

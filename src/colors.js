@@ -1,9 +1,15 @@
-export const WHITE = '#ffffff'
-export const YELLOW = '#ffd983'
-export const RED = '#eb9387'
-export const PURPLE = '#a98abf'
-export const LIGHT_BLUE = '#d3e3f5'
-export const MEDIUM_BLUE = '#2175cb'
-export const GRAY = '#999999'
-export const LIGHT_GRAY = '#bdbdbd'
-export const GREEN = '#3faa6d'
+let colors = {
+    WHITE: '#ffffff',
+    YELLOW: '#ffd983',
+    RED: '#eb9387',
+    PURPLE: '#a98abf',
+    LIGHT_BLUE: '#d3e3f5',
+    MEDIUM_BLUE: '#2175cb',
+    IMAGE_BLUE: '#2D9CDB', 
+    GRAY: '#999999',
+    LIGHT_GRAY: '#bdbdbd',
+    DARK_GRAY: '#828282',
+    GREEN: '#3faa6d',
+}
+
+export default colors;

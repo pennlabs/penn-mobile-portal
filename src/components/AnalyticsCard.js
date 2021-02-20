@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { Columns } from 'react-bulma-components'
 import styled from 'styled-components'
 import moment from 'moment'
-
-import { WHITE, GRAY, RED, YELLOW, PURPLE, LIGHT_BLUE } from '../colors.js'
+import colors from '../colors'
 
 const Subtitle = styled.p`
-  color: ${GRAY};
+  color: ${colors.GRAY};
   font-size: 10px;
   font-weight: bold;
 `
@@ -16,7 +15,7 @@ const Card = styled.div`
   margin: 12px 0px 24px 0px;
   box-shadow: 0 0 8px 3px #d9d9d9;
   padding: 24px 24px 24px 24px;
-  background-color: ${WHITE};
+  background-color: ${colors.WHITE};
   cursor: pointer;
   border-left: ${(props) =>
     props.live ? 'solid #3FAA6D 12px' : 'solid #999999 12px'};
@@ -32,7 +31,7 @@ const AnalyticsBar = styled.hr`
 `
 
 const CaptionDiv = styled.div`
-  background-color: ${LIGHT_BLUE};
+  background-color: ${colors.LIGHT_BLUE};
   box-shadow: 0 0 8px #d9d9d9;
   position: absolute;
   padding: 0.25rem;
@@ -49,7 +48,7 @@ const CaptionDiv = styled.div`
     width: 0;
     position: absolute;
     border-color: rgba(211, 227, 245, 0);
-    border-bottom-color: ${LIGHT_BLUE};
+    border-bottom-color: ${colors.LIGHT_BLUE};
     border-width: 10px;
     margin-left: -10px;
   }
@@ -101,7 +100,7 @@ const AnalyticsCard = ({ post, live }) => {
           {post.analytics && (
             <>
               <AnalyticsBar
-                color={RED}
+                color={colors.RED}
                 first={true}
                 width={
                   (post.analytics.uniqueImpressions /
@@ -110,7 +109,7 @@ const AnalyticsCard = ({ post, live }) => {
                 }
               />
               <AnalyticsBar
-                color={YELLOW}
+                color={colors.YELLOW}
                 first={false}
                 width={
                   99 -
@@ -144,7 +143,7 @@ const AnalyticsCard = ({ post, live }) => {
           {post.analytics && (
             <>
               <AnalyticsBar
-                color={PURPLE}
+                color={colors.PURPLE}
                 first={true}
                 width={
                   (post.analytics.interactions / post.analytics.impressions) *
@@ -152,7 +151,7 @@ const AnalyticsCard = ({ post, live }) => {
                 }
               />
               <AnalyticsBar
-                color={YELLOW}
+                color={colors.YELLOW}
                 first={false}
                 width={
                   99 -

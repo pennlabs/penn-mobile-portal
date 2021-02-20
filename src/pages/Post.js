@@ -17,7 +17,6 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
 import Modal from 'react-modal'
-import styled from 'styled-components'
 
 const fetch = require('node-fetch')
 const FormData = require('form-data')
@@ -543,7 +542,7 @@ class PostPage extends React.Component {
 
     const boldFont = 'HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif'
 
-    const { crop, croppedImageUrl, src } = this.state
+    const { crop, src } = this.state
 
     return (
       <>

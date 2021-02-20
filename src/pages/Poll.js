@@ -4,7 +4,14 @@ import Header from '../components/Header'
 import Preview from '../components/Preview'
 import DatePickerCard from '../components/DatePickerCard'
 import StatusBar from '../components/StatusBar'
-import { Button, ToggleButton, CardLabel, FormLabel, Card } from '../components/styled-components'
+import {
+  Button,
+  ToggleButton,
+  CardLabel,
+  FormLabel,
+  Card,
+} from '../components/styled-components'
+import colors from '../colors'
 
 import '../App.sass'
 
@@ -17,7 +24,6 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
 import Modal from 'react-modal'
-import styled from 'styled-components'
 
 const fetch = require('node-fetch')
 const FormData = require('form-data')
@@ -94,7 +100,7 @@ class PollPage extends React.Component {
       },
       isAdmin: false,
       accountName: null,
-      numOptions: 1,
+      numOptions: 2,
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -539,7 +545,7 @@ class PollPage extends React.Component {
   }
 
   addPollOption() {
-    this.setState({numOptions: this.state.numOptions + 1})
+    this.setState({ numOptions: this.state.numOptions + 1 })
   }
 
   render() {
@@ -547,15 +553,10 @@ class PollPage extends React.Component {
       return <Redirect to="/login" />
     }
 
-    const boldFont = 'HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif'
+    const { crop, src } = this.state
 
-    const { crop, croppedImageUrl, src } = this.state
-
-    const pollOptions = 
-    [
-      ...Array(this.state.numOptions),
-    ].map((index) => (
-      <div key={index} style={{ marginTop: 10 }}>
+    const pollOptions = [...Array(this.state.numOptions)].map((index) => (
+      <div key={index} style={{ marginTop: 12 }}>
         <FormLabel>Poll Option</FormLabel>
         <input
           className="input"
@@ -570,8 +571,7 @@ class PollPage extends React.Component {
           }}
         />
       </div>
-    ));
-
+    ))
 
     return (
       <>
@@ -599,33 +599,12 @@ class PollPage extends React.Component {
                       <b>Poll Details</b>
                     </div>
                     <div className="level-right">
-                      <Button
-                        className="button is-rounded"
-                        color={'#ffd4d1'}
-                        show={this.state.isSubmitted}
-                      >
-                        <b className="is-size-5" style={{ color: '#e25152' }}>
-                          Delete
-                        </b>
+                      <Button color={'#ffd4d1'} hide={!this.state.isSubmitted}>
+                        Delete
                       </Button>
-                      <Button
-                        className="button is-rounded"
-                        color={'#e3e3e3'}
-                        show={!this.state.isSubmitted}
-                      >
-                        <b className="is-size-5" style={{ color: '#999999' }}>
-                          Save
-                        </b>
-                      </Button>
-                      <Button
-                        className="button is-rounded"
-                        color={'#3faa6d33'}
-                        show={!this.state.isExpired}
-                        onClick={this.onSubmit}
-                      >
-                        <b className="is-size-5" style={{ color: '#3faa6d' }}>
-                          Submit
-                        </b>
+                      <Button color={colors.GRAY}>Save</Button>
+                      <Button color={colors.GREEN} onClick={this.onSubmit}>
+                        Submit
                       </Button>
                     </div>
                   </div>
@@ -639,12 +618,7 @@ class PollPage extends React.Component {
                   {/* <PostStatusVisibility isApproved={this.state.isApproved} postStatus={this.state.status} notifyChange={this.setState}/> */}
                   {/* <NewPostLabel text="Post Options" single={true} /> */}
                   <CardLabel>Content</CardLabel>
-                  <Card className="card">
-                    {/* <div className="has-text-center">
-                      <b style={{fontFamily: mediumFont, fontSize: "26px"}}>
-                        Edit Details
-                      </b>
-                    </div> */}
+                  <Card>
                     <FormLabel>Question</FormLabel>
                     <input
                       className="input"
@@ -659,91 +633,52 @@ class PollPage extends React.Component {
                       }}
                     />
 
-                    <div style={{ marginTop: 26 }}>
+                    <div style={{ marginTop: 18 }}>
                       <FormLabel>Upload Cover Image</FormLabel>
-                      <div style={{ height: '10px' }} />
                     </div>
-                    
-                    <div style={{ marginTop: 22 }}>
-                      <div className="file has-name is-small">
-                        <label className="file-label">
-                          <input
-                            className="file-input"
-                            type="file"
-                            accept="image/*"
-                            onChange={this.saveFile}
-                          />
-                          <span
-                            className="file-cta"
-                            style={{
-                              backgroundColor: '#2175cb',
-                              borderRadius: '16px',
-                              width: '115px',
-                              height: '30px',
-                              border: 0,
-                            }}
-                          >
-                            <span
-                              className="file-icon"
-                              style={{ color: '#ffffff' }}
-                            >
-                              <i className="fas fa-upload"></i>
-                            </span>
-                            <b
-                              className="file-label"
-                              style={{
-                                color: '#ffffff',
-                                fontWeight: 'bold',
-                                fontSize: '14px',
-                              }}
-                            >
-                              Browse...
-                            </b>
+                    {/* no right-side border radius when file name displayed */}
+                    <div
+                      className={
+                        this.state.imageFileName
+                          ? 'file has-name is-small is-info'
+                          : 'file is-small is-info'
+                      }
+                    >
+                      <label className="file-label">
+                        <input
+                          className="file-input"
+                          type="file"
+                          accept="image/*"
+                          onChange={this.saveFile}
+                        />
+                        <span className="file-cta" style={{ height: '35px' }}>
+                          <span className="file-icon">
+                            <i className="fas fa-upload"></i>
                           </span>
-                          <span
-                            className="file-name"
-                            style={{
-                              height: '30px',
-                              visibility: this.state.imageFileName
-                                ? 'visible'
-                                : 'hidden',
-                            }}
-                          >
-                            {this.state.imageFileName
-                              ? this.state.imageFileName
-                              : null}
-                          </span>
-                        </label>
-                      </div>
-                      <div
-                        style={{
-                          margin: '20px 0px 20px 0px',
-                          float: 'center',
-                          verticalAlign: 'middle',
-                          clear: 'left',
-                        }}
-                      >
-                        <button
-                          id="buttonOpenCrop"
-                          className="buttonOpenCrop"
-                          onClick={this.openModal}
+                          Browse...
+                        </span>
+                        <span
+                          className="file-name"
                           style={{
-                            margin: '16px 0px 0px 0px',
-                            width: 115,
-                            height: 30,
-                            border: 'solid 0 #979797',
-                            backgroundColor: '#2175cb',
-                            fontWeight: 'bold',
-                            fontSize: 14,
-                            color: '#ffffff',
-                            borderRadius: 16,
-                            display: this.state.imageUrl ? 'block' : 'none',
+                            height: '35px',
+                            lineHeight: '35px',
+                            visibility: this.state.imageFileName
+                              ? 'visible'
+                              : 'hidden',
                           }}
                         >
-                          Crop Image
-                        </button>
-                      </div>
+                          {this.state.imageFileName || ''}
+                        </span>
+                      </label>
                     </div>
+                    <Button
+                      id="buttonOpenCrop"
+                      onClick={this.openModal}
+                      color={colors.IMAGE_BLUE}
+                      hide={!this.state.imageUrl}
+                    >
+                      Crop Image
+                    </Button>
 
                     <Modal
                       isOpen={this.state.modalIsOpen}
@@ -751,16 +686,8 @@ class PollPage extends React.Component {
                       style={this.state.modalStyle}
                       contentLabel="Cropping Modal"
                     >
-                      <div style={{ marginTop: '-16px' }}>
-                        <b
-                          style={{
-                            fontFamily: boldFont,
-                            fontSize: '30px',
-                            color: '#4a4a4a',
-                          }}
-                        >
-                          Crop Cover Image
-                        </b>
+                      <div className="is-size-4">
+                        <b>Poll Details</b>
                       </div>
                       <div id="cropping" style={{ paddingTop: '27px' }}>
                         {src && (
@@ -772,72 +699,28 @@ class PollPage extends React.Component {
                             onChange={this.onCropChange}
                           />
                         )}
-                        <div
-                          style={{
-                            margin: '20px 0px -4px 0px',
-                            float: 'center',
-                            verticalAlign: 'middle',
-                            clear: 'left',
-                          }}
+                        <Button
+                          id="buttonCrop"
+                          color={colors.IMAGE_BLUE}
+                          onClick={this.closeModal}
                         >
-                          <button
-                            id="buttonCrop"
-                            className="buttonCrop"
-                            style={{
-                              margin: '16px 0px 0px 0px',
-                              width: 190,
-                              height: 32,
-                              border: 'solid 0 #979797',
-                              backgroundColor: '#2175cb',
-                              fontFamily: boldFont,
-                              fontWeight: 500,
-                              fontSize: 18,
-                              color: '#ffffff',
-                              borderRadius: 16,
-                            }}
-                          >
-                            Crop and Upload
-                          </button>
-                        </div>
+                          Crop and Upload
+                        </Button>
                       </div>
                     </Modal>
 
                     {pollOptions}
-                    <div
-                          style={{
-                            margin: '0px 0px -4px 0px',
-                          }}
+                    <div className="level">
+                      <div className="level-left">
+                        <Button
+                          onClick={this.addPollOption}
+                          color={colors.MEDIUM_BLUE}
                         >
-                      <div className="file has-name is-small">
-                        <button
-                          onClick = {this.addPollOption}
-                          style={{
-                            margin: '16px 0px 0px 0px',
-                            width: 110,
-                            height: 35,
-                            border: 'solid 0 #979797',
-                            backgroundColor: '#2175cb',
-                            fontFamily: boldFont,
-                            fontWeight: 500,
-                            fontSize: 13,
-                            color: '#ffffff',
-                            borderRadius: 10,
-                          }}>Add Option
-                        </button>
-                        <button
-                          style={{
-                            margin: '16px 0px 0px 10px',
-                            width: 188,
-                            height: 35,
-                            border: 'solid 0 #979797',
-                            backgroundColor: '#828282',
-                            fontFamily: boldFont,
-                            fontWeight: 500,
-                            fontSize: 13,
-                            color: '#ffffff',
-                            borderRadius: 10,
-                          }}>Allow Multiple Selections
-                        </button>
+                          Add Option
+                        </Button>
+                        <Button color={colors.DARK_GRAY}>
+                          Allow Multiple Selections
+                        </Button>
                       </div>
                     </div>
                   </Card>
@@ -882,12 +765,7 @@ class PollPage extends React.Component {
                             name="class_0"
                             onChange={this.setCheckBoxState}
                           />
-                          <div
-                            className="checkmark"
-                            style={{ fontWeight: 2000 }}
-                          >
-                            2021
-                          </div>
+                          <div className="checkmark">2021</div>
                         </label>
                       </div>
                       <div className="column is-2">

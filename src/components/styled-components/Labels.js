@@ -8,9 +8,8 @@ export const CardLabel = styled.div`
 `
 
 export const FormLabel = styled.div`
-  margin-top: 26px;
+  margin: 6px 0px 6px 0px;
   font-size: 16px;
-  float: left;
-  margin: 0px 0px 2px 0px;
+  text-align: left;
   font-weight: 600;
 `

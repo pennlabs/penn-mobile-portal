@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import {LIGHT_GRAY, MEDIUM_BLUE} from '../../colors'
+import colors from '../../colors'
 
 export const ToggleButton = styled.button`
   border-width: 0;
-  background-color: ${(props) => (props.isActive ? MEDIUM_BLUE : LIGHT_GRAY)};
+  background-color: ${(props) => (props.isActive ? colors.MEDIUM_BLUE : colors.LIGHT_GRAY)};
   color: white;
   border-radius: ${(props) => (props.isLeft ? '12px 0px 0px 12px' : '0px 12px 12px 0px')};
   height: 28px;
@@ -13,9 +13,15 @@ export const ToggleButton = styled.button`
 `
 
 export const Button = styled.button`
-  border-width: 0;
+  margin: 16px 8px 0px 0px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border: solid 0 #979797;
   background-color: ${(props) => props.color};
-  margin-right: 15px;
-  padding: 1rem;
-  display: ${(props) => (props.show ? 'flex' : 'none')};
+  color: #ffffff;
+  border-radius: 5px;
+  outline: none;
+  padding: 0px 15px 0px 15px;
+  display: ${(props) => (props.hide ? 'none' : 'flex')};
 `
