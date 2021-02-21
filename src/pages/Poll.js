@@ -555,23 +555,66 @@ class PollPage extends React.Component {
 
     const { crop, src } = this.state
 
-    const pollOptions = [...Array(this.state.numOptions)].map((index) => (
-      <div key={index} style={{ marginTop: 12 }}>
-        <FormLabel>Poll Option</FormLabel>
-        <input
-          className="input"
-          type="text"
-          name="title"
-          value={this.state.title || ''}
-          placeholder="Ex: Poll Option 1"
-          onChange={this.updateInput}
-          style={{
-            border: 'solid 1px #e6e6e6',
-            fontSize: '14px',
-          }}
-        />
-      </div>
-    ))
+    const pollOptions = 
+      [...Array(this.state.numOptions)].map((_, index) => (
+        <div key={index}>
+          {index > 1 ?  
+          <div className = "columns">
+            <div className = "column is-11" 
+              style={{padding: '0'}}>
+            <input
+              className="input"
+              type="text"
+              name="title"
+              value={this.state.title || ''}
+              placeholder={"Ex: Poll Option " + (index + 1)}
+              onChange={this.updateInput}
+              style={{
+                border: 'solid 1px #e6e6e6',
+                fontSize: '14px',
+                borderRadius: '5px 0px 0px 5px',
+              }}
+            />
+            </div>
+            <div className = "column is-1"
+              style={{padding: '0'}}>
+              <button
+                type="text"
+                name="title"
+                className="input"
+                value={this.state.title || ''}
+                placeholder={"X"}
+                onChange={this.updateInput}
+                style={{
+                  border: 'solid 1px #e6e6e6',
+                  borderRadius: '0px 5px 5px 0px',
+                  fontSize: '14px',
+                }}
+              > X
+              </button>
+            </div>
+          </div> 
+          
+          : 
+
+          <div>
+            <input
+              className="input"
+              type="text"
+              name="title"
+              value={this.state.title || ''}
+              placeholder={"Ex: Poll Option " + (index + 1)}
+              onChange={this.updateInput}
+              style={{
+                border: 'solid 1px #e6e6e6',
+                fontSize: '14px',
+                borderRadius: '5px 0px 0px 5px',
+              }}
+            />
+     </div>}
+         
+        </div>
+      ))
 
     return (
       <>
@@ -708,9 +751,16 @@ class PollPage extends React.Component {
                         </Button>
                       </div>
                     </Modal>
-
-                    {pollOptions}
-                    <div className="level">
+                    <div>
+                      <FormLabel 
+                        style={{
+                          paddingBottom: '12px'
+                          }}>
+                        Poll Options
+                      </FormLabel>
+                      {pollOptions}
+                    </div>
+                    <div className="level" style={{paddingTop: '10px'}}>
                       <div className="level-left">
                         <Button
                           onClick={this.addPollOption}
