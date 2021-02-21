@@ -716,9 +716,15 @@ class PollPage extends React.Component {
                           onClick={this.addPollOption}
                           color={colors.MEDIUM_BLUE}
                         >
+                          <span style={{ height: '35px', marginRight: '6px' }}>
+                            <i class="fas fa-plus"></i>
+                          </span>
                           Add Option
                         </Button>
                         <Button color={colors.DARK_GRAY}>
+                          <span style={{ height: '35px', marginRight: '6px' }}>
+                            <i className="fas fa-check-square"></i>
+                          </span>
                           Allow Multiple Selections
                         </Button>
                       </div>
