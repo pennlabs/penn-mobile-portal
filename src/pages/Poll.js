@@ -548,19 +548,19 @@ class PollPage extends React.Component {
   }
 
   addPollOption() {
-    this.setState({ numOptions: this.state.numOptions + 1 })
-    this.setState({
-      pollOptions: { ...this.state.pollOptions, [this.state.numOptions]: '' },
-    })
+    // maximum number of options = 6
+    if (Object.keys(this.state.pollOptions).length < 6) {
+      this.setState({ numOptions: this.state.numOptions + 1 })
+      this.setState({
+        pollOptions: { ...this.state.pollOptions, [this.state.numOptions]: '' },
+      })
+    }
   }
 
   deletePollOption(key) {
-    console.log('in delete')
-    // const key = event.target.key
     let oldOptions = this.state.pollOptions
     delete oldOptions[key]
     this.setState({ pollOptions: oldOptions })
-    console.log(this.state.pollOptions)
   }
 
   updatePollOption(event) {
@@ -599,7 +599,11 @@ class PollPage extends React.Component {
               <span
                 className="icon is-small is-right"
                 key={key}
-                style={{ height: '2em', borderLeft: '1px solid #e5e5e5' }}
+                style={{
+                  height: '2em',
+                  borderLeft: '1px solid #e5e5e5',
+                  pointerEvents: 'initial',
+                }}
               >
                 <i className="fas fa-times"></i>
               </span>
@@ -750,7 +754,7 @@ class PollPage extends React.Component {
                       </FormLabel>
                       {pollOptionDivs}
                     </div>
-                    <div className="level" style={{ paddingTop: '10px' }}>
+                    <div className="level">
                       <div className="level-left">
                         <Button
                           onClick={this.addPollOption}
@@ -760,12 +764,6 @@ class PollPage extends React.Component {
                             <i className="fas fa-plus"></i>
                           </span>
                           Add Option
-                        </Button>
-                        <Button color={colors.DARK_GRAY}>
-                          <span style={{ height: '35px', marginRight: '6px' }}>
-                            <i className="fas fa-check-square"></i>
-                          </span>
-                          Allow Multiple Selections
                         </Button>
                       </div>
                     </div>

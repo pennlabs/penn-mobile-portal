@@ -13,7 +13,7 @@ export const ToggleButton = styled.button`
 `
 
 export const Button = styled.button`
-  margin: 16px 8px 0px 0px;
+  margin: 8px 8px 0px 0px;
   height: 35px;
   line-height: 35px;
   text-align: center;
