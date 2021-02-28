@@ -101,7 +101,7 @@ class PollPage extends React.Component {
       isAdmin: false,
       accountName: null,
       numOptions: 2,
-      pollOptions: ['', ''],
+      pollOptions: { 0: '', 1: '' },
     }
 
     this.updateInput = this.updateInput.bind(this)
@@ -122,7 +122,9 @@ class PollPage extends React.Component {
     this.showFilters = this.showFilters.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+    this.updatePollOption = this.updatePollOption.bind(this)
     this.addPollOption = this.addPollOption.bind(this)
+    this.deletePollOption = this.deletePollOption.bind(this)
   }
 
   componentWillMount() {
@@ -547,6 +549,25 @@ class PollPage extends React.Component {
 
   addPollOption() {
     this.setState({ numOptions: this.state.numOptions + 1 })
+    this.setState({
+      pollOptions: { ...this.state.pollOptions, [this.state.numOptions]: '' },
+    })
+  }
+
+  deletePollOption(key) {
+    console.log('in delete')
+    // const key = event.target.key
+    let oldOptions = this.state.pollOptions
+    delete oldOptions[key]
+    this.setState({ pollOptions: oldOptions })
+    console.log(this.state.pollOptions)
+  }
+
+  updatePollOption(event) {
+    const key = event.target.name
+    this.setState({
+      pollOptions: { ...this.state.pollOptions, [key]: event.target.value },
+    })
   }
 
   render() {
@@ -556,33 +577,37 @@ class PollPage extends React.Component {
 
     const { crop, src } = this.state
 
-    const pollOptionDivs = [...Array(this.state.numOptions)].map((_, index) => (
-      <div key={index} className="control has-icons-right">
-        <input
-          className="input"
-          type="text"
-          name={'option-' + { index }}
-          value={this.state.pollOptions[index] || ''}
-          placeholder={'Ex: Poll Option ' + (index + 1)}
-          // onChange={this.updatePollOption()}
-          style={{
-            border: 'solid 1px #e6e6e6',
-            fontSize: '14px',
-            borderRadius: '5px',
-            marginBottom: '6px',
-          }}
-        />
-        {index >= 2 && (
-          <span
-            className="icon is-small is-right"
-            // onClick={this.deletePollOption}
-            style={{height: '2em', borderLeft: '1px solid #e5e5e5'}}
-          >
-            <i class="fas fa-times"></i>
-          </span>
-        )}
-      </div>
-    ))
+    const pollOptionDivs = Object.entries(this.state.pollOptions).map(
+      ([key, value]) => (
+        <div key={key} className="control has-icons-right">
+          <input
+            className="input"
+            type="text"
+            name={key}
+            value={value || ''}
+            placeholder={'Ex: Poll Option'}
+            onChange={this.updatePollOption}
+            style={{
+              border: 'solid 1px #e6e6e6',
+              fontSize: '14px',
+              borderRadius: '5px',
+              marginBottom: '6px',
+            }}
+          />
+          {key >= 2 && (
+            <div onClick={() => this.deletePollOption(key)}>
+              <span
+                className="icon is-small is-right"
+                key={key}
+                style={{ height: '2em', borderLeft: '1px solid #e5e5e5' }}
+              >
+                <i className="fas fa-times"></i>
+              </span>
+            </div>
+          )}
+        </div>
+      )
+    )
 
     return (
       <>
@@ -732,7 +757,7 @@ class PollPage extends React.Component {
                           color={colors.MEDIUM_BLUE}
                         >
                           <span style={{ height: '35px', marginRight: '6px' }}>
-                            <i class="fas fa-plus"></i>
+                            <i className="fas fa-plus"></i>
                           </span>
                           Add Option
                         </Button>
