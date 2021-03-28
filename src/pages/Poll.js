@@ -470,11 +470,16 @@ class PollPage extends React.Component {
         filter: 'none',
       })
     }
-
+    var pollOptions = Object.keys(this.state.pollOptions).map(function(key){
+      return this.state.pollOptions[key];
+     });
     var accountID = Cookies.get('accountID')
     var url = dev
+    ? 'http://localhost:5000/portal/post'
+    : 'https://api.pennlabs.org/api/polls'
+   /*  var url = dev
       ? 'http://localhost:5000/portal/post'
-      : 'https://api.pennlabs.org/portal/post'
+      : 'https://api.pennlabs.org/portal/post' */
     fetch(url + (this.state.id ? '/update' : '/new'), {
       method: 'POST',
       headers: {
@@ -482,7 +487,11 @@ class PollPage extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        post_id: this.state.id,
+        question: "Test",
+        orgAuthor: "Test",
+        expiration: "2021-02-17T00:00:00",
+        options: pollOptions
+      /*   post_id: this.state.id,
         account_id: accountID,
         image_url: this.state.imageUrl,
         image_url_cropped: this.state.imageUrlCropped,
@@ -495,7 +504,7 @@ class PollPage extends React.Component {
         end_date: formatDate(this.state.endDate),
         filters: filters,
         emails: [],
-        testers: ['joshdo@wharton.upenn.edu', 'mattrh@wharton.upenn.edu'],
+        testers: ['joshdo@wharton.upenn.edu', 'mattrh@wharton.upenn.edu'], */
       }),
     })
       .then((response) => {
