@@ -7,6 +7,7 @@ import StatusBar from '../components/StatusBar'
 import { Button, ToggleButton, CardLabel, FormLabel, Card } from '../components/styled-components'
 
 import '../App.sass'
+import colors from '../colors'
 
 import 'bulma-checkradio/dist/css/bulma-checkradio.min.css'
 
@@ -669,91 +670,52 @@ class PostPage extends React.Component {
                       />
                     </div>
 
-                    <div style={{ marginTop: 26 }}>
+                    <div style={{ marginTop: 18 }}>
                       <FormLabel>Upload Cover Image</FormLabel>
-                      <div style={{ height: '10px' }} />
                     </div>
-
-                    <div style={{ marginTop: 22 }}>
-                      <div className="file has-name is-small">
-                        <label className="file-label">
-                          <input
-                            className="file-input"
-                            type="file"
-                            accept="image/*"
-                            onChange={this.saveFile}
-                          />
-                          <span
-                            className="file-cta"
-                            style={{
-                              backgroundColor: '#2175cb',
-                              borderRadius: '16px',
-                              width: '115px',
-                              height: '30px',
-                              border: 0,
-                            }}
-                          >
-                            <span
-                              className="file-icon"
-                              style={{ color: '#ffffff' }}
-                            >
-                              <i className="fas fa-upload"></i>
-                            </span>
-                            <b
-                              className="file-label"
-                              style={{
-                                color: '#ffffff',
-                                fontWeight: 'bold',
-                                fontSize: '14px',
-                              }}
-                            >
-                              Browse...
-                            </b>
+                    {/* no right-side border radius when file name displayed */}
+                    <div
+                      className={
+                        this.state.imageFileName
+                          ? 'file has-name is-small is-info'
+                          : 'file is-small is-info'
+                      }
+                    >
+                      <label className="file-label">
+                        <input
+                          className="file-input"
+                          type="file"
+                          accept="image/*"
+                          onChange={this.saveFile}
+                        />
+                        <span className="file-cta" style={{ height: '35px' }}>
+                          <span className="file-icon">
+                            <i className="fas fa-upload"></i>
                           </span>
-                          <span
-                            className="file-name"
-                            style={{
-                              height: '30px',
-                              visibility: this.state.imageFileName
-                                ? 'visible'
-                                : 'hidden',
-                            }}
-                          >
-                            {this.state.imageFileName
-                              ? this.state.imageFileName
-                              : null}
-                          </span>
-                        </label>
-                      </div>
-                      <div
-                        style={{
-                          margin: '20px 0px 20px 0px',
-                          float: 'center',
-                          verticalAlign: 'middle',
-                          clear: 'left',
-                        }}
-                      >
-                        <button
-                          id="buttonOpenCrop"
-                          className="buttonOpenCrop"
-                          onClick={this.openModal}
+                          Browse...
+                        </span>
+                        <span
+                          className="file-name"
                           style={{
-                            margin: '16px 0px 0px 0px',
-                            width: 115,
-                            height: 30,
-                            border: 'solid 0 #979797',
-                            backgroundColor: '#2175cb',
-                            fontWeight: 'bold',
-                            fontSize: 14,
-                            color: '#ffffff',
-                            borderRadius: 16,
-                            display: this.state.imageUrl ? 'block' : 'none',
+                            height: '35px',
+                            lineHeight: '35px',
+                            visibility: this.state.imageFileName
+                              ? 'visible'
+                              : 'hidden',
                           }}
                         >
-                          Crop Image
-                        </button>
-                      </div>
+                          {this.state.imageFileName || ''}
+                        </span>
+                      </label>
                     </div>
+                    <Button
+                      id="buttonOpenCrop"
+                      onClick={this.openModal}
+                      color={colors.IMAGE_BLUE}
+                      hide={!this.state.imageUrl}
+                    >
+                      Crop Image
+                    </Button>
 
                     <Modal
                       isOpen={this.state.modalIsOpen}
@@ -761,16 +723,8 @@ class PostPage extends React.Component {
                       style={this.state.modalStyle}
                       contentLabel="Cropping Modal"
                     >
-                      <div style={{ marginTop: '-16px' }}>
-                        <b
-                          style={{
-                            fontFamily: boldFont,
-                            fontSize: '30px',
-                            color: '#4a4a4a',
-                          }}
-                        >
-                          Crop Cover Image
-                        </b>
+                      <div className="is-size-4">
+                        <b>Poll Details</b>
                       </div>
                       <div id="cropping" style={{ paddingTop: '27px' }}>
                         {src && (
@@ -782,33 +736,13 @@ class PostPage extends React.Component {
                             onChange={this.onCropChange}
                           />
                         )}
-                        <div
-                          style={{
-                            margin: '20px 0px -4px 0px',
-                            float: 'center',
-                            verticalAlign: 'middle',
-                            clear: 'left',
-                          }}
+                        <Button
+                          id="buttonCrop"
+                          color={colors.IMAGE_BLUE}
+                          onClick={this.closeModal}
                         >
-                          <button
-                            id="buttonCrop"
-                            className="buttonCrop"
-                            style={{
-                              margin: '16px 0px 0px 0px',
-                              width: 190,
-                              height: 32,
-                              border: 'solid 0 #979797',
-                              backgroundColor: '#2175cb',
-                              fontFamily: boldFont,
-                              fontWeight: 500,
-                              fontSize: 18,
-                              color: '#ffffff',
-                              borderRadius: 16,
-                            }}
-                          >
-                            Crop and Upload
-                          </button>
-                        </div>
+                          Crop and Upload
+                        </Button>
                       </div>
                     </Modal>
 
