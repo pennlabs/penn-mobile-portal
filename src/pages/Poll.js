@@ -256,39 +256,22 @@ class PollPage extends React.Component {
         filter: 'none',
       })
     }
-    var pollOptions = Object.keys(this.state.pollOptions).map(function(key){
-      return this.state.pollOptions[key];
-     });
+    
     var accountID = Cookies.get('accountID')
     var url = dev
-    ? 'http://localhost:5000/portal/post'
+    ? 'http://localhost:5000/portal/polls'
     : 'https://api.pennlabs.org/api/polls'
-   /*  var url = dev
-      ? 'http://localhost:5000/portal/post'
-      : 'https://api.pennlabs.org/portal/post' */
-    fetch(url + (this.state.id ? '/update' : '/new'), {
+    fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        question: "Test",
-        orgAuthor: "Test",
-        expiration: "2021-02-17T00:00:00",
-        options: pollOptions
-      /*   post_id: this.state.id,
-        account_id: accountID,
-        post_url: this.state.postUrl,
-        source: 'Penn Labs',
-        title: this.state.title,
-        subtitle: this.state.subtitle,
-        time_label: this.state.detailLabel,
-        start_date: formatDate(this.state.startDate),
-        end_date: formatDate(this.state.endDate),
-        filters: filters,
-        emails: [],
-        testers: ['joshdo@wharton.upenn.edu', 'mattrh@wharton.upenn.edu'], */
+        question: this.state.title,
+        orgAuthor: accountID,
+        expiration: formatDate(this.state.endDate),
+        options: Object.values(this.state.pollOptions)
       }),
     })
       .then((response) => {
@@ -438,9 +421,6 @@ class PollPage extends React.Component {
                     isApproved={this.state.isApproved}
                     isLive={this.state.isLive}
                   />
-                  {/* <NewPostLabel text="Current Status" single={true} /> */}
-                  {/* <PostStatusVisibility isApproved={this.state.isApproved} postStatus={this.state.status} notifyChange={this.setState}/> */}
-                  {/* <NewPostLabel text="Post Options" single={true} /> */}
                   <CardLabel>Content</CardLabel>
                   <Card>
                     <FormLabel>Question</FormLabel>
@@ -458,7 +438,7 @@ class PollPage extends React.Component {
                     />
                     <div>
                       <FormLabel style={{ paddingTop: '12px' }}>
-                        Poll Options
+                        Poll Options (max 6)
                       </FormLabel>
                       {pollOptionDivs}
                     </div>
