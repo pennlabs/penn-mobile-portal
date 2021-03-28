@@ -20,8 +20,6 @@ import 'bulma-checkradio/dist/css/bulma-checkradio.min.css'
 import 'bulma-tagsinput/dist/css/bulma-tagsinput.min.css'
 import bulmaTagsInput from 'bulma-tagsinput/dist/js/bulma-tagsinput.min.js'
 
-import Modal from 'react-modal'
-
 const fetch = require('node-fetch')
 const queryString = require('query-string')
 const Cookies = require('js-cookie')
@@ -352,8 +350,6 @@ class PollPage extends React.Component {
     if (!Cookies.get('accountID')) {
       return <Redirect to="/login" />
     }
-
-    const { crop, src } = this.state
 
     const pollOptionDivs = Object.entries(this.state.pollOptions).map(
       ([key, value]) => (

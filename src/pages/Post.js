@@ -541,8 +541,6 @@ class PostPage extends React.Component {
       return <Redirect to="/login" />
     }
 
-    const boldFont = 'HelveticaNeue-Bold, Helvetica-Bold, sans-serif, serif'
-
     const { crop, src } = this.state
 
     return (
@@ -560,7 +558,7 @@ class PostPage extends React.Component {
                     <ToggleButton isActive={true} isLeft={true}>
                       New Post
                     </ToggleButton>
-                    <Link to="/poll">
+                    <Link to="/polls">
                       <ToggleButton isActive={false} isLeft={false}>
                         New Poll
                       </ToggleButton>

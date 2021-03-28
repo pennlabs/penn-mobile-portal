@@ -16,7 +16,7 @@ class App extends Component {
         <Route path="/login" component={Login} />
         <Route path="/post" component={Post} />
         <Route path="/admin" component={Admin} />
-        <Route path="/poll" component={Poll} />
+        <Route path="/polls" component={Poll} />
         {/* when none of the above match, <NoMatch> will be rendered */}
         <Route component={Home} />
       </Switch>
