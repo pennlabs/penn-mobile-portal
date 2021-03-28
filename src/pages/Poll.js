@@ -20,13 +20,9 @@ import 'bulma-checkradio/dist/css/bulma-checkradio.min.css'
 import 'bulma-tagsinput/dist/css/bulma-tagsinput.min.css'
 import bulmaTagsInput from 'bulma-tagsinput/dist/js/bulma-tagsinput.min.js'
 
-import ReactCrop from 'react-image-crop'
-import 'react-image-crop/dist/ReactCrop.css'
-
 import Modal from 'react-modal'
 
 const fetch = require('node-fetch')
-const FormData = require('form-data')
 const queryString = require('query-string')
 const Cookies = require('js-cookie')
 const Redirect = require('react-router-dom').Redirect
@@ -41,16 +37,6 @@ class PollPage extends React.Component {
       title: null,
       subtitle: null,
       organization: null,
-      imageFileName: null,
-      imageCroppedFileName: null,
-      imageUrl: null,
-      imageUrlCropped: null,
-      src: null,
-      crop: {
-        unit: '%',
-        width: 30,
-        aspect: 18 / 9, // This is the aspect ratio that was previously being used
-      },
       postUrl: null,
       detailLabel: null,
       comments: null,
@@ -80,24 +66,6 @@ class PollPage extends React.Component {
       isApproved: false,
       isSubmitted: false,
       isExpired: false,
-      modalIsOpen: false,
-      modalStyle: {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: '50%',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          borderRadius: 10,
-          border: null,
-          padding: '51px',
-        },
-        overlay: {
-          zIndex: 10,
-          backgroundColor: 'rgba(174, 174, 174, 0.4)',
-        },
-      },
       isAdmin: false,
       accountName: null,
       numOptions: 2,
@@ -106,22 +74,11 @@ class PollPage extends React.Component {
 
     this.updateInput = this.updateInput.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.setState = this.setState.bind(this)
-    this.loadFileCrop = this.loadFileCrop.bind(this)
-    this.onImageLoaded = this.onImageLoaded.bind(this)
-    this.onCropComplete = this.onCropComplete.bind(this)
-    this.onCropChange = this.onCropChange.bind(this)
-    this.makeClientCrop = this.makeClientCrop.bind(this)
-    this.getCroppedImg = this.getCroppedImg.bind(this)
-    this.saveFile = this.saveFile.bind(this)
-    this.saveFileCropped = this.saveFileCropped.bind(this)
+    this.setState = this.setState.bind(this)    
     this.updateStartDate = this.updateStartDate.bind(this)
     this.updateEndDate = this.updateEndDate.bind(this)
-    this.getImageNameFromUrl = this.getImageNameFromUrl.bind(this)
     this.setCheckBoxState = this.setCheckBoxState.bind(this)
     this.showFilters = this.showFilters.bind(this)
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
     this.updatePollOption = this.updatePollOption.bind(this)
     this.addPollOption = this.addPollOption.bind(this)
     this.deletePollOption = this.deletePollOption.bind(this)
@@ -156,8 +113,8 @@ class PollPage extends React.Component {
         isSubmitted: true,
       })
       url = dev
-        ? 'http://localhost:5000/portal/post/'
-        : 'https://api.pennlabs.org/portal/post/'
+        ? 'http://localhost:5000/portal/polls/'
+        : 'https://api.pennlabs.org/portal/polls/'
       fetch(url + id + '?account=' + accountID)
         .then((response) => response.json())
         .then((json) => {
@@ -190,12 +147,6 @@ class PollPage extends React.Component {
             title: json.title,
             subtitle: json.subtitle,
             organization: json.organization,
-            imageUrl: json.image_url,
-            imageUrlCropped: json.image_url_cropped,
-            imageFileName: this.getImageNameFromUrl(json.image_url),
-            imageCroppedFileName: this.getImageNameFromUrl(
-              json.image_url_cropped
-            ),
             postUrl: json.post_url,
             detailLabel: json.time_label,
             comments: json.comments,
@@ -218,32 +169,6 @@ class PollPage extends React.Component {
           }
 
           bulmaTagsInput.attach()
-
-          let imageURL = this.state.imageUrl
-
-          const img = new Image()
-          img.crossOrigin = 'anonymous'
-          img.addEventListener(
-            'load',
-            () => {
-              let canvas = document.createElement('canvas')
-              let ctx = canvas.getContext('2d')
-
-              canvas.width = img.width
-              canvas.height = img.height
-
-              ctx.drawImage(img, 0, 0)
-
-              try {
-                let dataUrl = canvas.toDataURL('image/png')
-                this.setState({ src: dataUrl })
-              } catch (err) {
-                console.log('Error: ' + err)
-              }
-            },
-            false
-          )
-          img.src = imageURL
         })
         .catch((error) => {
           bulmaTagsInput.attach()
@@ -277,146 +202,9 @@ class PollPage extends React.Component {
     this.setState({ [name]: event.target.value })
   }
 
-  getImageNameFromUrl(imageUrl) {
-    var split = imageUrl.split('penn.mobile.portal/images/')
-    var imageFileName = imageUrl
-    if (split.length > 1) {
-      imageFileName = split[1]
-      var split2 = imageFileName.split('/')
-      if (split2.length > 1) {
-        imageFileName = decodeURIComponent(split2[1])
-      }
-    }
-    return imageFileName
-  }
-
-  async loadFileCrop(file) {
-    const reader = new FileReader()
-    reader.addEventListener(
-      'load',
-      () => this.setState({ src: reader.result }),
-      (document.getElementById('buttonOpenCrop').style.display = 'block')
-    )
-    reader.readAsDataURL(file)
-  }
-
-  onImageLoaded(image) {
-    this.imageRef = image
-  }
-
-  onCropComplete(crop) {
-    this.makeClientCrop(crop)
-  }
-
-  onCropChange(crop) {
-    this.setState({ crop })
-  }
-
-  async makeClientCrop(crop) {
-    if (this.imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await this.getCroppedImg(
-        this.imageRef,
-        crop,
-        'cropped.png'
-      )
-      this.setState({ croppedImageUrl })
-    }
-  }
-
-  getCroppedImg(image, crop, fileName) {
-    const canvas = document.createElement('canvas')
-    const scaleX = image.naturalWidth / image.width
-    const scaleY = image.naturalHeight / image.height
-    canvas.width = crop.width
-    canvas.height = crop.height
-    const ctx = canvas.getContext('2d')
-
-    ctx.drawImage(
-      image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      crop.width,
-      crop.height
-    )
-
-    return new Promise((resolve, reject) => {
-      document.getElementById('buttonCrop').onclick = () => {
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            console.error('Canvas is empty')
-            return
-          }
-          resolve(this.saveFileCropped(blob, fileName))
-        }, 'image/png')
-      }
-    })
-  }
-
-  saveFile(event) {
-    const file = event.target.files[0]
-    const accountID = Cookies.get('accountID')
-    const formData = new FormData()
-    formData.append('image', file)
-    formData.append('account', accountID)
-    this.loadFileCrop(file)
-    var url = dev
-      ? 'http://localhost:5000/portal/post/image'
-      : 'https://api.pennlabs.org/portal/post/image'
-    fetch(url, {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        const imageUrl = json.image_url
-        var imageFileName = this.getImageNameFromUrl(imageUrl)
-        this.setState({ imageFileName: imageFileName })
-        this.setState({ imageUrl: imageUrl })
-
-        const imageUrlCropped = json.image_url
-        var imageCroppedFileName = this.getImageNameFromUrl(imageUrlCropped)
-        this.setState({ imageCroppedFileName: imageCroppedFileName })
-        this.setState({ imageUrlCropped: imageUrlCropped })
-      })
-      .catch((error) => {
-        alert(`Something went wrong. Please try again. ${error}`)
-      })
-  }
-
-  saveFileCropped(file, fileName) {
-    const accountID = Cookies.get('accountID')
-    const formData = new FormData()
-    formData.append('image', file, fileName)
-    formData.append('account', accountID)
-    var url = dev
-      ? 'http://localhost:5000/portal/post/image'
-      : 'https://api.pennlabs.org/portal/post/image'
-    fetch(url, {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        const imageUrlCropped = json.image_url
-        var imageCroppedFileName = this.getImageNameFromUrl(imageUrlCropped)
-        this.setState({ imageCroppedFileName: imageCroppedFileName })
-        this.setState({ imageUrlCropped: imageUrlCropped })
-      })
-      .catch((error) => {
-        alert(`Something went wrong. Please try again. ${error}`)
-      })
-  }
-
   onSubmit() {
     if (!this.state.title) {
       alert('Please include a title.')
-      return
-    } else if (!this.state.imageUrl) {
-      alert('Please select an image.')
       return
     } else if (!this.state.startDate || !this.state.endDate) {
       alert('Please select a start and end date.')
@@ -484,8 +272,6 @@ class PollPage extends React.Component {
       body: JSON.stringify({
         post_id: this.state.id,
         account_id: accountID,
-        image_url: this.state.imageUrl,
-        image_url_cropped: this.state.imageUrlCropped,
         post_url: this.state.postUrl,
         source: 'Penn Labs',
         title: this.state.title,
@@ -537,14 +323,6 @@ class PollPage extends React.Component {
     var filters = this.state.filters
     filters.options.enabled = !filters.options.enabled
     this.setState({ filters: filters })
-  }
-
-  openModal() {
-    this.setState({ modalIsOpen: true })
-  }
-
-  closeModal() {
-    this.setState({ modalIsOpen: false })
   }
 
   addPollOption() {
@@ -673,82 +451,6 @@ class PollPage extends React.Component {
                         fontSize: '14px',
                       }}
                     />
-
-                    <div style={{ marginTop: 18 }}>
-                      <FormLabel>Upload Cover Image</FormLabel>
-                    </div>
-                    {/* no right-side border radius when file name displayed */}
-                    <div
-                      className={
-                        this.state.imageFileName
-                          ? 'file has-name is-small is-info'
-                          : 'file is-small is-info'
-                      }
-                    >
-                      <label className="file-label">
-                        <input
-                          className="file-input"
-                          type="file"
-                          accept="image/*"
-                          onChange={this.saveFile}
-                        />
-                        <span className="file-cta" style={{ height: '35px' }}>
-                          <span className="file-icon">
-                            <i className="fas fa-upload"></i>
-                          </span>
-                          Browse...
-                        </span>
-                        <span
-                          className="file-name"
-                          style={{
-                            height: '35px',
-                            lineHeight: '35px',
-                            visibility: this.state.imageFileName
-                              ? 'visible'
-                              : 'hidden',
-                          }}
-                        >
-                          {this.state.imageFileName || ''}
-                        </span>
-                      </label>
-                    </div>
-                    <Button
-                      id="buttonOpenCrop"
-                      onClick={this.openModal}
-                      color={colors.IMAGE_BLUE}
-                      hide={!this.state.imageUrl}
-                    >
-                      Crop Image
-                    </Button>
-
-                    <Modal
-                      isOpen={this.state.modalIsOpen}
-                      onRequestClose={this.closeModal}
-                      style={this.state.modalStyle}
-                      contentLabel="Cropping Modal"
-                    >
-                      <div className="is-size-4">
-                        <b>Poll Details</b>
-                      </div>
-                      <div id="cropping" style={{ paddingTop: '27px' }}>
-                        {src && (
-                          <ReactCrop
-                            src={src}
-                            crop={crop}
-                            onImageLoaded={this.onImageLoaded}
-                            onComplete={this.onCropComplete}
-                            onChange={this.onCropChange}
-                          />
-                        )}
-                        <Button
-                          id="buttonCrop"
-                          color={colors.IMAGE_BLUE}
-                          onClick={this.closeModal}
-                        >
-                          Crop and Upload
-                        </Button>
-                      </div>
-                    </Modal>
                     <div>
                       <FormLabel style={{ paddingTop: '12px' }}>
                         Poll Options
