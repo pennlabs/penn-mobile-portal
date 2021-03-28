@@ -603,6 +603,7 @@ class PollPage extends React.Component {
                   height: '2em',
                   borderLeft: '1px solid #e5e5e5',
                   pointerEvents: 'initial',
+                  cursor: 'pointer'
                 }}
               >
                 <i className="fas fa-times"></i>
