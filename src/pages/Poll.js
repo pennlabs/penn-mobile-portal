@@ -72,7 +72,7 @@ class PollPage extends React.Component {
 
     this.updateInput = this.updateInput.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.setState = this.setState.bind(this)    
+    this.setState = this.setState.bind(this)
     this.updateStartDate = this.updateStartDate.bind(this)
     this.updateEndDate = this.updateEndDate.bind(this)
     this.setCheckBoxState = this.setCheckBoxState.bind(this)
@@ -256,11 +256,11 @@ class PollPage extends React.Component {
         filter: 'none',
       })
     }
-    
+
     var accountID = Cookies.get('accountID')
     var url = dev
-    ? 'http://localhost:5000/portal/polls'
-    : 'https://api.pennlabs.org/api/polls'
+      ? 'http://localhost:5000/portal/polls'
+      : 'https://api.pennlabs.org/api/polls'
     fetch(url, {
       method: 'POST',
       headers: {
@@ -271,7 +271,7 @@ class PollPage extends React.Component {
         question: this.state.title,
         orgAuthor: accountID,
         expiration: formatDate(this.state.endDate),
-        options: Object.values(this.state.pollOptions)
+        options: Object.values(this.state.pollOptions),
       }),
     })
       .then((response) => {
@@ -369,7 +369,7 @@ class PollPage extends React.Component {
                   height: '2em',
                   borderLeft: '1px solid #e5e5e5',
                   pointerEvents: 'initial',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
               >
                 <i className="fas fa-times"></i>
