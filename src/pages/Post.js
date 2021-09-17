@@ -83,16 +83,16 @@ class PostPage extends React.Component {
       startDate: null,
       endDate: null,
       status: 'Not Submitted',
-      seniorClassYear: 2020,
+      seniorClassYear: 2022,
       filters: {
         options: {
           enabled: false,
         },
         class: {
-          year_0: false, // 2021
-          year_1: false, // 2022
-          year_2: false, // 2023
-          year_3: false, // 2024
+          year_0: false, // 2022
+          year_1: false, // 2023
+          year_2: false, // 2024
+          year_3: false, // 2025
         },
         school: {
           WH: false,
