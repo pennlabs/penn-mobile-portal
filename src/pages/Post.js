@@ -578,8 +578,6 @@ class PostPage extends React.Component {
 
     const { crop, croppedImageUrl, src } = this.state
 
-    console.log(this.state)
-
     return (
       <>
         <Header isAdmin={this.state.isAdmin} />
