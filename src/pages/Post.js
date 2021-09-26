@@ -434,7 +434,6 @@ class PostPage extends React.Component {
   }
 
   onSubmit() {
-    console.log(this.state)
     if (!this.state.title) {
       alert('Please include a title.')
       return
