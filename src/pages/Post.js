@@ -4,7 +4,13 @@ import Header from '../components/Header'
 import Preview from '../components/Preview'
 import DatePickerCard from '../components/DatePickerCard'
 import StatusBar from '../components/StatusBar'
-import { Button, ToggleButton, CardLabel, FormLabel, Card } from '../components/styled-components'
+import {
+  Button,
+  ToggleButton,
+  CardLabel,
+  FormLabel,
+  Card,
+} from '../components/styled-components'
 
 import '../App.sass'
 import colors from '../colors'
@@ -18,6 +24,8 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
 import Modal from 'react-modal'
+import styled from 'styled-components'
+import { getClassYears } from '../utils'
 
 const fetch = require('node-fetch')
 const FormData = require('form-data')
@@ -51,16 +59,16 @@ class PostPage extends React.Component {
       startDate: null,
       endDate: null,
       status: 'Not Submitted',
-      seniorClassYear: 2020,
+      seniorClassYear: getClassYears()[0],
       filters: {
         options: {
           enabled: false,
         },
         class: {
-          year_0: false, // 2021
-          year_1: false, // 2022
-          year_2: false, // 2023
-          year_3: false, // 2024
+          year_0: false, // 2022
+          year_1: false, // 2023
+          year_2: false, // 2024
+          year_3: false, // 2025
         },
         school: {
           WH: false,
@@ -795,59 +803,25 @@ class PostPage extends React.Component {
                       <div className="column is-3">
                         <FormLabel>Class Year</FormLabel>
                       </div>
-                      <div className="column is-2">
-                        <label className="label">
-                          <input
-                            id="year_0"
-                            type="checkbox"
-                            checked={this.state.filters.class.year_0}
-                            name="class_0"
-                            onChange={this.setCheckBoxState}
-                          />
-                          <div
-                            className="checkmark"
-                            style={{ fontWeight: 2000 }}
-                          >
-                            2021
-                          </div>
-                        </label>
-                      </div>
-                      <div className="column is-2">
-                        <label className="label">
-                          <input
-                            id="year_1"
-                            type="checkbox"
-                            checked={this.state.filters.class.year_1}
-                            name="class_1"
-                            onChange={this.setCheckBoxState}
-                          />
-                          <div className="checkmark">2022</div>
-                        </label>
-                      </div>
-                      <div className="column is-2">
-                        <label className="label">
-                          <input
-                            id="year_2"
-                            type="checkbox"
-                            checked={this.state.filters.class.year_2}
-                            name="class_2"
-                            onChange={this.setCheckBoxState}
-                          />
-                          <div className="checkmark">2023</div>
-                        </label>
-                      </div>
-                      <div className="column is-2">
-                        <label className="label">
-                          <input
-                            id="year_3"
-                            type="checkbox"
-                            checked={this.state.filters.class.year_3}
-                            name="class_3"
-                            onChange={this.setCheckBoxState}
-                          />
-                          <div className="checkmark">2024</div>
-                        </label>
-                      </div>
+                      {getClassYears().map((year, i) => (
+                        <div className="column is-2">
+                          <label className="label">
+                            <input
+                              id={`year_${i}`}
+                              type="checkbox"
+                              checked={this.state.filters.class[`year_${i}`]}
+                              name="class_0"
+                              onChange={this.setCheckBoxState}
+                            />
+                            <div
+                              className="checkmark"
+                              style={{ fontWeight: 2000 }}
+                            >
+                              {year}
+                            </div>
+                          </label>
+                        </div>
+                      ))}
                     </div>
 
                     <div
