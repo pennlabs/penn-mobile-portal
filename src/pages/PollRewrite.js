@@ -64,6 +64,7 @@ const PollPage = () => {
     accountName: null,
     accountID: '',
     numOptions: 2,
+    multiselect: false,
   })
   const [pollOptions, setPollOptions] = useState({ 0: '', 1: '' })
   const [imageUrl, setImageUrl] = useState('')
@@ -115,20 +116,24 @@ const PollPage = () => {
 
     // TODO: check if no filters are checked and default to all checked.
     // also this has not been tested yet.
-    fetchApiRequest('polls', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+    fetchApiRequest(
+      'polls',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          question: state.title,
+          image_url: imageUrl,
+          start_date: formatDate(state.startDate),
+          expire_date: formatDate(state.endDate),
+          approved: state.isApproved,
+          expiration: formatDate(state.endDate),
+          multiselect: state.multiselect,
+          // TODO: what format should options be in
+          // options: Object.values(state.pollOptions),
+        }),
       },
-      body: JSON.stringify({
-        question: state.title,
-        orgAuthor: state.accountID,
-        expiration: formatDate(state.endDate),
-        // TODO: what format should options be in
-        options: Object.values(state.pollOptions),
-      }),
-    }).then((res) => {
+      true
+    ).then((res) => {
       if (res.status !== 200) {
         alert('Something went wrong. Please try again.')
       } else {
@@ -149,16 +154,16 @@ const PollPage = () => {
     }
 
     return (
-      <div className="level">
-        <div className="level-left">
-          <Button onClick={addPollOption} color={colors.MEDIUM_BLUE}>
-            <span style={{ height: '35px', marginRight: '6px' }}>
-              <i className="fas fa-plus"></i>
-            </span>
-            Add Option
-          </Button>
-        </div>
-      </div>
+      <Button
+        onClick={addPollOption}
+        color={colors.MEDIUM_BLUE}
+        style={{ margin: '0px 12px 0px 0px' }}
+      >
+        <span style={{ height: '35px', marginRight: '6px' }}>
+          <i className="fas fa-plus"></i>
+        </span>
+        Add Option
+      </Button>
     )
   }
 
@@ -184,6 +189,36 @@ const PollPage = () => {
       </span>
     </div>
   )
+
+  // TODO: remove `state.multiselect` when multiselect is implemented
+  const AllowMultipleSelectionsCheckbox = () =>
+    state.multiselect && (
+      <div
+        onClick={() =>
+          updateState({
+            multiselect: !state.multiselect,
+          })
+        }
+        style={{ cursor: 'pointer' }}
+      >
+        {state.multiselect ? (
+          <span style={{ height: '35px', marginRight: '6px' }}>
+            <i
+              className="fas fa-check-square"
+              style={{ color: colors.MEDIUM_BLUE }}
+            ></i>
+          </span>
+        ) : (
+          <span style={{ height: '35px', marginRight: '6px' }}>
+            <i
+              className="fas fa-square"
+              style={{ color: colors.LIGHT_GRAY }}
+            ></i>
+          </span>
+        )}
+        <span style={{ fontSize: '14px' }}>Allow Multiple Selections</span>
+      </div>
+    )
 
   const setCheckBoxState = (event) => {
     const id = event.target.id
@@ -258,7 +293,12 @@ const PollPage = () => {
                   {key >= 2 && <DeletePollButton pollIndex={key} />}
                 </div>
               ))}
-              <AddPollButton />
+              <div className="level">
+                <div className="level-left">
+                  <AddPollButton />
+                  <AllowMultipleSelectionsCheckbox />
+                </div>
+              </div>
             </FormField>
           </Card>
           <Card title={'Dates'}>

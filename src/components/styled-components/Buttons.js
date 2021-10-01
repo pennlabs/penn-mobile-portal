@@ -54,4 +54,5 @@ export const Button = styled.button`
   outline: none;
   padding: 0px 15px 0px 15px;
   display: ${(props) => (props.hide ? 'none' : 'flex')};
+  cursor: pointer;
 `
