@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Columns } from 'react-bulma-components'
 import styled from 'styled-components'
 import moment from 'moment'
-import colors from '../colors'
+import { colors } from '../utils/constants'
 
 const Subtitle = styled.p`
   color: ${colors.GRAY};

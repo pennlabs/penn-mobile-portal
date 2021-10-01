@@ -7,10 +7,10 @@ import Analytics from '../components/Analytics'
 
 import Post from '../models/Post.js'
 import PostAnalytics from '../models/PostAnalytics.js'
+import { colors } from '../utils/constants'
 
 import Select from 'react-select'
 import styled from 'styled-components'
-import colors from '../colors.js'
 import '../App.sass'
 
 const fetch = require('node-fetch')

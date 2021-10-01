@@ -28,7 +28,7 @@ class Header extends React.Component {
               }}
             >
               <img
-                src="images/penn-mobile.svg"
+                src="/images/penn-mobile.svg"
                 alt="Penn Mobile Logo"
                 width="40"
                 height="40"
@@ -78,7 +78,7 @@ class Header extends React.Component {
                 color: '#4a4a4a',
               }}
             >
-              New Post
+              Create
             </a>
 
             <a

@@ -1,16 +1,46 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import colors from '../../colors'
+import { colors } from '../../utils/constants'
 
-export const ToggleButton = styled.button`
+const ToggleButtonStyle = styled.button`
   border-width: 0;
-  background-color: ${(props) => (props.isActive ? colors.MEDIUM_BLUE : colors.LIGHT_GRAY)};
+  background-color: ${(props) =>
+    props.isActive ? colors.MEDIUM_BLUE : colors.LIGHT_GRAY};
   color: white;
-  border-radius: ${(props) => (props.isLeft ? '12px 0px 0px 12px' : '0px 12px 12px 0px')};
+  border-radius: ${(props) =>
+    props.isLeft ? '12px 0px 0px 12px' : '0px 12px 12px 0px'};
   height: 28px;
   width: 115px;
   outline: none;
   cursor: pointer;
 `
+
+export const ToggleButton = ({ post }) => {
+  return post ? (
+    <div className="level-left" style={{ marginBottom: '24px' }}>
+      <ToggleButtonStyle isActive={true} isLeft={true}>
+        New Post
+      </ToggleButtonStyle>
+      <Link to="/polls">
+        <ToggleButtonStyle isActive={false} isLeft={false}>
+          New Poll
+        </ToggleButtonStyle>
+      </Link>
+    </div>
+  ) : (
+    <div className="level-left" style={{ marginBottom: '24px' }}>
+      <Link to="/post">
+        <ToggleButtonStyle isActive={false} isLeft={true}>
+          New Post
+        </ToggleButtonStyle>
+      </Link>
+      <ToggleButtonStyle isActive={true} isLeft={false}>
+        New Poll
+      </ToggleButtonStyle>
+    </div>
+  )
+}
 
 export const Button = styled.button`
   margin: 8px 8px 0px 0px;

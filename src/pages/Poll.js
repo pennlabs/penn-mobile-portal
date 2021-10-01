@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
-import Preview from '../components/Preview'
-import DatePickerCard from '../components/DatePickerCard'
-import StatusBar from '../components/StatusBar'
+import Preview from '../components/post/Preview'
+import DatePickerCard from '../components/post/DatePickerCard'
+import StatusBar from '../components/post/StatusBar'
 import {
   Button,
   ToggleButton,
@@ -11,7 +11,7 @@ import {
   FormLabel,
   Card,
 } from '../components/styled-components'
-import colors from '../colors'
+import { colors } from '../utils/constants'
 
 import '../App.sass'
 

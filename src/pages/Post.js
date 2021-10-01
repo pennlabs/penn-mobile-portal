@@ -1,9 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Header from '../components/Header'
-import Preview from '../components/Preview'
-import DatePickerCard from '../components/DatePickerCard'
-import StatusBar from '../components/StatusBar'
+import Preview from '../components/post/Preview'
+import DatePickerCard from '../components/post/DatePickerCard'
+import StatusBar from '../components/post/StatusBar'
 import {
   Button,
   ToggleButton,
@@ -13,7 +12,6 @@ import {
 } from '../components/styled-components'
 
 import '../App.sass'
-import colors from '../colors'
 
 import 'bulma-checkradio/dist/css/bulma-checkradio.min.css'
 
@@ -24,8 +22,8 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
 import Modal from 'react-modal'
-import styled from 'styled-components'
-import { getClassYears } from '../utils'
+import { getClassYears } from '../utils/common'
+import { colors } from '../utils/constants'
 
 const fetch = require('node-fetch')
 const FormData = require('form-data')
@@ -562,16 +560,7 @@ class PostPage extends React.Component {
             <div>
               <div className="columns is-mobile">
                 <div className="column has-text-centered is-7">
-                  <div className="level-left" style={{ marginBottom: '24px' }}>
-                    <ToggleButton isActive={true} isLeft={true}>
-                      New Post
-                    </ToggleButton>
-                    <Link to="/polls">
-                      <ToggleButton isActive={false} isLeft={false}>
-                        New Poll
-                      </ToggleButton>
-                    </Link>
-                  </div>
+                  <ToggleButton post={true} />
                   <div className="level">
                     <div className="level-left is-size-4 has-text-left">
                       <b>Post Details</b>
@@ -804,7 +793,7 @@ class PostPage extends React.Component {
                         <FormLabel>Class Year</FormLabel>
                       </div>
                       {getClassYears().map((year, i) => (
-                        <div className="column is-2">
+                        <div className="column is-2" key={`year_${i}`}>
                           <label className="label">
                             <input
                               id={`year_${i}`}
