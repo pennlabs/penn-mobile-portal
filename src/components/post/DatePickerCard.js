@@ -122,6 +122,7 @@ const DatePickerCard = ({ updateStartDate, updateEndDate }) => {
               labelText="Start Date"
               type="text"
               style={{ fontFamily: 'inherit', borderBottom: 'none' }}
+              readOnly
             />
           </DatePicker>
         </div>
@@ -166,6 +167,7 @@ const DatePickerCard = ({ updateStartDate, updateEndDate }) => {
               labelText="End Date"
               type="text"
               style={{ fontFamily: 'inherit', borderBottom: 'none' }}
+              readOnly
             />
           </DatePicker>
         </div>
