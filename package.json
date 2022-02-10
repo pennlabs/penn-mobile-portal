@@ -15,7 +15,7 @@
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "query-string": "^6.13.8",
     "react": "^16.14.0",
     "react-bulma-components": "^3.4.0",
