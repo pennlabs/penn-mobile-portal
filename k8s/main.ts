@@ -7,13 +7,11 @@ export class MyChart extends PennLabsChart {
     super(scope);
 
     const image = 'pennlabs/penn-mobile-portal';
-    const secret = 'penn-basics';
     const domain = 'portal.pennmobile.org';
 
     new ReactApplication(this, 'react', {
       deployment: {
         image,
-        secret,
       },
       domain: { 
         host: domain, 
